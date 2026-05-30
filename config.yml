@@ -1,0 +1,40 @@
+# TorrentLeech Watchlist Downloader — App Config
+
+# --- Site ---
+base_url: "https://www.torrentleech.org"
+
+# --- API Browse Parameters ---
+# time_window: how far back to look (e.g. "-1 day", "-3 day", "-7 day")
+time_window: "-1 day"
+
+# orderby options: "completed" (most downloaded) | "added" (newest first) | "seeders" | "size" | "name"
+orderby: "completed"
+
+# order options: "desc" | "asc"
+order: "desc"
+
+# --- Filtering ---
+# Minimum seeders required (0 = no filter)
+min_seeders: 1
+
+# --- Schedule ---
+# Random interval between checks (minutes)
+interval_min_minutes: 60
+interval_max_minutes: 120
+
+# --- Anti-Detection Delays ---
+# Random delay (seconds) added before each HTTP request
+request_delay_min_seconds: 3
+request_delay_max_seconds: 12
+
+# Random delay (seconds) between finding a match and downloading it
+download_delay_min_seconds: 5
+download_delay_max_seconds: 20
+
+# --- HTTP Timeouts (seconds) ---
+http:
+  timeout_rss: 30
+  timeout_download: 60
+
+# --- Logging ---
+log_level: "INFO"   # DEBUG | INFO | WARNING | ERROR

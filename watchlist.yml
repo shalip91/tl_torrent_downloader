@@ -1,0 +1,16 @@
+categories:
+  tv:
+    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
+    default_keywords: [1080p]
+    watchlist:
+    - [dummy-series, S05E01]
+  movies:
+    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
+    default_keywords: [2160p]
+    watchlist:
+    - [dummy-movie]
+  kids:
+    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
+    default_keywords: [1080p]
+    watchlist:
+    - [dummy-movie]

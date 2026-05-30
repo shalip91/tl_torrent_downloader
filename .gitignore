@@ -1,0 +1,11 @@
+# Ignore all contents of state/ and logs/ but keep the folders
+state/*
+!state/.gitkeep
+
+logs/*
+!logs/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
