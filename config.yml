@@ -5,7 +5,7 @@ base_url: "https://www.torrentleech.org"
 
 # --- API Browse Parameters ---
 # time_window: how far back to look (e.g. "-1 day", "-3 day", "-7 day")
-time_window: "-1 day"
+time_window: "-3 day"
 
 # orderby options: "completed" (most downloaded) | "added" (newest first) | "seeders" | "size" | "name"
 orderby: "completed"
@@ -19,8 +19,8 @@ min_seeders: 1
 
 # --- Schedule ---
 # Random interval between checks (minutes)
-interval_min_minutes: 60
-interval_max_minutes: 120
+interval_min_minutes: 120
+interval_max_minutes: 360
 
 # --- Anti-Detection Delays ---
 # Random delay (seconds) added before each HTTP request
