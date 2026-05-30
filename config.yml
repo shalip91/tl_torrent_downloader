@@ -5,7 +5,7 @@ base_url: "https://www.torrentleech.org"
 
 # --- API Browse Parameters ---
 # time_window: how far back to look (e.g. "-1 day", "-3 day", "-7 day")
-time_window: "-3 day"
+time_window: "-1 day"
 
 # orderby options: "completed" (most downloaded) | "added" (newest first) | "seeders" | "size" | "name"
 orderby: "completed"

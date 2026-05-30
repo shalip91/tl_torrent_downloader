@@ -1,14 +1,29 @@
 categories:
   tv:
-    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
+    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tv_shows
     default_keywords: [1080p]
     watchlist:
-    - [dummy-series, S05E01]
+    - [dummy, S99E99]
+    - [Your Friends & Neighbors, S02E10]
+    - [Euphoria, S03E08]
+    - [Euphoria, S03E09]
+    - [Euphoria, S03E10]
+    - [House of the Dragon, S03E01]
+    - [House of the Dragon, S03E02]
+    - [House of the Dragon, S03E03]
+    - [House of the Dragon, S03E04]
+    - [House of the Dragon, S03E05]
+    - [House of the Dragon, S03E06]
+    - [House of the Dragon, S03E07]
+    - [House of the Dragon, S03E08]
+
+    
   movies:
-    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
+    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/movies
     default_keywords: [2160p]
     watchlist:
     - [dummy-movie]
+    - [Iron Lung]
   kids:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
     default_keywords: [1080p]
