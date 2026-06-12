@@ -1,0 +1,2792 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="rtl" lang="he">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />        	
+<link rel="stylesheet" href="/css/ambient_lighting_base.css?v=1.0.0" />
+
+<link rel="stylesheet" href="/css/ambient_lighting.css?v=3.1.6" />
+<link rel="stylesheet" href="/css/fcat.css?v=1.4.1" />
+<script src="clientscript/yui/yahoo-dom-event/yahoo-dom-event.js?v=380"></script>
+<script src="clientscript/yui/connection/connection-min.js?v=380"></script>
+<script>
+	<!--
+	var SESSIONURL = "";
+	var SECURITYTOKEN = "1781268509-34074f5ac2002b92d75f362f58abeff75df95b24";
+	var IMGDIR_MISC = "images/styles/ambient-lightingv2/misc";
+	var vb_disable_ajax = parseInt("0", 10);
+	// -->
+</script>
+<script src="clientscript/vbulletin_global.js?v=380"></script>
+<script src="clientscript/vbulletin_menu.js?v=380"></script>
+
+<link rel="alternate" type="application/rss+xml" title="Fuzer RSS Feed" href="external.php?type=RSS2" />
+
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/is.min.js"></script>
+<script src="/scripts/ddimgtooltip.min.js?v=1.1"></script>
+<script src="/js/scrolltotop.min.js"></script>
+<script src="/js/f_imdb_start.min.js"></script>
+<script src="/js/f_global.min.js"></script>
+        <script type="text/javascript" src="scripts/browse.min.js?v=0.1"></script>
+        <script type="text/javascript" src="/static/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="/static/jquery-ui.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/tooltip.css?v=0.3">
+        <link rel="stylesheet" href="css/browse.css?v=2.3" />
+	<title>טורנטים</title>
+<body>
+<a href="#top" id="scrollToTop"><img src="/images/scrollup.png" title="חזרה לראש הדף"></a>
+
+<table class="maintf" cellpadding="0" cellspacing="0" align="center" border="0">
+<tr>
+	<td >
+
+	<div class="vbskin_wrapper_t">
+	<div class="vbskin_wrapper_b">
+	<div class="vbskin_wrapper_l">
+	<div class="vbskin_wrapper_r">
+	<div class="vbskin_wrapper_tl">
+	<div class="vbskin_wrapper_tr">
+	<div class="vbskin_wrapper_bl">
+	<div class="vbskin_wrapper_br">
+	
+<div class="vbskin_header">
+	<div class="quick-links-top">
+		<div class="donation-bar-link">
+			<a href="/payments.php?ref_=header">
+				<div>
+						<div id="DonBk" style="position: absolute; opacity: 0.6;"><img src="/images/donback.png" width="150px" height="18"></div>
+						<div id="DonBr" style="position: absolute; opacity: 0.6;"><img src="/images/donbar.png" width="0" height="18"></div>
+						<div id="DonInfo" style="font-size: 8.5pt;">תרומות: 0%</div>
+				</div>
+			</a>
+		</div>
+		<div class="rss-icon-link"><a href="/getrss.php"><img src="images/rss.gif"></a></div>
+	</div>
+	<div class="logo-container">
+		<a name="top" href="https://www.fuzer.xyz/index.php">
+			<div class="logo-background"></div>
+		</a>
+	</div>
+</div>
+
+
+<div class="h_main_menu">
+	<ul style="list-style-type: none;">
+		<li class="li_3"><a href="/index.php"><span class="menu_b m_sh m_home"></span></a></li>
+		<li class="li_2"> <a href="/browse.php"><span class="menu_b m_sh m_torrents"></span></a></li>
+		<li class="li_1"><a href="/requests.php"><span class="menu_b m_sh m_request"></span></a></li>
+		<li class="li_2"><a href="/forum.php"><span class="menu_b m_sh m_forums"></span></a></li>
+		<li class="li_1">
+			<a href="/usercp.php"><span id="usercptools" class="menu_b m_sh m_usercp"></span></a>
+			<script type="text/javascript"> vbmenu_register("usercptools", true); </script>
+		</li>
+		<li class="li_2"><a href="/irc.php" target="_blank"><span class="menu_b m_sh m_irc"></span></a></li>
+		<li class="li_1"><a href="/store.php"><span class="menu_b m_sh m_store"></span></a></li>
+		<li class="li_1">
+			<a href="/lotto.php"><span id="lottery" class="menu_b m_sh m_lottery"></span></a>
+			<script type="text/javascript"> vbmenu_register("lottery", true); </script>
+		</li>
+		<li class="li_2">
+			<a id="navbar_search.header" href="/search.php"><span id="lottery" class="menu_b m_sh m_search"></span></a>
+			<script type="text/javascript"> vbmenu_register("navbar_search.header", true); </script>
+		</li>
+		<li class="li_2"><a href="/faq.php"><span class="menu_b m_sh m_faq"></span></a></li>
+		<li class="li_1">
+			<a href="/stats.php"><span id="headerstats" class="menu_b m_sh m_statistics"></span></a>
+			<script type="text/javascript"> vbmenu_register("headerstats", true); </script>
+		</li>
+		<li class="li_1"><a href="/showgroups.php"><span class="menu_b m_sh m_showgroups"></span></a></li>
+
+		
+		<li class="li_2"><span class="menu_b m_sh m_upload"></span></li>
+		
+
+		
+		<li class="li_1"><span class="menu_b m_sh m_admin"></span></li>
+		
+	</ul>
+</div>
+
+
+<div class="vbmenu_popup" id="lottery_menu" style="display: none; width: 200px; position: absolute; z-index: 50; clip: rect(auto auto auto auto);" align="right">
+	<table cellpadding="4" cellspacing="1" border="0" width="100%">
+		<tr><td class="thead">אפשרויות פייס</td></tr>
+		<tr><td class="vbmenu_option"><a href="/lotto.php">לוטו</a></td></tr>
+		<tr><td class="vbmenu_option"><a href="/winner.php">ווינר</a></td></tr>
+	</table>
+</div>
+
+<div class="vbmenu_popup" id="headerstats_menu" style="display: none; width: 200px; position: absolute; z-index: 50; clip: rect(auto auto auto auto);" align="right">
+	<table cellpadding="4" cellspacing="1" border="0" width="100%">
+		<tr><td class="thead">אפשרויות סטטיסטיקה</td></tr>
+		<tr><td class="vbmenu_option"><a href="/stats.php">סטטיסטיקות כלליות</a></td></tr>
+		<tr><td class="vbmenu_option"><a href="/top10.php">Top 10</a></td></tr>
+		<tr><td class="vbmenu_option"><a href="/contest.php">סטטיסטיקות - תחרות</a></td></tr>
+	</table>
+</div>
+
+
+
+<!-- content table -->
+<!-- open content container -->
+
+<div align="center">
+	<div class="page" style="width:100%; text-align:right">
+		<div style="padding:0px 15px 1px 15px" align="right">
+
+
+
+
+
+<br /><br /><br /><br /><br /><br />
+
+<script>
+$(function () {
+	var austDay = new Date("23 May 2026 23:59:59");
+	$('#defaultCountdown').countdown({until: austDay, compact: true, 
+	layout: '<b>{dn}{sep}{hnn}{sep}{mnn}{sep}{snn}</b> {desc}', 
+	description: ''});
+});
+$(function () {
+	var austDay1 = new Date("23 May 2026 23:59:59");
+	$('#defaultCountdownDoubleup').countdown({until: austDay1, compact: true, 
+	layout: '<b>{dn}{sep}{hnn}{sep}{mnn}{sep}{snn}</b> {desc}', 
+	description: ''});
+});
+</script>
+
+<table class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%" height="50px" align="center">
+	<tr>
+		<td class="alt1" width="100%">
+			
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tr valign="bottom">
+						<td><a href="#" onclick="history.back(1); return false;"><img src="/images/styles/ambient-lightingv2/statusicon/home.png" alt="חזור" border="0" /></a></td>
+						<td>&nbsp;</td>
+						<td width="100%"><span class="navbar"><a href="index.php" accesskey="1">Fuzer</a></span> 
+	<span class="navbar">&gt; <a href="browse.php">סייר הטורנטים</a></span>
+
+</td>
+					</tr>
+				</table>			
+			
+	</td>
+
+
+
+<td class="alt1" valign="bottom">
+    <a style="text-align: left; font-size: 11px; color: RoyalBlue;" href="/top10.php">TOP 10</a>
+</td>
+
+
+
+	
+		<td class="alt2" nowrap="nowrap">
+			<div class="smallfont">
+
+<strong>ברוך שובך, <a href='/member.php?u=4857' class='c23'>shali</a>  &rlm;<span style="color: #736F6E"><a href="nextrank.php">(Gold user)</a></span></strong>
+
+
+
+<a href="/login.php?do=logout&amp;logouthash=1781268509-34074f5ac2002b92d75f362f58abeff75df95b24" onclick="return log_out('האם אתה בטוח שברצונך להתנתק?')">[התנתק] </a>
+&nbsp
+
+
+<a href="/snatchlist.php?u=4857&type=hnr"><font color="red"><b><font color="white">5</font> :H&R</b></font></a>
+&nbsp 
+
+נקודות: <a href = "/store.php"><font color="#51c0ff">8,482,063</font></a>
+&nbsp
+הזמנות: <a href="/profile.php?do=invitation" class="w">6</a>
+&nbsp;
+
+<a href="/bookmarks.php"><img src="/images/bookmarks.png" alt="טורנטים מועדפים" height="15" width="15" title="טורנטים מועדפים"></a>
+&nbsp;
+
+	&nbsp
+		
+				<span id="notifications"><a href="/usercp.php"><img src="/images/pm.png" /></a> <strong>33</strong></span>
+				
+					<script type="text/javascript"> vBmenu.register("notifications"); </script>
+				
+			
+			
+
+	<br />
+
+<a href="/snatchlist.php?u=4857&type=seeding"><img height="10" alt="טורנטים בשיתוף" src="/vbtt/seeders.gif" width="12" border="0"><font color="white"> 13</font></a> 
+
+<a href="/snatchlist.php?u=4857&type=leeching"><font color="white"><img height="10" alt="טורנטים בהורדה" src="/vbtt/leechers.gif" width="12" border="0"> 0</font></a>
+&nbsp;
+
+העלאה: <a href="/snatchlist.php?u=4857&order=uploaded&sort=desc"><span style="color: #0dff62">6.1TB</span></a>
+&nbsp;
+
+הורדה: <a href="/snatchlist.php?u=4857&order=downloaded&sort=desc"><span style="color: #ff1934">515.72GB</span></a>
+&nbsp;
+
+יחס: <a href="/faq.php?faq=1234#faq_245365346"><span style='color: #2B60DE'>12.11</span></a>
+&nbsp
+
+באפר: <span style="color: #ffe400">14.75TB</span>
+&nbsp;
+
+פקטור: <a href="/factor.php"><font color="#00FFFF">10</font></a>
+
+			</div>
+
+		</td>
+			
+	<td style="width: 32px;" class="alt1">
+		<a href="index.php?action=eighteen">
+			<img src="/images/18_on.png" alt="הסתר תכני 18+"/>
+		</a>
+	</td>
+	</tr>
+	</table>
+
+
+
+<br />
+
+
+
+
+
+
+<!-- NAVBAR POPUP MENUS -->
+	
+		<!-- community link menu -->
+		<div class="vbmenu_popup" id="community_menu" style="display:none;margin-top:3px" align="right">
+			<table cellpadding="4" cellspacing="1" border="0">
+			<tr><td class="thead">קישורי הקהילה</td></tr>
+			
+			
+			<tr><td class="vbmenu_option"><a href="profile.php?do=buddylist">אנשי קשר וחברים</a></td></tr>
+			<tr><td class="vbmenu_option"><a href="memberlist.php">רשימת משתמשים</a></td></tr>
+			</table>
+		</div>
+		<!-- / community link menu -->
+	
+
+	
+		<!-- header quick search form -->
+		<div class="vbmenu_popup" id="navbar_search_menu" style="display:none;margin-top:3px" align="right">
+			<table cellpadding="4" cellspacing="1" border="0">
+				<tr>
+					<td class="thead">חיפוש בפורומים</td>
+				</tr>
+				<tr>
+					<td class="vbmenu_option" title="nohilite">
+						<form action="search.php?do=process" method="post">
+
+						<input type="hidden" name="do" value="process" />
+						<input type="hidden" name="quicksearch" value="1" />
+								<input type="hidden" name="childforums" value="1" />
+								<input type="hidden" name="exactname" value="1" />
+						<input type="hidden" name="s" value="" />
+						<input type="hidden" name="securitytoken" value="1781268509-34074f5ac2002b92d75f362f58abeff75df95b24" />
+						<div><input type="text" class="bginput" name="query" size="25" tabindex="1001" /><input type="submit" class="button" value="סע" tabindex="1004" /></div>
+							<div style="margin-top:6px">
+						<label for="rb_nb_sp0"><input type="radio" name="showposts" value="0" id="rb_nb_sp0" tabindex="1002" checked="checked" />הצג אשכולות</label>
+						&nbsp;
+						<label for="rb_nb_sp1"><input type="radio" name="showposts" value="1" id="rb_nb_sp1" tabindex="1003" />הצג הודעות</label>
+							</div>					
+						</form>
+					</td>
+				</tr>
+				
+				<tr>
+					<td class="vbmenu_option"><a href="search.php" accesskey="4" rel="nofollow">חיפוש מתקדם</a></td>
+				</tr>
+				<tr>
+	<td class="vbmenu_option"><a href="post_thanks.php?do=findallthanks">מצא את כל הפוסטים שקיבלו תודה</a></td>
+</tr>
+			</table>
+		</div>
+	<!-- / header quick search form -->
+	
+	
+	
+	<!-- user cp tools menu -->
+	<div class="vbmenu_popup" id="usercptools_menu" style="display:none;margin-top:3px" align="right">
+		<table cellpadding="4" cellspacing="1" border="0">
+			<tr><td class="thead"><a href="usercp.php">לוח בקרה אישי</a></td></tr>
+			<tr><td class="vbmenu_option"><a href="profile.php?do=editsignature">ערוך חתימה</a></td></tr>
+			<!--<tr><td class="vbmenu_option"><a href="profile.php?do=editavatar">ערוך סמל אישי</a></td></tr>-->
+			<tr><td class="vbmenu_option"><a href="profile.php?do=editprofile">ערוך פרטים אישיים</a></td></tr>
+			<tr><td class="vbmenu_option"><a href="profile.php?do=editoptions">עריכת אפשרויות</a></td></tr>
+			
+			<tr><td class="thead">קישורים מהירים</td></tr>		
+			
+				<tr>
+					
+						<td class="vbmenu_option"><a href="search.php?do=getnew">הודעות חדשות</a></td>
+					
+				</tr>
+			
+			<tr><td class="vbmenu_option"><a href="forumdisplay.php?do=markread">סמן פורומים כנקראו</a></td></tr>
+			<tr><td class="vbmenu_option"><a href="#" onclick="window.open('misc.php?do=buddylist&amp;focus=1','buddylist','statusbar=no,menubar=no,toolbar=no,scrollbars=yes,resizable=yes,width=250,height=300'); return false;">רשימת אנשי קשר</a></td></tr>
+			
+			<tr><td class="thead">שונות</td></tr>
+			<tr><td class="vbmenu_option"><a href="private.php" rel="nofollow">הודעות אישיות</a></td></tr>
+			<tr><td class="vbmenu_option"><a href="subscription.php" rel="nofollow">אשכולות רשומים</a></td></tr>
+			<tr><td class="vbmenu_option"><a href="member.php?u=4857">הפרופיל שלך</a></td></tr>
+			
+			<tr><td class="vbmenu_option"><a href="online.php"> מי מחובר</a></td></tr>
+			
+
+		</table>
+	</div>
+	<!-- / user cp tools menu -->
+	
+<!-- / NAVBAR POPUP MENUS -->
+
+<!-- PAGENAV POPUP -->
+	<div class="vbmenu_popup" id="pagenav_menu" style="display:none">
+		<table cellpadding="4" cellspacing="1" border="0">
+		<tr>
+			<td class="thead" nowrap="nowrap">עבור לעמוד...</td>
+		</tr>
+		<tr>
+			<td class="vbmenu_option" title="nohilite">
+			<form action="index.php" method="get" onsubmit="return this.gotopage()" id="pagenav_form">
+				<input type="text" class="bginput" id="pagenav_itxt" style="font-size:11px" size="4" />
+				<input type="button" class="button" id="pagenav_ibtn" value="סע" />
+			</form>
+
+			</td>
+		</tr>
+		</table>
+	</div>
+<!-- / PAGENAV POPUP -->
+
+
+
+	<div class="vbmenu_popup" id="notifications_menu" style="display:none">
+		<table cellpadding="4" cellspacing="1" border="0">
+			<tr><td class="thead" colspan="2">ההתראות שלך</td></tr>
+			<tr>
+	<td class="vbmenu_option"><a href="private.php" style="font-weight:bold">הודעות אישיות שלא נקראו </a></td>
+	<td class="vbmenu_option" align="left"><a href="private.php" style="font-weight:bold">33</a></td>
+</tr><tr>
+	<td class="vbmenu_option"><a href="requests.php?action=search&amp;username=shali">תגובות לבקשות</a></td>
+	<td class="vbmenu_option" align="left"><a href="requests.php?action=search&amp;username=shali">0</a></td>
+</tr><tr>
+	<td class="vbmenu_option"><a href="profile.php?do=buddylist#irc">בקשות צירוף לרשימת-חברים שהתקבלו</a></td>
+	<td class="vbmenu_option" align="left"><a href="profile.php?do=buddylist#irc">0</a></td>
+</tr><tr>
+	<td class="vbmenu_option"><a href="usertag.php?do=profilenotif&amp;tab=quotes">ציטוטים חדשים</a></td>
+	<td class="vbmenu_option" align="left"><a href="usertag.php?do=profilenotif&amp;tab=quotes">0</a></td>
+</tr>
+		</table>
+	</div>	
+
+
+<!---->
+
+
+<script>
+	var stickytorrents=0;
+</script>
+
+<div id="search_table" class="ce-div-block">
+<table class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
+    <tr>
+        <td class="thead" colspan="2">
+            <span class="show_active" id="basic_bn">חיפוש בסיסי</span> | <span class="show_inactive" id="advanced_bn">חיפוש מתקדם</span>
+            <span style="float: left" id="bstyle"><a href="#" rel="nofollow" class="flink">החלף סגנון</a></span>
+            <script type="text/javascript"> vbmenu_register("bstyle", true); </script>
+            <div class="vbmenu_popup bstyle" id="bstyle_menu" style="display: none; width: 200px; position: absolute; z-index: 50; clip: rect(auto auto auto auto);" align="right">
+                <ul class="ssul_con2">
+                    <li><a href="/browse.php?bstyle=classic" style="display:block;">קלאסי</a></li>
+                    <li><a href="/browse.php?bstyle=main" style="display:block;">חדש כהה</a></li>
+                    <li><a href="/browse.php?bstyle=alt1" style="display:block;">חדש בהיר</a></li>
+                    <li><a href="/browse.php?bstyle=alt2" style="display:block;">חדש כהה אחיד</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="alt1">
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+                        <div id="basic_search" class="">
+                            <form action="browse.php" method="get" name="search_query">
+                                <input type="hidden" name="ref_" value="basic">
+                                <table class="table_info">
+                                    <tr>
+                                        <td class="label">
+                                            <strong>שם הטורנט:</strong>
+                                        </td>
+                                        <td>
+                                            <input type="text" size="75" name="query" id="ac_basic" class="f_input" value="" autocomplete="off">
+                                            &nbsp;<strong>אפשרויות התאמה:</strong>
+                                            <select name="matchquery" style="width: 115px;" class="f_input">
+                                                <option value="any" >כל מילה</option>
+                                                <option value="phr" >כל התאמה</option>
+                                                <option value="all" >התאמה מדויקת</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label" colspan="2" style="text-align: center;">
+                                            <input type="submit" value="סנן רשימה" class="f_input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div style="float: left;" class="threadlink" id="show_categories_b" title="הצג/הסתר את רשימת הקטגוריות">הצג קטגוריות</div>
+                                            <div id="categories_list_b"><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=7&ref_=catchooser" style="display: block;"><div class="fcat fcat-7" title="סרטים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=9&ref_=catchooser" style="display: block;"><div class="fcat fcat-9" title="סרטים HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=58&ref_=catchooser" style="display: block;"><div class="fcat fcat-58" title="סרטים DVD-R"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים DVD-R</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=59&ref_=catchooser" style="display: block;"><div class="fcat fcat-59" title="סרטי BDRIP-BRRip"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטי BDRIP-BRRip</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=60&ref_=catchooser" style="display: block;"><div class="fcat fcat-60" title="סרטים ישראליים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים ישראליים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=61&ref_=catchooser" style="display: block;"><div class="fcat fcat-61" title="סרטים ישראליים HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים ישראליים HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=83&ref_=catchooser" style="display: block;"><div class="fcat fcat-83" title="סרטים מדובבים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים מדובבים</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=97&ref_=catchooser" style="display: block;"><div class="fcat fcat-97" title="סרטים 4K"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים 4K</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=101&ref_=catchooser" style="display: block;"><div class="fcat fcat-101" title="סרטים x265"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים x265</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=8&ref_=catchooser" style="display: block;"><div class="fcat fcat-8" title="סדרות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=10&ref_=catchooser" style="display: block;"><div class="fcat fcat-10" title="סדרות HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=62&ref_=catchooser" style="display: block;"><div class="fcat fcat-62" title="סדרות ישראליות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות ישראליות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=63&ref_=catchooser" style="display: block;"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות ישראליות HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=84&ref_=catchooser" style="display: block;"><div class="fcat fcat-84" title="סדרות מדובבות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות מדובבות</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=100&ref_=catchooser" style="display: block;"><div class="fcat fcat-100" title="סדרות 4K"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות 4K</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=14&ref_=catchooser" style="display: block;"><div class="fcat fcat-14" title="מוזיקה עולמית"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">מוזיקה עולמית</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=66&ref_=catchooser" style="display: block;"><div class="fcat fcat-66" title="מוזיקה ישראלית"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">מוזיקה ישראלית</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=67&ref_=catchooser" style="display: block;"><div class="fcat fcat-67" title="FLAC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FLAC</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=68&ref_=catchooser" style="display: block;"><div class="fcat fcat-68" title="פסקולים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">פסקולים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=11&ref_=catchooser" style="display: block;"><div class="fcat fcat-11" title="משחקים PC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים PC</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=12&ref_=catchooser" style="display: block;"><div class="fcat fcat-12" title="משחקים PS"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים PS</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=55&ref_=catchooser" style="display: block;"><div class="fcat fcat-55" title="משחקים XBOX"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים XBOX</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=56&ref_=catchooser" style="display: block;"><div class="fcat fcat-56" title="משחקים WII"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים WII</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=57&ref_=catchooser" style="display: block;"><div class="fcat fcat-57" title="משחקי קונסולות ניידות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקי קונסולות ניידות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=13&ref_=catchooser" style="display: block;"><div class="fcat fcat-13" title="אפליקציות לאנדרואיד"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">אפליקציות לאנדרואיד</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=15&ref_=catchooser" style="display: block;"><div class="fcat fcat-15" title="תוכנות PC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">תוכנות PC</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=70&ref_=catchooser" style="display: block;"><div class="fcat fcat-70" title="אפליקציות לאייפון"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">אפליקציות לאייפון</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=71&ref_=catchooser" style="display: block;"><div class="fcat fcat-71" title="תוכנות MAC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">תוכנות MAC</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=16&ref_=catchooser" style="display: block;"><div class="fcat fcat-16" title="XXX - למבוגרים בלבד"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">XXX</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=17&ref_=catchooser" style="display: block;"><div class="fcat fcat-17" title="שונות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">שונות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=64&ref_=catchooser" style="display: block;"><div class="fcat fcat-64" title="ספורט"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">ספורט</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=65&ref_=catchooser" style="display: block;"><div class="fcat fcat-65" title="אנימה"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">אנימה</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=69&ref_=catchooser" style="display: block;"><div class="fcat fcat-69" title="Ebooks"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">Ebooks</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=72&ref_=catchooser" style="display: block;"><div class="fcat fcat-72" title="FuzePacks - משחקים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - משחקים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=73&ref_=catchooser" style="display: block;"><div class="fcat fcat-73" title="FuzePacks - סרטים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - סרטים</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=74&ref_=catchooser" style="display: block;"><div class="fcat fcat-74" title="FuzePacks - תוכנות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - תוכנות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=75&ref_=catchooser" style="display: block;"><div class="fcat fcat-75" title="FuzePacks - שירים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - שירים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=76&ref_=catchooser" style="display: block;"><div class="fcat fcat-76" title="FuzePacks - סדרות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - סדרות</span></a></div></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <div id="advanced_search" class="search_hidden">
+                            <form action="browse.php" method="get" name="search_query">
+                                <input type="hidden" name="ref_" value="advanced">
+                                <table class="table_info">
+                                    <tr>
+                                        <td class="label">
+                                            <strong>שם הטורנט:</strong>
+                                        </td>
+                                        <td>
+                                            <input type="text" size="75" name="query" id="ac_advanced" class="f_input" value="" autocomplete="off">
+                                            &nbsp;<strong>אפשרויות התאמה:</strong>
+                                            <select name="matchquery" style="width: 115px;" class="f_input">
+                                                <option value="any" >כל מילה</option>
+                                                <option value="phr" >כל התאמה</option>
+                                                <option value="all" >התאמה מדויקת</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>טווח תאריכים:</strong>
+                                        </td>
+                                        <td>
+                                            <link rel="stylesheet" href="/static/jquery-ui.min.v2.css" />
+                                            <script>
+                                                $(function() {
+                                                    $("#fromdate").datepicker();
+                                                    $("#todate").datepicker();
+                                                });
+                                            </script>
+                                            תאריך התחלה: <input type="text" size="20" name="fromdate" class="f_input" id="fromdate" value="">
+                                            תאריך סיום: <input type="text" size="20" name="todate" class="f_input" id="todate" value="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>תרגום:</strong>
+                                        </td>
+                                        <td>
+                                            <select name="subtitle" style="width: auto;" class="f_input">
+                                                <option value="anysub" >הכל</option>
+                                                <option value="side" >תרגום בצד</option>
+                                                <option value="hebsub" >תרגום מובנה</option>
+                                                <option value="studio" >תרגום אולפנים</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>שנת יציאה:</strong>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="f_input" name="year" min="1910" max="2026" value="" style="width: 65px;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>דירוג IMDB:</strong>
+                                        </td>
+                                        <td>
+                                            מינימום: <input type="text" size="10" name="imdb_min" class="f_input" value="">
+                                            מקסימום: <input type="text" size="10" name="imdb_max" class="f_input" value="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>ז'אנרים:</strong>
+                                        </td>
+                                        <td>
+                                            <input type="text" size="50" name="genres" id="genres" class="f_input" value="">
+                                            &nbsp;<strong>אפשרויות התאמה:</strong>
+                                            <select name="matchgenres" style="width: 115px;" class="f_input">
+                                                <option value="gany" >כל ז'אנר</option>
+                                                <option value="gall" >התאמה מדויקת</option>
+                                            </select>
+                                            <span class="threadlink" id="show_geners" title="הצג/הסתר רשימת ז'אנרים אופציונליים">הצג ז'אנרים</span>
+                                            <div id="genres_list" style="display: none;"><table class="table_gen_aria"><tr><td><span class="flink cpcp gen-ui">אימה</span></td><td><span class="flink cpcp gen-ui">היסטוריה</span></td><td><span class="flink cpcp gen-ui">מיסתורין</span></td><td><span class="flink cpcp gen-ui">פנטזיה</span></td><td><span class="flink cpcp gen-ui">קומדיה</span></td><td><span class="flink cpcp gen-ui">אנימציה</span></td><td><span class="flink cpcp gen-ui">הרפתקאות</span></td><td><span class="flink cpcp gen-ui">מלחמה</span></td></tr><tr><td><span class="flink cpcp gen-ui">פעולה</span></td><td><span class="flink cpcp gen-ui">רומנטיקה</span></td><td><span class="flink cpcp gen-ui">ביוגרפיה</span></td><td><span class="flink cpcp gen-ui">ישראלי</span></td><td><span class="flink cpcp gen-ui">מערבון</span></td><td><span class="flink cpcp gen-ui">פשע</span></td><td><span class="flink cpcp gen-ui">ריאליטי</span></td><td><span class="flink cpcp gen-ui">דוקומנטרי</span></td></tr><tr><td><span class="flink cpcp gen-ui">מדע בדיוני</span></td><td><span class="flink cpcp gen-ui">משפחה</span></td><td><span class="flink cpcp gen-ui">ספורט</span></td><td><span class="flink cpcp gen-ui">דרמה</span></td><td><span class="flink cpcp gen-ui">מוזיקלי</span></td><td><span class="flink cpcp gen-ui">מתח</span></td><td><span class="flink cpcp gen-ui">קומדיית מצבים</span></td><td><span class="flink cpcp gen-ui">טוק שואו</span></td></tr><tr><td><span class="flink cpcp gen-ui">ילדים</span></td><td><span class="flink cpcp gen-ui">אנימה</span></td><td><span class="flink cpcp gen-ui">בישול</span></td><td><span class="flink cpcp gen-ui">חדשות</span></td><td><span class="flink cpcp gen-ui">מדע</span></td><td><span class="flink cpcp gen-ui">סגנון חיים</span></td><td><span class="flink cpcp gen-ui">שעשועון</span></td><td><span class="flink cpcp gen-ui">סרט קצר</span></td></tr><tr><td><span class="flink cpcp gen-ui">ריאלטי טיוי</span></td></tr></table></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>סדר לפי:</strong>
+                                        </td>
+                                        <td>
+                                            <select name="order" class="f_input" style="width: auto;">
+                                                <option value="dateadded">תאריך הוספה</option>
+                                                <option value="name" >שם הטורנט</option>
+                                                <option value="size" >גודל</option>
+                                                <option value="snatched" >הושלם</option>
+                                                <option value="seeders" >משתפים</option>
+                                                <option value="leechers" >מורידים</option>
+                                            </select>
+                                            &nbsp;
+                                            <select name="sort" class="f_input" style="width: auto;">
+                                                <option value="desc" >בסדר יורד</option>
+                                                <option value="asc" >בסדר עולה</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">
+                                            <strong>טורנטים מתים:</strong>
+                                        </td>
+                                        <td>
+                                            <select name="dead" class="f_input" style="width: auto;">
+                                                <option value="on" >הצג</option>
+                                                <option value="off" >סנן</option>
+                                                <option value="only_dead" >הצג רק טורנטים מתים</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr class="ex_solid">
+                                        <td colspan="2">
+                                            <div class="checkbox-inline">
+                                                <input type="checkbox" name="fuzerhd" id="fuzerhd" value="1"  />
+                                                <label for="fuzerhd" class="flink">שחרורי FuzerHD</label>
+                                            </div>
+                                            <div class="checkbox-inline">
+                                                <input type="checkbox" name="freeleech" id="freeleech" value="1"  />
+                                                <label for="freeleech" class="flink">פריליץ'</label>
+                                            </div>
+                                            <div class="checkbox-inline">
+                                                <input type="checkbox" name="naturaleech" id="naturaleech" value="1"  />
+                                                <label for="naturaleech" class="flink">נטורליץ'</label>
+                                            </div>
+                                            <div class="checkbox-inline">
+                                                <input type="checkbox" name="new" id="new" value="1"  />
+                                                <label for="new" class="flink">טורנטים חדשים</label>
+                                            </div>
+                                            <div class="checkbox-inline">
+                                                <input type="checkbox" name="il" id="il" value="1"  />
+                                                <label for="il" class="flink">ישראלי</label>
+                                            </div>
+                                            <div class="checkbox-inline">
+                                                <input type="checkbox" name="exclusive" id="exclusive" value="1"  />
+                                                <label for="exclusive" class="flink">תוכן בלעדי</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table_info"><tr><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_91" id="cat_91" name="c[]" value="91"  />
+		<label for="cat_91"  class="main-aria">סרטים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_7" name="c[]" value="7"  />
+		<label for="cat_7" >סרטים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_9" name="c[]" value="9"  />
+		<label for="cat_9" >סרטים HD</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_58" name="c[]" value="58"  />
+		<label for="cat_58" >סרטים DVD-R</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_59" name="c[]" value="59"  />
+		<label for="cat_59" >סרטי BDRIP-BRRip</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_60" name="c[]" value="60"  />
+		<label for="cat_60" >סרטים ישראליים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_61" name="c[]" value="61"  />
+		<label for="cat_61" >סרטים ישראליים HD</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_83" name="c[]" value="83"  />
+		<label for="cat_83" >סרטים מדובבים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_97" name="c[]" value="97"  />
+		<label for="cat_97" >סרטים 4K</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_91" id="cat_101" name="c[]" value="101"  />
+		<label for="cat_101" >סרטים x265</label>
+	</div></div></td><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_92" id="cat_92" name="c[]" value="92"  />
+		<label for="cat_92"  class="main-aria">סדרות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_92" id="cat_8" name="c[]" value="8"  />
+		<label for="cat_8" >סדרות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_92" id="cat_10" name="c[]" value="10"  />
+		<label for="cat_10" >סדרות HD</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_92" id="cat_62" name="c[]" value="62"  />
+		<label for="cat_62" >סדרות ישראליות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_92" id="cat_63" name="c[]" value="63"  />
+		<label for="cat_63" >סדרות ישראליות HD</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_92" id="cat_84" name="c[]" value="84"  />
+		<label for="cat_84" >סדרות מדובבות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_92" id="cat_100" name="c[]" value="100"  />
+		<label for="cat_100" >סדרות 4K</label>
+	</div></div></td><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_93" id="cat_93" name="c[]" value="93"  />
+		<label for="cat_93"  class="main-aria">מוזיקה</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_93" id="cat_14" name="c[]" value="14"  />
+		<label for="cat_14" >מוזיקה עולמית</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_93" id="cat_66" name="c[]" value="66"  />
+		<label for="cat_66" >מוזיקה ישראלית</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_93" id="cat_67" name="c[]" value="67"  />
+		<label for="cat_67" >FLAC</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_93" id="cat_68" name="c[]" value="68"  />
+		<label for="cat_68" >פסקולים</label>
+	</div></div></td><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_94" id="cat_94" name="c[]" value="94"  />
+		<label for="cat_94"  class="main-aria">משחקים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_94" id="cat_11" name="c[]" value="11"  />
+		<label for="cat_11" >משחקים PC</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_94" id="cat_12" name="c[]" value="12"  />
+		<label for="cat_12" >משחקים PS</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_94" id="cat_55" name="c[]" value="55"  />
+		<label for="cat_55" >משחקים XBOX</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_94" id="cat_56" name="c[]" value="56"  />
+		<label for="cat_56" >משחקים WII</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_94" id="cat_57" name="c[]" value="57"  />
+		<label for="cat_57" >משחקי קונסולות ניידות</label>
+	</div></div></td><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_90" id="cat_90" name="c[]" value="90"  />
+		<label for="cat_90"  class="main-aria">תוכנה</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_90" id="cat_13" name="c[]" value="13"  />
+		<label for="cat_13" >אפליקציות לאנדרואיד</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_90" id="cat_15" name="c[]" value="15"  />
+		<label for="cat_15" >תוכנות PC</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_90" id="cat_70" name="c[]" value="70"  />
+		<label for="cat_70" >אפליקציות לאייפון</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_90" id="cat_71" name="c[]" value="71"  />
+		<label for="cat_71" >תוכנות MAC</label>
+	</div></div></td><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_88" id="cat_88" name="c[]" value="88"  />
+		<label for="cat_88"  class="main-aria">שונות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_88" id="cat_16" name="c[]" value="16"  />
+		<label for="cat_16" >למבוגרים בלבד</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_88" id="cat_17" name="c[]" value="17"  />
+		<label for="cat_17" >שונות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_88" id="cat_64" name="c[]" value="64"  />
+		<label for="cat_64" >ספורט</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_88" id="cat_65" name="c[]" value="65"  />
+		<label for="cat_65" >אנימה</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_88" id="cat_69" name="c[]" value="69"  />
+		<label for="cat_69" >Ebooks</label>
+	</div></div></td><td class="aria-st"><div><div class="cat-inline-checkbox threadlink" style="margin-bottom: 3px;">
+		<input type="checkbox" class="mainc_95" id="cat_95" name="c[]" value="95"  />
+		<label for="cat_95"  class="main-aria">FuzePacks</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_95" id="cat_72" name="c[]" value="72"  />
+		<label for="cat_72" >משחקים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_95" id="cat_73" name="c[]" value="73"  />
+		<label for="cat_73" >סרטים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_95" id="cat_74" name="c[]" value="74"  />
+		<label for="cat_74" >תוכנות</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_95" id="cat_75" name="c[]" value="75"  />
+		<label for="cat_75" >שירים</label>
+	</div><div class="cat-inline-checkbox threadlink" >
+		<input type="checkbox" class="c_95" id="cat_76" name="c[]" value="76"  />
+		<label for="cat_76" >סדרות</label>
+	</div></div></td></tr></table>
+                                <table class="table_info">
+                                    <tr>
+                                        <td class="label" colspan="2" style="text-align: center;">
+                                            <input type="submit" value="סנן רשימה" class="f_input">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div style="float: left;" class="threadlink" id="show_categories_a" title="הצג/הסתר את רשימת הקטגוריות">הצג קטגוריות</div>
+                                            <div id="categories_list_a"><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=7&ref_=catchooser" style="display: block;"><div class="fcat fcat-7" title="סרטים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=9&ref_=catchooser" style="display: block;"><div class="fcat fcat-9" title="סרטים HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=58&ref_=catchooser" style="display: block;"><div class="fcat fcat-58" title="סרטים DVD-R"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים DVD-R</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=59&ref_=catchooser" style="display: block;"><div class="fcat fcat-59" title="סרטי BDRIP-BRRip"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטי BDRIP-BRRip</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=60&ref_=catchooser" style="display: block;"><div class="fcat fcat-60" title="סרטים ישראליים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים ישראליים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=61&ref_=catchooser" style="display: block;"><div class="fcat fcat-61" title="סרטים ישראליים HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים ישראליים HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=83&ref_=catchooser" style="display: block;"><div class="fcat fcat-83" title="סרטים מדובבים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים מדובבים</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=97&ref_=catchooser" style="display: block;"><div class="fcat fcat-97" title="סרטים 4K"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים 4K</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=101&ref_=catchooser" style="display: block;"><div class="fcat fcat-101" title="סרטים x265"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סרטים x265</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=8&ref_=catchooser" style="display: block;"><div class="fcat fcat-8" title="סדרות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=10&ref_=catchooser" style="display: block;"><div class="fcat fcat-10" title="סדרות HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=62&ref_=catchooser" style="display: block;"><div class="fcat fcat-62" title="סדרות ישראליות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות ישראליות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=63&ref_=catchooser" style="display: block;"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות ישראליות HD</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=84&ref_=catchooser" style="display: block;"><div class="fcat fcat-84" title="סדרות מדובבות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות מדובבות</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=100&ref_=catchooser" style="display: block;"><div class="fcat fcat-100" title="סדרות 4K"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">סדרות 4K</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=14&ref_=catchooser" style="display: block;"><div class="fcat fcat-14" title="מוזיקה עולמית"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">מוזיקה עולמית</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=66&ref_=catchooser" style="display: block;"><div class="fcat fcat-66" title="מוזיקה ישראלית"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">מוזיקה ישראלית</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=67&ref_=catchooser" style="display: block;"><div class="fcat fcat-67" title="FLAC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FLAC</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=68&ref_=catchooser" style="display: block;"><div class="fcat fcat-68" title="פסקולים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">פסקולים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=11&ref_=catchooser" style="display: block;"><div class="fcat fcat-11" title="משחקים PC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים PC</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=12&ref_=catchooser" style="display: block;"><div class="fcat fcat-12" title="משחקים PS"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים PS</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=55&ref_=catchooser" style="display: block;"><div class="fcat fcat-55" title="משחקים XBOX"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים XBOX</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=56&ref_=catchooser" style="display: block;"><div class="fcat fcat-56" title="משחקים WII"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקים WII</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=57&ref_=catchooser" style="display: block;"><div class="fcat fcat-57" title="משחקי קונסולות ניידות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">משחקי קונסולות ניידות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=13&ref_=catchooser" style="display: block;"><div class="fcat fcat-13" title="אפליקציות לאנדרואיד"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">אפליקציות לאנדרואיד</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=15&ref_=catchooser" style="display: block;"><div class="fcat fcat-15" title="תוכנות PC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">תוכנות PC</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=70&ref_=catchooser" style="display: block;"><div class="fcat fcat-70" title="אפליקציות לאייפון"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">אפליקציות לאייפון</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=71&ref_=catchooser" style="display: block;"><div class="fcat fcat-71" title="תוכנות MAC"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">תוכנות MAC</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=16&ref_=catchooser" style="display: block;"><div class="fcat fcat-16" title="XXX - למבוגרים בלבד"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">XXX</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=17&ref_=catchooser" style="display: block;"><div class="fcat fcat-17" title="שונות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">שונות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=64&ref_=catchooser" style="display: block;"><div class="fcat fcat-64" title="ספורט"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">ספורט</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=65&ref_=catchooser" style="display: block;"><div class="fcat fcat-65" title="אנימה"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">אנימה</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=69&ref_=catchooser" style="display: block;"><div class="fcat fcat-69" title="Ebooks"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">Ebooks</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=72&ref_=catchooser" style="display: block;"><div class="fcat fcat-72" title="FuzePacks - משחקים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - משחקים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=73&ref_=catchooser" style="display: block;"><div class="fcat fcat-73" title="FuzePacks - סרטים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - סרטים</span></a></div></div><div class="inline-div-catimg"><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=74&ref_=catchooser" style="display: block;"><div class="fcat fcat-74" title="FuzePacks - תוכנות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - תוכנות</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=75&ref_=catchooser" style="display: block;"><div class="fcat fcat-75" title="FuzePacks - שירים"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - שירים</span></a></div><div class="inline-catimg" style="text-align: center; max-width: 50px;"><a href="/browse.php?cat=76&ref_=catchooser" style="display: block;"><div class="fcat fcat-76" title="FuzePacks - סדרות"></div><span class="threadlink" style="word-break: break-word; font-size: 0.6vw;">FP - סדרות</span></a></div></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</div>
+<div id="main_table" class="ce-div-block">
+<div class="pagenav" align="left">
+<table class="tborder" cellpadding="3" cellspacing="1" border="0">
+<tr>
+	<td class="vbmenu_control" style="font-weight:normal">עמוד 1 מתוך 2485</td>
+	
+	
+		<td class="alt2"><span class="smallfont" title="מציג תוצאות 1 עד 50 מתוך 124,224"><strong>1</strong></span></td>
+ <td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=2" title="מציג תוצאות 51 עד 100 מתוך 124,224">2</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=3" title="מציג תוצאות 101 עד 150 מתוך 124,224">3</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=11" title="מציג תוצאות 501 עד 550 מתוך 124,224"><!--+10-->11</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=51" title="מציג תוצאות 2,501 עד 2,550 מתוך 124,224"><!--+50-->51</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=101" title="מציג תוצאות 5,001 עד 5,050 מתוך 124,224"><!--+100-->101</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=501" title="מציג תוצאות 25,001 עד 25,050 מתוך 124,224"><!--+500-->501</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=1001" title="מציג תוצאות 50,001 עד 50,050 מתוך 124,224"><!--+1000-->1001</a></td>
+	<td class="alt1"><a rel="next" class="smallfont" href="browse.php?ref_=pn&amp;page=2" title="הדף הבא - תוצאות 51 עד100 מתוך 124,224">&gt;</a></td>
+	<td class="alt1" nowrap="nowrap"><a class="smallfont" href="browse.php?ref_=pn&amp;page=2485" title="עמוד אחרון - תוצאות 124,201 עד124,224 מתוך 124,224">אחרון <strong>&raquo;</strong></a></td>
+	<td class="vbmenu_control" title="browse.php?ref_=pn"><a name="PageNav"></a></td>
+</tr>
+</table>
+</div>
+<table class="tborder" cellpadding="6" cellspacing="1" border="0" width="100%" align="center">
+	<thead>
+		<tr>
+			<td class="thead" colspan="2">
+				טורנטים
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="alt1">
+				<table class="table_info">
+					<tr class="colhead_dark">
+						<td></td>
+						<td><a href="browse.php?order=name&sort=desc" class="wb-inline" title="סדר לפי: שם הטורנט">שם הטורנט</a></td>
+                        <td style="border-right-style: hidden !important;"></td>
+						<td class="sign"><a href="browse.php?order=size&sort=desc" class="wb-inline" title="סדר לפי: גודל">גודל</a></td>
+						<td class="sign"><a href="browse.php?order=snatched&sort=desc"><div style="margin: 0 auto;" class="b-buttons b-buttons-snatched"  title="סדר לפי: הושלם"></div></a></td>
+						<td class="sign"><a href="browse.php?order=seeders&sort=desc"><div style="margin: 0 auto;" class="b-buttons b-buttons-seeders"  title="סדר לפי: משתפים"></div></a></td>
+						<td class="sign"><a href="browse.php?order=leechers&sort=desc"><div style="margin: 0 auto;" class="b-buttons b-buttons-leechers"  title="סדר לפי: מורידים"></div></a></td>
+					</tr>
+					
+					<tr class="box_torrent" id="torrent_row_135095"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135095-box-title" class="box_title2">
+			<div class="sticky-container"><div class="b-buttons b-buttons-sticky2" style="padding-top: 3px;" title="טורנט נעוץ"></div></div>
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181150" id="eng-l-title_135095" rel="imgtip[135095]" class="threadlink" imgsrc="https://images2.imgbox.com/35/5e/ADJkWEFy_o.jpg" dir="ltr">New Amsterdam 2018 COMPLETE 1080p DSNP WEB-DL DD 5 1 H.264-playWEB</a>
+			</div>
+			<div class="sub_title"><span title="ניו אמסטרדם 2018  - כל העונות - תרגום בצד | New Amsterdam 2018 COMPLETE 1080p DSNP WEB-DL DD 5 1 H.264-playWEB">ניו אמסטרדם 2018  - כל העונות - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt7817340/">IMDB: 7.9</a>]</span></div>
+		</div>
+		<div id="135095-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 04/05/26 10:52</div>
+		<div id="imgtip135095" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%F0%E9%E5+%E0%EE%F1%E8%F8%E3%ED+2018 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135095&amp;d=" title="הורד טורנט: 
+New.Amsterdam.2018.COMPLETE.1080p.DSNP.WEB-DL.DD.5.1.H.264-playWEB.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">136.62GB</td>
+	<td class="inline_info  r21">14</td>
+	<td class="inline_info  r22">6</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_133196"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=76&ref_=caticon"><div class="fcat fcat-76" title="FuzePacks - סדרות"></div></a></td>
+	<td class="hid_td ">
+		<div id="133196-box-title" class="box_title2">
+			<div class="sticky-container"><div class="b-buttons b-buttons-sticky2" style="padding-top: 3px;" title="טורנט נעוץ"></div></div>
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=179086" id="eng-l-title_133196" rel="imgtip[133196]" class="threadlink" imgsrc="https://i.imgur.com/RI7CmRG.jpeg" dir="ltr">Stranger Things Complete 1080p WEB-DL DDP5.1 x264-FuzePack</a>
+			</div>
+			<div class="sub_title"><span title="דברים מוזרים - כל העונות - תרגום בצד | Stranger Things Complete 1080p WEB-DL DDP5.1 x264-FuzePack">דברים מוזרים - כל העונות - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt4574334/">IMDB: 8.6</a>]</span></div>
+		</div>
+		<div id="133196-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 02/01/26 10:38</div>
+		<div id="imgtip133196" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] [<a class="threadlink" href="?fuzepacks=1&ref_=label" title="הצג טורנטים של פיוזפאקס">FuzePacks</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=133196&amp;d=" title="הורד טורנט: 
+Stranger.Things.Complete.1080p.WEB-DL.DDP5.1.x264-FuzePack.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">116.43GB</td>
+	<td class="inline_info  r21">136</td>
+	<td class="inline_info  r22">24</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_133019"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=76&ref_=caticon"><div class="fcat fcat-76" title="FuzePacks - סדרות"></div></a></td>
+	<td class="hid_td ">
+		<div id="133019-box-title" class="box_title2">
+			<div class="sticky-container"><div class="b-buttons b-buttons-sticky2" style="padding-top: 3px;" title="טורנט נעוץ"></div></div>
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=178895" id="eng-l-title_133019" rel="imgtip[133019]" class="threadlink" imgsrc="https://i.imgur.com/8S4vqna.jpeg" dir="ltr">Snowfall 1080p Complete DSNP-AMZN WEB-DL DDP5.1 H.264-FuzePack</a>
+			</div>
+			<div class="sub_title"><span title="שלג צח - כל העונות - תרגום בצד | Snowfall 1080p Complete DSNP-AMZN WEB-DL DDP5.1 H.264-FuzePack">שלג צח - כל העונות - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt6439752/">IMDB: 8.4</a>]</span></div>
+		</div>
+		<div id="133019-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 17/12/25 17:54</div>
+		<div id="imgtip133019" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] [<a class="threadlink" href="?fuzepacks=1&ref_=label" title="הצג טורנטים של פיוזפאקס">FuzePacks</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=133019&amp;d=" title="הורד טורנט: 
+Snowfall.1080p.Complete.DSNP-AMZN.WEB-DL.DDP5.1.H.264-FuzePack.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">174.15GB</td>
+	<td class="inline_info  r21">49</td>
+	<td class="inline_info  r22">21</td>
+	<td class="inline_info  r23">4</td>
+</tr><tr class="box_torrent" id="torrent_row_126072"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=76&ref_=caticon"><div class="fcat fcat-76" title="FuzePacks - סדרות"></div></a></td>
+	<td class="hid_td ">
+		<div id="126072-box-title" class="box_title2">
+			<div class="sticky-container"><div class="b-buttons b-buttons-sticky2" style="padding-top: 3px;" title="טורנט נעוץ"></div></div>
+			<div class="main_title">
+				<a class="threadlink" style="cursor:pointer" title="הצג כותרת מלאה" id="eng-la-title_126072" onclick="longtitle(this, 126072, true)" longtitle="Friends COMPLETE 2160p UHD BluRay Remux DV HEVC DTS-HD MA 5 1-SiCFoI" imgsrc="https://i.imgur.com/5y14mNk.jpeg">[...]</a>
+				<a href="/showthread.php?t=171270" id="eng-l-title_126072" rel="imgtip[126072]" class="threadlink" imgsrc="https://i.imgur.com/5y14mNk.jpeg" dir="ltr">Friends COMPLETE 2160p UHD BluRay Remux DV HEVC DTS-HD MA 5 1-SiCFo</a>
+			</div>
+			<div class="sub_title"><span title="חברים - כל העונות - תרגום בצד | Friends COMPLETE 2160p UHD BluRay Remux DV HEVC DTS-HD MA 5 1-SiCFoI">חברים - כל העונות - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt0108778/">IMDB: 8.9</a>]</span></div>
+		</div>
+		<div id="126072-up-info" class="up_info2">הועלה ע"י  <strong>iSraels</strong> בתאריך: 08/01/25 07:28</div>
+		<div id="imgtip126072" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] [<a class="threadlink" href="?fuzepacks=1&ref_=label" title="הצג טורנטים של פיוזפאקס">FuzePacks</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=126072&amp;d=" title="הורד טורנט: 
+Friends.COMPLETE.2160p.UHD.Blu-ray.Remux.DV.HEVC.DTS-HD.MA.5.1-SiCFoI.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">1.72TB</td>
+	<td class="inline_info  r21">45</td>
+	<td class="inline_info  r22">12</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_20036"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="20036-box-title" class="box_title2">
+			<div class="sticky-container"><div class="b-buttons b-buttons-sticky2" style="padding-top: 3px;" title="טורנט נעוץ"></div></div>
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=44194" id="eng-l-title_20036" rel="imgtip[20036]" class="threadlink" imgsrc="https://i.imgur.com/bjNuyyz.jpg" dir="ltr">Prison Break COMPLETE HEBSUB 1080p BluRay x264-DeadToRights</a>
+			</div>
+			<div class="sub_title"><span title="נמלטים - כל העונות + הסרט - תרגום מובנה | Prison Break COMPLETE HEBSUB 1080p BluRay x264-DeadToRights">נמלטים - כל העונות + הסרט - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt0455275/">IMDB: 8.5</a>]</span></div>
+		</div>
+		<div id="20036-up-info" class="up_info2">הועלה ע"י  <strong>Roei</strong> בתאריך: 13/02/15 18:33</div>
+		<div id="imgtip20036" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%F0%EE%EC%E8%E9%ED " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סדרה</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=20036&amp;d=" title="הורד טורנט: 
+Prison.Break.COMPLETE.HEBSUB.1080p.BluRay.x264-DeadToRights.torrent">
+						<div class="dlimg dlimg-purple_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">283.03GB</td>
+	<td class="inline_info  r21">785</td>
+	<td class="inline_info  r22">24</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_12903"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=76&ref_=caticon"><div class="fcat fcat-76" title="FuzePacks - סדרות"></div></a></td>
+	<td class="hid_td ">
+		<div id="12903-box-title" class="box_title2">
+			<div class="sticky-container"><div class="b-buttons b-buttons-sticky2" style="padding-top: 3px;" title="טורנט נעוץ"></div></div>
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=32291" id="eng-l-title_12903" rel="imgtip[12903]" class="threadlink" imgsrc="https://i.imgur.com/ufaVkRp.jpg" dir="ltr">How I Met Your Mother COMPLETE HDTV HebSub XviD-FuzePacks</a>
+			</div>
+			<div class="sub_title"><span title="איך פגשתי את אמא - כל העונות - תרגום מובנה | How I Met Your Mother COMPLETE HDTV HebSub XviD-FuzePacks">איך פגשתי את אמא - כל העונות - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt0460649/">IMDB: 8.4</a>]</span></div>
+		</div>
+		<div id="12903-up-info" class="up_info2">הועלה ע"י  <strong>Whis</strong> בתאריך: 08/06/14 02:25</div>
+		<div id="imgtip12903" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] [<a class="threadlink" href="?fuzepacks=1&ref_=label" title="הצג טורנטים של פיוזפאקס">FuzePacks</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=12903&amp;d=" title="הורד טורנט: 
+How.I.Met.Your.Mother.COMPLETE.HDTV.HebSub.XviD-FuzePacks.torrent">
+					<div class="dlimg dlimg-purple_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">37.63GB</td>
+	<td class="inline_info  r21">2,451</td>
+	<td class="inline_info  r22">37</td>
+	<td class="inline_info  r23">2</td>
+</tr><tr class="box_torrent" id="torrent_row_135886" style="border-top: 4px solid #333;" >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135886-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181980" id="eng-l-title_135886" rel="imgtip[135886]" class="threadlink" imgsrc="https://images2.imgbox.com/2a/8b/ce4JK26d_o.jpg" dir="ltr">Married at First Sight IL S08E11 720p WEB h264-Mako</a>
+			</div>
+			<div class="sub_title"><span title="חתונה ממבט ראשון - עונה 8 פרק 11 | Married at First Sight IL S08E11 720p WEB h264-Mako">חתונה ממבט ראשון - עונה 8 פרק 11</span></div>
+		</div>
+		<div id="135886-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:18</div>
+		<div id="imgtip135886" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%E7%FA%E5%F0%E4+%EE%EE%E1%E8+%F8%E0%F9%E5%EF" class="flink" style="display: block;">מצא טורנטים נוספים של <b>חתונה ממבט ראשון</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%E7%FA%E5%F0%E4+%EE%EE%E1%E8+%F8%E0%F9%E5%EF S08E11" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135886&amp;d=" title="הורד טורנט: 
+Married.at.First.Sight.IL.S08E11.720p.WEB.h264-Mako.mkv.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">913.65MB</td>
+	<td class="inline_info  r21">14</td>
+	<td class="inline_info  r22">15</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135884"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135884-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181978" id="eng-l-title_135884" rel="imgtip[135884]" class="threadlink" imgsrc="https://images2.imgbox.com/df/7e/5tqHhk6K_o.jpg" dir="ltr">Unconditional 2026 S01E07 HDR 2160p WEB h265-GRACE</a>
+			</div>
+			<div class="sub_title"><span title="הבת - עונה 1 פרק 7 - תרגום בצד | Unconditional 2026 S01E07 HDR 2160p WEB h265-GRACE">הבת - עונה 1 פרק 7 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt35668813/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135884-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:29</div>
+		<div id="imgtip135884" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%E1%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>הבת</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%E1%FA S01E07" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135884&amp;d=" title="הורד טורנט: 
+Unconditional.2026.S01E07.HDR.2160p.WEB.h265-GRACE.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">8.63GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">6</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135883"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135883-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181977" id="eng-l-title_135883" rel="imgtip[135883]" class="threadlink" imgsrc="https://images2.imgbox.com/a0/b3/G0NDYRIz_o.jpg" dir="ltr">Cape Fear S01E03 1080p ATVP WEB-DL DDPA5 1 H.264-Kitsune</a>
+			</div>
+			<div class="sub_title"><span title="פסגת הפחד - עונה 1 פרק 3 - תרגום בצד | Cape Fear S01E03 1080p ATVP WEB-DL DDPA5 1 H.264-Kitsune">פסגת הפחד - עונה 1 פרק 3 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt34675596/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135883-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:31</div>
+		<div id="imgtip135883" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%F4%F1%E2%FA+%E4%F4%E7%E3" class="flink" style="display: block;">מצא טורנטים נוספים של <b>פסגת הפחד</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%F4%F1%E2%FA+%E4%F4%E7%E3 S01E03" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135883&amp;d=" title="הורד טורנט: 
+Cape.Fear.S01E03.1080p.ATVP.WEB-DL.DDPA5.1.H.264-Kitsune.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">3.67GB</td>
+	<td class="inline_info  r21">7</td>
+	<td class="inline_info  r22">8</td>
+	<td class="inline_info  r23">2</td>
+</tr><tr class="box_torrent" id="torrent_row_135882"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135882-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181976" id="eng-l-title_135882" rel="imgtip[135882]" class="threadlink" imgsrc="https://images2.imgbox.com/a0/b3/G0NDYRIz_o.jpg" dir="ltr">Cape Fear S01E03 2160p ATVP WEB-DL DDPA5 1 HDR DV HEVC-BYNDR</a>
+			</div>
+			<div class="sub_title"><span title="פסגת הפחד - עונה 1 פרק 3 - תרגום בצד | Cape Fear S01E03 2160p ATVP WEB-DL DDPA5 1 HDR DV HEVC-BYNDR">פסגת הפחד - עונה 1 פרק 3 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt34675596/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135882-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:10</div>
+		<div id="imgtip135882" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%F4%F1%E2%FA+%E4%F4%E7%E3" class="flink" style="display: block;">מצא טורנטים נוספים של <b>פסגת הפחד</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%F4%F1%E2%FA+%E4%F4%E7%E3 S01E03" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135882&amp;d=" title="הורד טורנט: 
+Cape.Fear.S01E03.2160p.ATVP.WEB-DL.DDPA5.1.HDR.DV.HEVC-BYNDR.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">8.56GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  r23">2</td>
+</tr><tr class="box_torrent" id="torrent_row_135881"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135881-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181975" id="eng-l-title_135881" rel="imgtip[135881]" class="threadlink" imgsrc="https://images2.imgbox.com/a0/b3/G0NDYRIz_o.jpg" dir="ltr">Cape Fear S01E03 720p ATVP WEB-DL DDPA5 1 H.264-Kitsune</a>
+			</div>
+			<div class="sub_title"><span title="פסגת הפחד - עונה 1 פרק 3 - תרגום בצד | Cape Fear S01E03 720p ATVP WEB-DL DDPA5 1 H.264-Kitsune">פסגת הפחד - עונה 1 פרק 3 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt34675596/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135881-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:39</div>
+		<div id="imgtip135881" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%F4%F1%E2%FA+%E4%F4%E7%E3" class="flink" style="display: block;">מצא טורנטים נוספים של <b>פסגת הפחד</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%F4%F1%E2%FA+%E4%F4%E7%E3 S01E03" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135881&amp;d=" title="הורד טורנט: 
+Cape.Fear.S01E03.720p.ATVP.WEB-DL.DDPA5.1.H.264-Kitsune.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">1.24GB</td>
+	<td class="inline_info  r21">2</td>
+	<td class="inline_info  r22">3</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135880"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135880-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181974" id="eng-l-title_135880" rel="imgtip[135880]" class="threadlink" imgsrc="https://images2.imgbox.com/b7/62/RqOLDBuQ_o.jpg" dir="ltr">Hamitmaha S01E05 1080p WEB-DL H.264-Silver007</a>
+			</div>
+			<div class="sub_title"><span title="המתמחה - עונה 1 פרק 5 | Hamitmaha S01E05 1080p WEB-DL H.264-Silver007">המתמחה - עונה 1 פרק 5</span></div>
+		</div>
+		<div id="135880-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:54</div>
+		<div id="imgtip135880" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%EE%FA%EE%E7%E4" class="flink" style="display: block;">מצא טורנטים נוספים של <b>המתמחה</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%EE%FA%EE%E7%E4 S01E05" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135880&amp;d=" title="הורד טורנט: 
+Hamitmaha.S01E05.1080p.WEB-DL.H.264-Silver007.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">1.42GB</td>
+	<td class="inline_info  r21">16</td>
+	<td class="inline_info  r22">17</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135879"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=64&ref_=caticon"><div class="fcat fcat-64" title="ספורט"></div></a></td>
+	<td class="hid_td ">
+		<div id="135879-box-title" class="box_title2">
+			
+			<div class="main_title">
+				<a class="threadlink" style="cursor:pointer" title="הצג כותרת מלאה" id="eng-la-title_135879" onclick="longtitle(this, 135879, true)" longtitle="FIFA World Cup 2026 Group A South Korea Vs Czech Republic 1080p HDTV H264-DARKSPORT" imgsrc="https://images2.imgbox.com/ed/71/WwLnbiii_o.jpg">[...]</a>
+				<a href="/showthread.php?t=181973" id="eng-l-title_135879" rel="imgtip[135879]" class="threadlink" imgsrc="https://images2.imgbox.com/ed/71/WwLnbiii_o.jpg" dir="ltr">FIFA World Cup 2026 Group A South Korea Vs Czech Republic 1080p HDT</a>
+			</div>
+			<div class="sub_title"><span title="מונדיאל 2026 שלב הבתים : דרום קוריאה נגד צ'כיה | FIFA World Cup 2026 Group A South Korea Vs Czech Republic 1080p HDTV H264-DARKSPORT">מונדיאל 2026 שלב הבתים : דרום קוריאה נגד צ'כיה</span></div>
+		</div>
+		<div id="135879-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:00</div>
+		<div id="imgtip135879" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135879&amp;d=" title="הורד טורנט: 
+FIFA.World.Cup.2026.Group.A.South.Korea.Vs.Czech.Republic.1080p.HDTV.H264-DARKSPORT.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">4.51GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135878"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=64&ref_=caticon"><div class="fcat fcat-64" title="ספורט"></div></a></td>
+	<td class="hid_td ">
+		<div id="135878-box-title" class="box_title2">
+			
+			<div class="main_title">
+				<a class="threadlink" style="cursor:pointer" title="הצג כותרת מלאה" id="eng-la-title_135878" onclick="longtitle(this, 135878, true)" longtitle="FIFA World Cup 2026 2026 06 11 Group A Mexico vs South Africa FOX 1080p H.264-p2p" imgsrc="https://images2.imgbox.com/ed/71/WwLnbiii_o.jpg">[...]</a>
+				<a href="/showthread.php?t=181972" id="eng-l-title_135878" rel="imgtip[135878]" class="threadlink" imgsrc="https://images2.imgbox.com/ed/71/WwLnbiii_o.jpg" dir="ltr">FIFA World Cup 2026 2026 06 11 Group A Mexico vs South Africa FOX 1</a>
+			</div>
+			<div class="sub_title"><span title="מונדיאל 2026 שלב הבתים : מקסיקו נגד דרום אפריקה | FIFA World Cup 2026 2026 06 11 Group A Mexico vs South Africa FOX 1080p H.264-p2p">מונדיאל 2026 שלב הבתים : מקסיקו נגד דרום אפריקה</span></div>
+		</div>
+		<div id="135878-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 12/06/26 09:35</div>
+		<div id="imgtip135878" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135878&amp;d=" title="הורד טורנט: 
+FIFA.World.Cup.2026.2026.06.11.Group.A.Mexico.vs.South.Africa.FOX.1080p.H.264-p2p.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">4.51GB</td>
+	<td class="inline_info  r21">2</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135877"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=97&ref_=caticon"><div class="fcat fcat-97" title="סרטים 4K"></div></a></td>
+	<td class="hid_td ">
+		<div id="135877-box-title" class="box_title2">
+			
+			<div class="main_title">
+				<a class="threadlink" style="cursor:pointer" title="הצג כותרת מלאה" id="eng-la-title_135877" onclick="longtitle(this, 135877, true)" longtitle="Colors Of Evil Black 2026 2160p NF WEB-DL DDP5.1 Atmos DV HDR H 265-CHORTLE" imgsrc="https://images2.imgbox.com/e0/05/U1HNMjTm_o.jpg">[...]</a>
+				<a href="/showthread.php?t=181971" id="eng-l-title_135877" rel="imgtip[135877]" class="threadlink" imgsrc="https://images2.imgbox.com/e0/05/U1HNMjTm_o.jpg" dir="ltr">Colors Of Evil Black 2026 2160p NF WEB-DL DDP5.1 Atmos DV HDR H 265</a>
+			</div>
+			<div class="sub_title"><span title="צבעי הרוע: שחור - תרגום בצד | Colors Of Evil Black 2026 2160p NF WEB-DL DDP5.1 Atmos DV HDR H 265-CHORTLE">צבעי הרוע: שחור - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt38681832/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135877-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 17:01</div>
+		<div id="imgtip135877" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135877&amp;d=" title="הורד טורנט: 
+Colors.Of.Evil.Black.2026.2160p.NF.WEB-DL.DDP5.1.Atmos.DV.HDR.H.265-CHORTLE.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">15.56GB</td>
+	<td class="inline_info  r21">7</td>
+	<td class="inline_info  r22">8</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135876"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135876-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181970" id="eng-l-title_135876" rel="imgtip[135876]" class="threadlink" imgsrc="https://images2.imgbox.com/e0/05/U1HNMjTm_o.jpg" dir="ltr">Colors of Evil Black 2026 1080p WEB h264-EDITH</a>
+			</div>
+			<div class="sub_title"><span title="צבעי הרוע: שחור - תרגום בצד | Colors of Evil Black 2026 1080p WEB h264-EDITH">צבעי הרוע: שחור - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt38681832/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135876-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 17:12</div>
+		<div id="imgtip135876" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%F6%E1%F2%E9+%E4%F8%E5%F2%3A+%F9%E7%E5%F8 Colors of Evil Black 2026 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135876&amp;d=" title="הורד טורנט: 
+Colors.of.Evil.Black.2026.1080p.WEB.h264-EDITH.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">6.21GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">6</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135875"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135875-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181969" id="eng-l-title_135875" rel="imgtip[135875]" class="threadlink" imgsrc="https://images2.imgbox.com/74/24/A8xJbXmb_o.jpg" dir="ltr">Sweet Magnolias S05 720p NF WEB-DL DDP5.1 Atmos H.264-FLUX</a>
+			</div>
+			<div class="sub_title"><span title="מגנוליות מופלאות - עונה 5 - תרגום בצד | Sweet Magnolias S05 720p NF WEB-DL DDP5.1 Atmos H.264-FLUX">מגנוליות מופלאות - עונה 5 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt9077540/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135875-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 15:31</div>
+		<div id="imgtip135875" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?new=1&ref_=label" title="הצג טורנטים חדשים">NEW</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מגנוליות מופלאות</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA S05" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135875&amp;d=" title="הורד טורנט: 
+Sweet.Magnolias.S05.720p.NF.WEB-DL.DDP5.1.Atmos.H.264-FLUX.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">7.75GB</td>
+	<td class="inline_info  r21">1</td>
+	<td class="inline_info  r22">2</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135874"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135874-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181968" id="eng-l-title_135874" rel="imgtip[135874]" class="threadlink" imgsrc="https://images2.imgbox.com/74/24/A8xJbXmb_o.jpg" dir="ltr">Sweet Magnolias S05 1080p NF WEB-DL DDP5.1 Atmos H.264-FLUX</a>
+			</div>
+			<div class="sub_title"><span title="מגנוליות מופלאות - עונה 5 - תרגום בצד | Sweet Magnolias S05 1080p NF WEB-DL DDP5.1 Atmos H.264-FLUX">מגנוליות מופלאות - עונה 5 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt9077540/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135874-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 15:11</div>
+		<div id="imgtip135874" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מגנוליות מופלאות</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA S05" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135874&amp;d=" title="הורד טורנט: 
+Sweet.Magnolias.S05.1080p.NF.WEB-DL.DDP5.1.Atmos.H.264-FLUX.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">18.32GB</td>
+	<td class="inline_info  r21">7</td>
+	<td class="inline_info  r22">9</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135873"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135873-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181967" id="eng-l-title_135873" rel="imgtip[135873]" class="threadlink" imgsrc="https://images2.imgbox.com/74/24/A8xJbXmb_o.jpg" dir="ltr">Sweet Magnolias S04 720p NF WEB-DL DDP5.1 Atmos H.264-FLUX</a>
+			</div>
+			<div class="sub_title"><span title="מגנוליות מופלאות - עונה 4 - תרגום בצד | Sweet Magnolias S04 720p NF WEB-DL DDP5.1 Atmos H.264-FLUX">מגנוליות מופלאות - עונה 4 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt9077540/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135873-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 12:26</div>
+		<div id="imgtip135873" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מגנוליות מופלאות</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA S04" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135873&amp;d=" title="הורד טורנט: 
+Sweet.Magnolias.S04.720p.NF.WEB-DL.DDP5.1.Atmos.H.264-FLUX.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">8.09GB</td>
+	<td class="inline_info  r21">1</td>
+	<td class="inline_info  r22">2</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135872"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135872-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181966" id="eng-l-title_135872" rel="imgtip[135872]" class="threadlink" imgsrc="https://images2.imgbox.com/74/24/A8xJbXmb_o.jpg" dir="ltr">Sweet Magnolias S04 1080p NF WEB-DL DDP5.1 Atmos H.264-FLUX</a>
+			</div>
+			<div class="sub_title"><span title="מגנוליות מופלאות - עונה 4 - תרגום בצד | Sweet Magnolias S04 1080p NF WEB-DL DDP5.1 Atmos H.264-FLUX">מגנוליות מופלאות - עונה 4 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt9077540/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135872-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 12:07</div>
+		<div id="imgtip135872" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מגנוליות מופלאות</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E2%F0%E5%EC%E9%E5%FA+%EE%E5%F4%EC%E0%E5%FA S04" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135872&amp;d=" title="הורד טורנט: 
+Sweet.Magnolias.S04.1080p.NF.WEB-DL.DDP5.1.Atmos.H.264-FLUX.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">19.6GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135871"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135871-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181965" id="eng-l-title_135871" rel="imgtip[135871]" class="threadlink" imgsrc="https://images2.imgbox.com/93/f8/lLiR6zIG_o.jpg" dir="ltr">Taco Chronicles S01 1080p NF WEB-DL DD+5 1 H.264-playWEB</a>
+			</div>
+			<div class="sub_title"><span title="תולדות הטאקו - עונה 1 - תרגום בצד | Taco Chronicles S01 1080p NF WEB-DL DD+5 1 H.264-playWEB">תולדות הטאקו - עונה 1 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt10242848/">IMDB: 7.8</a>]</span></div>
+		</div>
+		<div id="135871-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 12:21</div>
+		<div id="imgtip135871" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%FA%E5%EC%E3%E5%FA+%E4%E8%E0%F7%E5" class="flink" style="display: block;">מצא טורנטים נוספים של <b>תולדות הטאקו</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%FA%E5%EC%E3%E5%FA+%E4%E8%E0%F7%E5 S01" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135871&amp;d=" title="הורד טורנט: 
+Taco.Chronicles.S01.1080p.NF.WEB-DL.DD+5.1.H.264-playWEB.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">5GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">3</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135870"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135870-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181964" id="eng-l-title_135870" rel="imgtip[135870]" class="threadlink" imgsrc="https://images2.imgbox.com/dc/12/MOsnrDqz_o.jpg" dir="ltr">Menace Imminente S01E02 2160p WEB-DL H 265-Silver007</a>
+			</div>
+			<div class="sub_title"><span title="כוננות שיא - עונה 1 פרק 2 - תרגום מובנה | Menace Imminente S01E02 2160p WEB-DL H 265-Silver007">כוננות שיא - עונה 1 פרק 2 - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt36160259/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135870-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 12:52</div>
+		<div id="imgtip135870" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0" class="flink" style="display: block;">מצא טורנטים נוספים של <b>כוננות שיא</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0 S01E02" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135870&amp;d=" title="הורד טורנט: 
+Menace.Imminente.S01E02.2160p.WEB-DL.H.265-Silver007.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">5.49GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135869"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135869-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181963" id="eng-l-title_135869" rel="imgtip[135869]" class="threadlink" imgsrc="https://images2.imgbox.com/dc/12/MOsnrDqz_o.jpg" dir="ltr">Menace Imminente S01E02 1080p WEB-DL H.264-Silver007</a>
+			</div>
+			<div class="sub_title"><span title="כוננות שיא - עונה 1 פרק 2 - תרגום מובנה | Menace Imminente S01E02 1080p WEB-DL H.264-Silver007">כוננות שיא - עונה 1 פרק 2 - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt36160259/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135869-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 12:36</div>
+		<div id="imgtip135869" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0" class="flink" style="display: block;">מצא טורנטים נוספים של <b>כוננות שיא</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0 S01E02" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135869&amp;d=" title="הורד טורנט: 
+Menace.Imminente.S01E02.1080p.WEB-DL.H.264-Silver007.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">2.48GB</td>
+	<td class="inline_info  r21">10</td>
+	<td class="inline_info  r22">10</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135868"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=97&ref_=caticon"><div class="fcat fcat-97" title="סרטים 4K"></div></a></td>
+	<td class="hid_td ">
+		<div id="135868-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181962" id="eng-l-title_135868" rel="imgtip[135868]" class="threadlink" imgsrc="https://images2.imgbox.com/0b/f7/HVl0IkcA_o.jpg" dir="ltr">Cloud Atlas 2012 2160p UHD BluRay DoVi HDR DTS-HD MA 5 1 x265-PbK</a>
+			</div>
+			<div class="sub_title"><span title="ענן אטלס - תרגום בצד | Cloud Atlas 2012 2160p UHD BluRay DoVi HDR DTS-HD MA 5 1 x265-PbK">ענן אטלס - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt1371111/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135868-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 11:03</div>
+		<div id="imgtip135868" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135868&amp;d=" title="הורד טורנט: 
+Cloud.Atlas.2012.2160p.UHD.BluRay.DoVi.HDR.DTS-HD.MA.5.1.x265-PbK.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">36.14GB</td>
+	<td class="inline_info  r21">8</td>
+	<td class="inline_info  r22">9</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135867"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135867-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181961" id="eng-l-title_135867" rel="imgtip[135867]" class="threadlink" imgsrc="https://images2.imgbox.com/0b/f7/HVl0IkcA_o.jpg" dir="ltr">Cloud Atlas 2012 REMASTERED 720p BluRay x264-GAZER</a>
+			</div>
+			<div class="sub_title"><span title="ענן אטלס - תרגום בצד | Cloud Atlas 2012 REMASTERED 720p BluRay x264-GAZER">ענן אטלס - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt1371111/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135867-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 11:37</div>
+		<div id="imgtip135867" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%F2%F0%EF+%E0%E8%EC%F1 Cloud Atlas 2012 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135867&amp;d=" title="הורד טורנט: 
+Cloud.Atlas.2012.REMASTERED.720p.BluRay.x264-GAZER.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">11.08GB</td>
+	<td class="inline_info  r21">7</td>
+	<td class="inline_info  r22">8</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135866"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135866-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181960" id="eng-l-title_135866" rel="imgtip[135866]" class="threadlink" imgsrc="https://images2.imgbox.com/0b/f7/HVl0IkcA_o.jpg" dir="ltr">Cloud Atlas 2012 REMASTERED 1080p BluRay x264-GAZER</a>
+			</div>
+			<div class="sub_title"><span title="ענן אטלס - תרגום בצד | Cloud Atlas 2012 REMASTERED 1080p BluRay x264-GAZER">ענן אטלס - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt1371111/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135866-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 11:08</div>
+		<div id="imgtip135866" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%F2%F0%EF+%E0%E8%EC%F1 Cloud Atlas 2012 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135866&amp;d=" title="הורד טורנט: 
+Cloud.Atlas.2012.REMASTERED.1080p.BluRay.x264-GAZER.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">23.22GB</td>
+	<td class="inline_info  r21">8</td>
+	<td class="inline_info  r22">8</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135865"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=97&ref_=caticon"><div class="fcat fcat-97" title="סרטים 4K"></div></a></td>
+	<td class="hid_td ">
+		<div id="135865-box-title" class="box_title2">
+			
+			<div class="main_title">
+				<a class="threadlink" style="cursor:pointer" title="הצג כותרת מלאה" id="eng-la-title_135865" onclick="longtitle(this, 135865, true)" longtitle="Cloud Atlas 2012 2160p UHD BluRay Hybrid REMUX DV HDR HEVC DTS-HD MA 5 1-TRiToN" imgsrc="https://images2.imgbox.com/0b/f7/HVl0IkcA_o.jpg">[...]</a>
+				<a href="/showthread.php?t=181959" id="eng-l-title_135865" rel="imgtip[135865]" class="threadlink" imgsrc="https://images2.imgbox.com/0b/f7/HVl0IkcA_o.jpg" dir="ltr">Cloud Atlas 2012 2160p UHD BluRay Hybrid REMUX DV HDR HEVC DTS-HD M</a>
+			</div>
+			<div class="sub_title"><span title="ענן אטלס - תרגום בצד | Cloud Atlas 2012 2160p UHD BluRay Hybrid REMUX DV HDR HEVC DTS-HD MA 5 1-TRiToN">ענן אטלס - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt1371111/">IMDB: 7.3</a>]</span></div>
+		</div>
+		<div id="135865-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 11:21</div>
+		<div id="imgtip135865" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135865&amp;d=" title="הורד טורנט: 
+Cloud.Atlas.2012.2160p.UHD.BluRay.Hybrid.REMUX.DV.HDR.HEVC.DTS-HD.MA.5.1-TRiToN.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">78.03GB</td>
+	<td class="inline_info  r21">6</td>
+	<td class="inline_info  r22">6</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135864"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135864-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181958" id="eng-l-title_135864" rel="imgtip[135864]" class="threadlink" imgsrc="https://images2.imgbox.com/84/15/Vy33iYTb_o.jpg" dir="ltr">The Evil Lawyer S01 1080p NF WEB-DL DD+5 1 Atmos H.264-EDITH</a>
+			</div>
+			<div class="sub_title"><span title="עורכת הדין המנוולת - עונה 1 - תרגום בצד | The Evil Lawyer S01 1080p NF WEB-DL DD+5 1 Atmos H.264-EDITH">עורכת הדין המנוולת - עונה 1 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt39749708/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135864-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 11:44</div>
+		<div id="imgtip135864" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%F2%E5%F8%EB%FA+%E4%E3%E9%EF+%E4%EE%F0%E5%E5%EC%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>עורכת הדין המנוולת</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%F2%E5%F8%EB%FA+%E4%E3%E9%EF+%E4%EE%F0%E5%E5%EC%FA S01" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135864&amp;d=" title="הורד טורנט: 
+The.Evil.Lawyer.S01.1080p.NF.WEB-DL.DD+5.1.Atmos.H.264-EDITH.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">23.96GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135863"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135863-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181957" id="eng-l-title_135863" rel="imgtip[135863]" class="threadlink" imgsrc="https://images2.imgbox.com/6d/76/iEeEboTA_o.jpg" dir="ltr">Viral Hit 2026 S01 720p NF WEB-DL DUAL DDP5.1 H.264-FLUX</a>
+			</div>
+			<div class="sub_title"><span title="מכה ויראלית - עונה 1 - תרגום בצד | Viral Hit 2026 S01 720p NF WEB-DL DUAL DDP5.1 H.264-FLUX">מכה ויראלית - עונה 1 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt39400589/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135863-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 10:59</div>
+		<div id="imgtip135863" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%EB%E4+%E5%E9%F8%E0%EC%E9%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מכה ויראלית</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%EB%E4+%E5%E9%F8%E0%EC%E9%FA S01" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135863&amp;d=" title="הורד טורנט: 
+Viral.Hit.2026.S01.720p.NF.WEB-DL.DUAL.DDP5.1.H.264-FLUX.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">6.67GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135862"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135862-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181956" id="eng-l-title_135862" rel="imgtip[135862]" class="threadlink" imgsrc="https://images2.imgbox.com/6d/76/iEeEboTA_o.jpg" dir="ltr">Viral Hit 2026 S01 1080p NF WEB-DL DUAL DDP5.1 H.264-FLUX</a>
+			</div>
+			<div class="sub_title"><span title="מכה ויראלית - עונה 1 - תרגום בצד | Viral Hit 2026 S01 1080p NF WEB-DL DUAL DDP5.1 H.264-FLUX">מכה ויראלית - עונה 1 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt39400589/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135862-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 10:43</div>
+		<div id="imgtip135862" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%EB%E4+%E5%E9%F8%E0%EC%E9%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מכה ויראלית</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%EB%E4+%E5%E9%F8%E0%EC%E9%FA S01" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135862&amp;d=" title="הורד טורנט: 
+Viral.Hit.2026.S01.1080p.NF.WEB-DL.DUAL.DDP5.1.H.264-FLUX.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">12.61GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  r23">2</td>
+</tr><tr class="box_torrent" id="torrent_row_135861"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=66&ref_=caticon"><div class="fcat fcat-66" title="מוזיקה ישראלית"></div></a></td>
+	<td class="hid_td ">
+		<div id="135861-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181955" id="eng-l-title_135861" rel="imgtip[135861]" class="threadlink" imgsrc="https://images2.imgbox.com/4f/94/NUsSJgQ4_o.jpg" dir="ltr">שחר טבוך - תעני דחוף! - MP3</a>
+			</div>
+			<div class="sub_title"><span title="שחר טבוך - תעני דחוף! - MP3"></span></div>
+		</div>
+		<div id="135861-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 10:43</div>
+		<div id="imgtip135861" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135861&amp;d=" title="הורד טורנט: 
+שחר טבוך - תעני דחוף! - MP3.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">118.27MB</td>
+	<td class="inline_info  r21">6</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135860"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135860-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181954" id="eng-l-title_135860" rel="imgtip[135860]" class="threadlink" imgsrc="https://images2.imgbox.com/a5/8f/iMo83owM_o.jpg" dir="ltr">Dancing With The Stars IL S12E04 720p WEB h264-Mako</a>
+			</div>
+			<div class="sub_title"><span title="רוקדים עם כוכבים - עונה 12 פרק 4 | Dancing With The Stars IL S12E04 720p WEB h264-Mako">רוקדים עם כוכבים - עונה 12 פרק 4</span></div>
+		</div>
+		<div id="135860-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 09:37</div>
+		<div id="imgtip135860" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%F8%E5%F7%E3%E9%ED+%F2%ED+%EB%E5%EB%E1%E9%ED" class="flink" style="display: block;">מצא טורנטים נוספים של <b>רוקדים עם כוכבים</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%F8%E5%F7%E3%E9%ED+%F2%ED+%EB%E5%EB%E1%E9%ED S12E04" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135860&amp;d=" title="הורד טורנט: 
+Dancing.With.The.Stars.IL.S12E04.720p.WEB.h264-Mako.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">1.21GB</td>
+	<td class="inline_info  r21">16</td>
+	<td class="inline_info  r22">15</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135859"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135859-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181953" id="eng-l-title_135859" rel="imgtip[135859]" class="threadlink" imgsrc="https://images2.imgbox.com/fe/a1/MnDrW5Pv_o.jpg" dir="ltr">The Uninvited 2024 720p AMZN WEB-DL DDP5.1 H.264-BYNDR</a>
+			</div>
+			<div class="sub_title"><span title="אורחת ללא הזמנה - תרגום בצד | The Uninvited 2024 720p AMZN WEB-DL DDP5.1 H.264-BYNDR">אורחת ללא הזמנה - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt23732034/">IMDB: 5.2</a>]</span></div>
+		</div>
+		<div id="135859-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 09:53</div>
+		<div id="imgtip135859" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%E0%E5%F8%E7%FA+%EC%EC%E0+%E4%E6%EE%F0%E4 The Uninvited 2024 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135859&amp;d=" title="הורד טורנט: 
+The.Uninvited.2024.720p.AMZN.WEB-DL.DDP5.1.H.264-BYNDR.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">2.22GB</td>
+	<td class="inline_info  r21">2</td>
+	<td class="inline_info  r22">3</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135858"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135858-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181952" id="eng-l-title_135858" rel="imgtip[135858]" class="threadlink" imgsrc="https://images2.imgbox.com/fe/a1/MnDrW5Pv_o.jpg" dir="ltr">The Uninvited 2024 1080p AMZN WEB-DL DDP5.1 H.264-BYNDR</a>
+			</div>
+			<div class="sub_title"><span title="אורחת ללא הזמנה - תרגום בצד | The Uninvited 2024 1080p AMZN WEB-DL DDP5.1 H.264-BYNDR">אורחת ללא הזמנה - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt23732034/">IMDB: 5.2</a>]</span></div>
+		</div>
+		<div id="135858-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 09:34</div>
+		<div id="imgtip135858" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%E0%E5%F8%E7%FA+%EC%EC%E0+%E4%E6%EE%F0%E4 The Uninvited 2024 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135858&amp;d=" title="הורד טורנט: 
+The.Uninvited.2024.1080p.AMZN.WEB-DL.DDP5.1.H.264-BYNDR.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">6.01GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">6</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135857"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135857-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181951" id="eng-l-title_135857" rel="imgtip[135857]" class="threadlink" imgsrc="https://images2.imgbox.com/0e/cc/CcmrLBvf_o.jpg" dir="ltr">Real Time IL S10E06 1080p WEB h264-Kan</a>
+			</div>
+			<div class="sub_title"><span title="זמן אמת - עונה 10 פרק 6 | Real Time IL S10E06 1080p WEB h264-Kan">זמן אמת - עונה 10 פרק 6</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt11685180/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135857-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 08:57</div>
+		<div id="imgtip135857" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%E6%EE%EF+%E0%EE%FA" class="flink" style="display: block;">מצא טורנטים נוספים של <b>זמן אמת</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%E6%EE%EF+%E0%EE%FA S10E06" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135857&amp;d=" title="הורד טורנט: 
+Real.Time.IL.S10E06.1080p.WEB.h264-Kan.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">2.5GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">2</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135856"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135856-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181950" id="eng-l-title_135856" rel="imgtip[135856]" class="threadlink" imgsrc="https://images2.imgbox.com/dc/12/MOsnrDqz_o.jpg" dir="ltr">Menace Imminente S01E01 2160p WEB-DL H 265-Silver007</a>
+			</div>
+			<div class="sub_title"><span title="כוננות שיא - עונה 1 פרק 1 - תרגום מובנה | Menace Imminente S01E01 2160p WEB-DL H 265-Silver007">כוננות שיא - עונה 1 פרק 1 - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt36160259/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135856-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 08:39</div>
+		<div id="imgtip135856" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0" class="flink" style="display: block;">מצא טורנטים נוספים של <b>כוננות שיא</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0 S01E01" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135856&amp;d=" title="הורד טורנט: 
+Menace.Imminente.S01E01.2160p.WEB-DL.H.265-Silver007.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">5.56GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135855"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=10&ref_=caticon"><div class="fcat fcat-10" title="סדרות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135855-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181949" id="eng-l-title_135855" rel="imgtip[135855]" class="threadlink" imgsrc="https://images2.imgbox.com/dc/12/MOsnrDqz_o.jpg" dir="ltr">Menace Imminente S01E01 1080p WEB-DL H.264-Silver007</a>
+			</div>
+			<div class="sub_title"><span title="כוננות שיא - עונה 1 פרק 1 - תרגום מובנה | Menace Imminente S01E01 1080p WEB-DL H.264-Silver007">כוננות שיא - עונה 1 פרק 1 - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt36160259/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135855-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 08:22</div>
+		<div id="imgtip135855" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0" class="flink" style="display: block;">מצא טורנטים נוספים של <b>כוננות שיא</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EB%E5%F0%F0%E5%FA+%F9%E9%E0 S01E01" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135855&amp;d=" title="הורד טורנט: 
+Menace.Imminente.S01E01.1080p.WEB-DL.H.264-Silver007.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">2.64GB</td>
+	<td class="inline_info  r21">9</td>
+	<td class="inline_info  r22">11</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135854"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135854-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181948" id="eng-l-title_135854" rel="imgtip[135854]" class="threadlink" imgsrc="https://images2.imgbox.com/64/67/fLxP4PSC_o.jpg" dir="ltr">Ready or Not 2 Here I Come 2026 720p BluRay HebSubs x264-KNiVES</a>
+			</div>
+			<div class="sub_title"><span title="מי שעומד מאחורי 2 - תרגום מובנה | Ready or Not 2 Here I Come 2026 720p BluRay HebSubs x264-KNiVES">מי שעומד מאחורי 2 - תרגום מובנה</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt33978029/">IMDB: 6.5</a>]</span></div>
+		</div>
+		<div id="135854-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 08:23</div>
+		<div id="imgtip135854" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E9+%F9%F2%E5%EE%E3+%EE%E0%E7%E5%F8%E9+2 Ready or Not 2 Here I Come 2026 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135854&amp;d=" title="הורד טורנט: 
+Ready.or.Not.2.Here.I.Come.2026.720p.BluRay.HebSubs.x264-KNiVES.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">7.88GB</td>
+	<td class="inline_info  r21">4</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135853"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135853-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181947" id="eng-l-title_135853" rel="imgtip[135853]" class="threadlink" imgsrc="https://images2.imgbox.com/1d/db/m483iKWL_o.jpg" dir="ltr">Shakshuka COMPLETED 1080p WEB h264-Kan</a>
+			</div>
+			<div class="sub_title"><span title="שקשוקה - כל העונות | Shakshuka COMPLETED 1080p WEB h264-Kan">שקשוקה - כל העונות</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt15426926/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135853-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 08:41</div>
+		<div id="imgtip135853" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%F9%F7%F9%E5%F7%E4 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סדרה</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135853&amp;d=" title="הורד טורנט: 
+Shakshuka.COMPLETED.1080p.WEB.h264-Kan.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">89.86GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135852"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135852-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181946" id="eng-l-title_135852" rel="imgtip[135852]" class="threadlink" imgsrc="https://images2.imgbox.com/91/c5/tJR6cKJJ_o.jpg" dir="ltr">Hamilton 2020 1080p BluRay H264-RiSEHD</a>
+			</div>
+			<div class="sub_title"><span title="המילטון - תרגום בצד | Hamilton 2020 1080p BluRay H264-RiSEHD">המילטון - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt8503618/">IMDB: 8.3</a>]</span></div>
+		</div>
+		<div id="135852-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 07:13</div>
+		<div id="imgtip135852" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%EE%E9%EC%E8%E5%EF Hamilton 2020 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135852&amp;d=" title="הורד טורנט: 
+Hamilton.2020.1080p.BluRay.H264-RiSEHD.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">39.39GB</td>
+	<td class="inline_info  r21">4</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135851"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135851-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181945" id="eng-l-title_135851" rel="imgtip[135851]" class="threadlink" imgsrc="https://images2.imgbox.com/67/46/ZwT6qFn5_o.jpg" dir="ltr">Big Brother IL S17E56 1080p WEB-DL h264-BarneyGuy</a>
+			</div>
+			<div class="sub_title"><span title="האח הגדול - עונה 17 פרק 56 | Big Brother IL S17E56 1080p WEB-DL h264-BarneyGuy">האח הגדול - עונה 17 פרק 56</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt2331485/">IMDB: 5.3</a>]</span></div>
+		</div>
+		<div id="135851-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 07:53</div>
+		<div id="imgtip135851" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%E0%E7+%E4%E2%E3%E5%EC" class="flink" style="display: block;">מצא טורנטים נוספים של <b>האח הגדול</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%E0%E7+%E4%E2%E3%E5%EC S17E56" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135851&amp;d=" title="הורד טורנט: 
+Big.Brother.IL.S17E56.1080p.WEB-DL.h264-BarneyGuy.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">2.63GB</td>
+	<td class="inline_info  r21">15</td>
+	<td class="inline_info  r22">13</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135850"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135850-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181944" id="eng-l-title_135850" rel="imgtip[135850]" class="threadlink" imgsrc="https://images2.imgbox.com/67/46/ZwT6qFn5_o.jpg" dir="ltr">Big Brother IL S17E56 720p WEB-DL h264-BarneyGuy</a>
+			</div>
+			<div class="sub_title"><span title="האח הגדול - עונה 17 פרק 56 | Big Brother IL S17E56 720p WEB-DL h264-BarneyGuy">האח הגדול - עונה 17 פרק 56</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt2331485/">IMDB: 5.3</a>]</span></div>
+		</div>
+		<div id="135850-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 11/06/26 07:28</div>
+		<div id="imgtip135850" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%E0%E7+%E4%E2%E3%E5%EC" class="flink" style="display: block;">מצא טורנטים נוספים של <b>האח הגדול</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%E0%E7+%E4%E2%E3%E5%EC S17E56" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135850&amp;d=" title="הורד טורנט: 
+Big.Brother.IL.S17E56.720p.WEB-DL.h264-BarneyGuy.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">1.36GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">3</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135849"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135849-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181942" id="eng-l-title_135849" rel="imgtip[135849]" class="threadlink" imgsrc="https://images2.imgbox.com/91/c5/tJR6cKJJ_o.jpg" dir="ltr">Hamilton 2020 1080p BluRay x264-KNiVES</a>
+			</div>
+			<div class="sub_title"><span title="המילטון - תרגום בצד | Hamilton 2020 1080p BluRay x264-KNiVES">המילטון - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt8503618/">IMDB: 8.3</a>]</span></div>
+		</div>
+		<div id="135849-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 21:45</div>
+		<div id="imgtip135849" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%EE%E9%EC%E8%E5%EF Hamilton 2020 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135849&amp;d=" title="הורד טורנט: 
+Hamilton.2020.1080p.BluRay.x264-KNiVES.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">24.38GB</td>
+	<td class="inline_info  r21">8</td>
+	<td class="inline_info  r22">7</td>
+	<td class="inline_info  r23">1</td>
+</tr><tr class="box_torrent" id="torrent_row_135848"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135848-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181941" id="eng-l-title_135848" rel="imgtip[135848]" class="threadlink" imgsrc="https://images2.imgbox.com/91/c5/tJR6cKJJ_o.jpg" dir="ltr">Hamilton 2020 720p BluRay x264-KNiVES</a>
+			</div>
+			<div class="sub_title"><span title="המילטון - תרגום בצד | Hamilton 2020 720p BluRay x264-KNiVES">המילטון - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt8503618/">IMDB: 8.3</a>]</span></div>
+		</div>
+		<div id="135848-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 21:28</div>
+		<div id="imgtip135848" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%E4%EE%E9%EC%E8%E5%EF Hamilton 2020 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135848&amp;d=" title="הורד טורנט: 
+Hamilton.2020.720p.BluRay.x264-KNiVES.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">10.8GB</td>
+	<td class="inline_info  r21">4</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135847"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135847-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181940" id="eng-l-title_135847" rel="imgtip[135847]" class="threadlink" imgsrc="https://images2.imgbox.com/64/67/fLxP4PSC_o.jpg" dir="ltr">Ready or Not 2 Here I Come 2026 720p BluRay x264-KNiVES</a>
+			</div>
+			<div class="sub_title"><span title="מי שעומד מאחורי 2 - תרגום בצד | Ready or Not 2 Here I Come 2026 720p BluRay x264-KNiVES">מי שעומד מאחורי 2 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt33978029/">IMDB: 6.6</a>]</span></div>
+		</div>
+		<div id="135847-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 20:12</div>
+		<div id="imgtip135847" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" style="height: 19px"> </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E9+%F9%F2%E5%EE%E3+%EE%E0%E7%E5%F8%E9+2 Ready or Not 2 Here I Come 2026 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135847&amp;d=" title="הורד טורנט: 
+Ready.or.Not.2.Here.I.Come.2026.720p.BluRay.x264-KNiVES.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">7.88GB</td>
+	<td class="inline_info  r21">4</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135846"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=9&ref_=caticon"><div class="fcat fcat-9" title="סרטים HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135846-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181939" id="eng-l-title_135846" rel="imgtip[135846]" class="threadlink" imgsrc="https://images2.imgbox.com/64/67/fLxP4PSC_o.jpg" dir="ltr">Ready or Not 2 Here I Come 2026 1080p BluRay x264-KNiVES</a>
+			</div>
+			<div class="sub_title"><span title="מי שעומד מאחורי 2 - תרגום בצד | Ready or Not 2 Here I Come 2026 1080p BluRay x264-KNiVES">מי שעומד מאחורי 2 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt33978029/">IMDB: 6.6</a>]</span></div>
+		</div>
+		<div id="135846-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 20:29</div>
+		<div id="imgtip135846" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%E9+%F9%F2%E5%EE%E3+%EE%E0%E7%E5%F8%E9+2 Ready or Not 2 Here I Come 2026 " class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>סרט</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135846&amp;d=" title="הורד טורנט: 
+Ready.or.Not.2.Here.I.Come.2026.1080p.BluRay.x264-KNiVES.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">17.22GB</td>
+	<td class="inline_info  r21">8</td>
+	<td class="inline_info  r22">10</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135845"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=11&ref_=caticon"><div class="fcat fcat-11" title="משחקים PC"></div></a></td>
+	<td class="hid_td ">
+		<div id="135845-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181938" id="eng-l-title_135845" rel="imgtip[135845]" class="threadlink" imgsrc="https://images2.imgbox.com/91/56/groJitow_o.jpg" dir="ltr">Vampire The Masquerade Bloodlines 2 The Flower and the Flame-RUNE</a>
+			</div>
+			<div class="sub_title"><span title="Vampire The Masquerade Bloodlines 2 The Flower and the Flame-RUNE"></span></div>
+		</div>
+		<div id="135845-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 19:12</div>
+		<div id="imgtip135845" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135845&amp;d=" title="הורד טורנט: 
+Vampire.The.Masquerade.Bloodlines.2.The.Flower.and.the.Flame-RUNE.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">20.35GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">3</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135844"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=97&ref_=caticon"><div class="fcat fcat-97" title="סרטים 4K"></div></a></td>
+	<td class="hid_td ">
+		<div id="135844-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181937" id="eng-l-title_135844" rel="imgtip[135844]" class="threadlink" imgsrc="https://images2.imgbox.com/79/f6/I9mkLZt7_o.jpg" dir="ltr">Scream 4 2011 2160p UHD BluRay x265-B0MBARDiERS</a>
+			</div>
+			<div class="sub_title"><span title="צעקה 4 - תרגום בצד | Scream 4 2011 2160p UHD BluRay x265-B0MBARDiERS">צעקה 4 - תרגום בצד</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt1262416/">IMDB: 6.2</a>]</span></div>
+		</div>
+		<div id="135844-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 19:00</div>
+		<div id="imgtip135844" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] </div>
+			<div id="attachment_dl">
+				
+				<a href="/attachment.php?attachmentid=135844&amp;d=" title="הורד טורנט: 
+Scream.4.2011.2160p.UHD.BluRay.x265-B0MBARDiERS.torrent">
+					<div class="dlimg dlimg-new_dl"></div>
+				</a>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">30.05GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">4</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135843"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135843-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181936" id="eng-l-title_135843" rel="imgtip[135843]" class="threadlink" imgsrc="https://images2.imgbox.com/1d/db/m483iKWL_o.jpg" dir="ltr">Shakshuka S07 1080p WEB h264-Kan</a>
+			</div>
+			<div class="sub_title"><span title="שקשוקה - עונה 7 | Shakshuka S07 1080p WEB h264-Kan">שקשוקה - עונה 7</span><span class="imdb-inline">[<a class="threadlink" title="עבור אל IMDB" target="_blank" href="http://www.imdb.com/title/tt15426926/">IMDB: N/A</a>]</span></div>
+		</div>
+		<div id="135843-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 19:20</div>
+		<div id="imgtip135843" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?freeleech=1&ref_=label" title="הצג טורנטים בפריליץ'">FL</a>] [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%F9%F7%F9%E5%F7%E4" class="flink" style="display: block;">מצא טורנטים נוספים של <b>שקשוקה</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%F9%F7%F9%E5%F7%E4 S07" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135843&amp;d=" title="הורד טורנט: 
+Shakshuka.S07.1080p.WEB.h264-Kan.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">18.8GB</td>
+	<td class="inline_info  r21">5</td>
+	<td class="inline_info  r22">5</td>
+	<td class="inline_info  ">0</td>
+</tr><tr class="box_torrent" id="torrent_row_135842"  >
+	<td class="" style="width: 1px;"><a href="/browse.php?cat=63&ref_=caticon"><div class="fcat fcat-63" title="סדרות ישראליות HD"></div></a></td>
+	<td class="hid_td ">
+		<div id="135842-box-title" class="box_title2">
+			
+			<div class="main_title">
+				
+				<a href="/showthread.php?t=181935" id="eng-l-title_135842" rel="imgtip[135842]" class="threadlink" imgsrc="https://images2.imgbox.com/b1/df/dE8OuhvS_o.jpg" dir="ltr">Queen Of The Neighborhood IL S01E04 DOCU 1080p WEB h264-Kan</a>
+			</div>
+			<div class="sub_title"><span title="מלכת השכונה - עונה 1 פרק 4 | Queen Of The Neighborhood IL S01E04 DOCU 1080p WEB h264-Kan">מלכת השכונה - עונה 1 פרק 4</span></div>
+		</div>
+		<div id="135842-up-info" class="up_info2">הועלה ע"י  <strong>Anonymous</strong> בתאריך: 10/06/26 15:19</div>
+		<div id="imgtip135842" class="ddimgtooltip"><img src="/images/browse/ttloader.gif" broder="3" width="185" height="268"></div>
+	</td>
+	<td class="" style="position:relative;">
+		<div>
+			<div class="t_label" > [<a class="threadlink" href="?il=1&ref_=label" title="הצג טורנטים ישראליים">IL</a>] </div>
+			<div id="attachment_dl">
+				
+				<div class="linktt" style=" float: right; padding: 7px 0px 0px 15px; "><img src="/images/browse/qsicon.png" style="width: 16px; height: 16px;"></div>
+				<div class="tooltipa">
+<table class="table_info ssul_con3" style="width: 270px;">
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%EC%EB%FA+%E4%F9%EB%E5%F0%E4" class="flink" style="display: block;">מצא טורנטים נוספים של <b>מלכת השכונה</b></a></td></tr>
+	<tr><td><a href="/browse.php?ref_=qs&query=%EE%EC%EB%FA+%E4%F9%EB%E5%F0%E4 S01E04" class="flink" style="display: block;">מצא גרסאות נוספות של ה<b>פרק</b></a></td></tr>
+</table>
+</div>
+				<div style="float: right;">
+					<a href="/attachment.php?attachmentid=135842&amp;d=" title="הורד טורנט: 
+Queen.Of.The.Neighborhood.IL.S01E04.DOCU.1080p.WEB.h264-Kan.torrent">
+						<div class="dlimg dlimg-new_dl"></div>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</td>
+	<td class="inline_info " style="width: 40px;">1.73GB</td>
+	<td class="inline_info  r21">3</td>
+	<td class="inline_info  r22">2</td>
+	<td class="inline_info  ">0</td>
+</tr>
+					
+                </table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<div class="pagenav" align="left">
+<table class="tborder" cellpadding="3" cellspacing="1" border="0">
+<tr>
+	<td class="vbmenu_control" style="font-weight:normal">עמוד 1 מתוך 2485</td>
+	
+	
+		<td class="alt2"><span class="smallfont" title="מציג תוצאות 1 עד 50 מתוך 124,224"><strong>1</strong></span></td>
+ <td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=2" title="מציג תוצאות 51 עד 100 מתוך 124,224">2</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=3" title="מציג תוצאות 101 עד 150 מתוך 124,224">3</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=11" title="מציג תוצאות 501 עד 550 מתוך 124,224"><!--+10-->11</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=51" title="מציג תוצאות 2,501 עד 2,550 מתוך 124,224"><!--+50-->51</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=101" title="מציג תוצאות 5,001 עד 5,050 מתוך 124,224"><!--+100-->101</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=501" title="מציג תוצאות 25,001 עד 25,050 מתוך 124,224"><!--+500-->501</a></td><td class="alt1"><a class="smallfont" href="browse.php?ref_=pn&amp;page=1001" title="מציג תוצאות 50,001 עד 50,050 מתוך 124,224"><!--+1000-->1001</a></td>
+	<td class="alt1"><a rel="next" class="smallfont" href="browse.php?ref_=pn&amp;page=2" title="הדף הבא - תוצאות 51 עד100 מתוך 124,224">&gt;</a></td>
+	<td class="alt1" nowrap="nowrap"><a class="smallfont" href="browse.php?ref_=pn&amp;page=2485" title="עמוד אחרון - תוצאות 124,201 עד124,224 מתוך 124,224">אחרון <strong>&raquo;</strong></a></td>
+	<td class="vbmenu_control" title="browse.php?ref_=pn"><a name="PageNav"></a></td>
+</tr>
+</table>
+</div>
+</div>
+
+
+<script src="js/jquery.plugin.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.classyedit.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/spectrum.min.js"></script>
+
+<script>
+$(document).ready(function()   {
+    $('a[href=#top]').click(function(){
+        $('html,  body').animate({scrollTop:0}, 'slow');
+        return false;
+    });
+});
+</script>
+
+
+
+		</div>
+	</div>
+</div>
+
+<!-- / close content container -->
+<!-- /content area table -->
+
+<form action="index.php" method="get" style="clear:right">
+
+<table cellpadding="6" cellspacing="0" border="0" width="100%" class="page" align="center">
+<tr>
+	
+	
+        <td class="tfoot" align="" width="45%">
+        <div class="smallfont">
+			<strong>
+	                   <a href="change_log.php" onclick="" class="">Fuzer Change Log</a>
+                   </strong>
+		</div>
+        </td>
+	<td class="tfoot" align="left" width="7%">
+		<div class="smallfont">
+			<strong>
+			
+		
+
+				<a href="#top" onclick="" class="">לראש העמוד</a>
+<!-- self.scrollTo(0, 0); return false; bottom -->
+			</strong>
+		</div>
+	</td>
+</tr>
+</table>
+</div>
+
+</form>
+
+
+
+<!-- auto DST correction code -->
+<form action="profile.php?do=dst" method="post" name="dstform">
+	<input type="hidden" name="s" value="" />
+	<input type="hidden" name="securitytoken" value="1781268509-34074f5ac2002b92d75f362f58abeff75df95b24" />
+	<input type="hidden" name="do" value="dst" />
+</form>
+<script type="text/javascript">
+<!--
+	var tzOffset = 2 + 1;
+	var utcOffset = new Date().getTimezoneOffset() / 60;
+	if (Math.abs(tzOffset + utcOffset) == 1)
+	{	// Dst offset is 1 so its changed
+		document.forms.dstform.submit();
+	}
+//-->
+</script>
+<!-- / auto DST correction code -->
+
+
+<script type="text/javascript">
+<!--
+	// Main vBulletin Javascript Initialization
+	vBulletin_init();
+//-->
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+	</td>
+</tr>
+</table>
+</body>
+</html>

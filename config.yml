@@ -1,20 +1,25 @@
-# TorrentLeech Watchlist Downloader — App Config
+# Watchlist Downloader — App Config
 
-# --- Site ---
-base_url: "https://www.torrentleech.org"
+# --- Sites ---
+sites:
+  torrentleech:
+    enabled: true
+    type: torrentleech
+    base_url: "https://www.torrentleech.org"
+    # time_window: how far back to look (e.g. "-1 day", "-3 day", "-7 day")
+    time_window: "-1 day"
+    # orderby options: "completed" (most downloaded) | "added" (newest first) | "seeders" | "size" | "name"
+    orderby: "completed"
+    # order options: "desc" | "asc"
+    order: "desc"
 
-# --- API Browse Parameters ---
-# time_window: how far back to look (e.g. "-1 day", "-3 day", "-7 day")
-time_window: "-1 day"
-
-# orderby options: "completed" (most downloaded) | "added" (newest first) | "seeders" | "size" | "name"
-orderby: "completed"
-
-# order options: "desc" | "asc"
-order: "desc"
+  fuzer:
+    enabled: true
+    type: fuzer
+    base_url: "https://www.fuzer.xyz"
 
 # --- Filtering ---
-# Minimum seeders required (0 = no filter)
+# Minimum seeders required for TorrentLeech (0 = no filter). Fuzer ignores this.
 min_seeders: 1
 
 # --- Schedule ---
