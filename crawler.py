@@ -196,8 +196,10 @@ class _InlineListDumper(yaml.Dumper):
 
 
 def _inline_representer(dumper, data):
-    # Keep flat lists (strings/numbers) on one line; nested lists stay block
-    if all(isinstance(i, (str, int, float, bool)) for i in data):
+    # An entry list always starts with a string (title or keyword).
+    # A container list (e.g. the watchlist itself) starts with a list.
+    # Only render as flow-style when it looks like an entry.
+    if data and isinstance(data[0], (str, int, float, bool)):
         return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=True)
     return dumper.represent_sequence("tag:yaml.org,2002:seq", data, flow_style=False)
 
@@ -206,9 +208,48 @@ _InlineListDumper.add_representer(list, _inline_representer)
 
 
 def _save_watchlist(data: dict):
+    """Full rewrite — used only when an entire entry is removed."""
     with open(WATCH_YML, "w", encoding="utf-8") as f:
         yaml.dump(data, f, Dumper=_InlineListDumper, default_flow_style=False,
-                  allow_unicode=True, sort_keys=False)
+                  allow_unicode=True, sort_keys=False, width=9999)
+
+
+def _surgical_remove_episode(title: str, ep_val) -> bool:
+    """
+    Remove a single episode number from a compact-format line in watchlist.yml,
+    preserving all whitespace and alignment.
+    Returns True if the entry line itself was also removed (list became empty).
+    """
+    text  = WATCH_YML.read_text(encoding="utf-8")
+    lines = text.splitlines(keepends=True)
+    result = []
+    removed_entry = False
+
+    for line in lines:
+        # Only touch lines that contain this title inside a flow sequence
+        if not (line.lstrip().startswith("- [") and title in line):
+            result.append(line)
+            continue
+
+        ep_str = str(ep_val)
+        # Remove ", N" (not the first element)
+        new_line = re.sub(r",\s*" + re.escape(ep_str) + r"(?=\s*[,\]])", "", line)
+        if new_line == line:
+            # Remove "N, " or "N," (first element)
+            new_line = re.sub(r"\b" + re.escape(ep_str) + r"\s*,\s*", "", line)
+        if new_line == line:
+            # Only element — "N"
+            new_line = re.sub(r"\b" + re.escape(ep_str) + r"\b", "", line)
+
+        # If the inner list is now empty, drop the whole line
+        if re.search(r"\[\s*\]", new_line):
+            removed_entry = True
+            continue
+
+        result.append(new_line)
+
+    WATCH_YML.write_text("".join(result), encoding="utf-8")
+    return removed_entry
 
 # ---------------------------------------------------------------------------
 # Torrent API
@@ -280,8 +321,13 @@ def _normalise(text: str) -> str:
 
 def match_torrent(torrent: dict, watchlist_data: dict, min_seeders: int) -> dict | None:
     """
-    Returns a match dict with keys: category, entry, download_dir, torrent
-    or None if no match.
+    Supports three entry formats:
+      - [title, episode]                    e.g. [Show, S02E10]
+      - [title, [ep1, ep2, ...]]            e.g. [Show, [S03E01, S03E02]]
+      - [title, season, [E01, E02, ...]]    e.g. [Show, S03, [E01, E02, E03]]  (compact)
+
+    Returns a match dict with keys: category, entry, matched_episode,
+    matched_ep_short (for compact format), download_dir, torrent.
     """
     seeders = torrent.get("seeders", 0)
     if seeders < min_seeders:
@@ -292,21 +338,66 @@ def match_torrent(torrent: dict, watchlist_data: dict, min_seeders: int) -> dict
     for cat_name, cat in watchlist_data.get("categories", {}).items():
         default_kws  = [str(k).lower() for k in cat.get("default_keywords", [])]
         download_dir = cat.get("download_dir", "")
+
         for entry in cat.get("watchlist", []):
-            entry = list(entry)  # may be stored as list
+            entry = list(entry)
             title = _normalise(str(entry[0]))
-            extra = [_normalise(str(k)) for k in entry[1:]]
-            keywords = extra + default_kws
 
             if title not in name:
                 continue
-            if all(kw in name for kw in keywords):
-                return {
-                    "category": cat_name,
-                    "entry": entry,
-                    "download_dir": download_dir,
-                    "torrent": torrent,
-                }
+
+            # --- Compact format: [title, S03, [E01, E02, ...]] ---
+            if (len(entry) >= 3
+                    and isinstance(entry[1], str)
+                    and re.match(r'^[Ss]\d+[Ee]$', entry[1])
+                    and isinstance(entry[2], list)):
+                season    = str(entry[1])           # e.g. "S03"
+                extra_kws = [_normalise(str(k)) for k in entry[3:]]
+                for ep_val in entry[2]:
+                    ep_short = str(ep_val).zfill(2)  # zero-pad for matching only
+                    full_ep  = season + ep_short      # "S03E01"
+                    ep_kws   = [_normalise(full_ep)] + extra_kws + default_kws
+                    if all(kw in name for kw in ep_kws):
+                        return {
+                            "category":         cat_name,
+                            "entry":            entry,
+                            "matched_episode":  full_ep,
+                            "matched_ep_short": ep_val,  # original value (int) for removal
+                            "download_dir":     download_dir,
+                            "torrent":          torrent,
+                        }
+
+            # --- Full episode list: [title, [S03E01, S03E02, ...]] ---
+            elif len(entry) > 1 and isinstance(entry[1], list):
+                episodes  = [str(e) for e in entry[1]]
+                extra_kws = [_normalise(str(k)) for k in entry[2:]]
+                for episode in episodes:
+                    ep_kws = [_normalise(episode)] + extra_kws + default_kws
+                    if all(kw in name for kw in ep_kws):
+                        return {
+                            "category":        cat_name,
+                            "entry":           entry,
+                            "matched_episode": episode,
+                            "matched_ep_short": None,
+                            "download_dir":    download_dir,
+                            "torrent":         torrent,
+                        }
+
+            # --- Single episode or title-only: [title, episode] or [title] ---
+            else:
+                episodes  = [str(entry[1])] if len(entry) > 1 else [None]
+                extra_kws = [_normalise(str(k)) for k in entry[2:]]
+                for episode in episodes:
+                    ep_kws = ([_normalise(episode)] if episode else []) + extra_kws + default_kws
+                    if all(kw in name for kw in ep_kws):
+                        return {
+                            "category":        cat_name,
+                            "entry":           entry,
+                            "matched_episode": episode,
+                            "matched_ep_short": None,
+                            "download_dir":    download_dir,
+                            "torrent":         torrent,
+                        }
     return None
 
 # ---------------------------------------------------------------------------
@@ -346,13 +437,39 @@ def run_once(sess: requests.Session, cfg: dict, app_log, dl_log) -> requests.Ses
             continue
 
         # Log to downloaded.log
-        entry_str = str(match["entry"])
-        dl_log.info("[%s] %s  →  entry removed: %s", match["category"], name, entry_str)
+        matched_ep = match["matched_episode"]
+        dl_log.info("[%s] %s", match["category"], name)
 
         # Remove from watchlist
-        watchlist_data["categories"][match["category"]]["watchlist"].remove(match["entry"])
-        _save_watchlist(watchlist_data)
-        app_log.info("Removed '%s' from watchlist.yml.", entry_str)
+        cat_watchlist = watchlist_data["categories"][match["category"]]["watchlist"]
+        # Find the original entry object (match["entry"] is a copy)
+        original  = next(e for e in cat_watchlist if list(e)[0] == match["entry"][0])
+        matched_ep       = match["matched_episode"]
+        matched_ep_short = match["matched_ep_short"]
+        title            = original[0]
+
+        if matched_ep_short and isinstance(original[2], list):
+            # Compact format [title, SxxE, [1, 2, ...]]: surgical text edit
+            entry_removed = _surgical_remove_episode(title, matched_ep_short)
+            if entry_removed:
+                app_log.info("All episodes done — removed '%s' from watchlist.yml.", title)
+            else:
+                app_log.info("Removed %s from '%s' in watchlist.yml.", matched_ep, title)
+
+        elif matched_ep and isinstance(original[1], list):
+            # Full list format [title, [S03E01, ...]]: remove full episode code
+            original[1].remove(matched_ep)
+            app_log.info("Removed %s from '%s' in watchlist.yml.", matched_ep, title)
+            if not original[1]:
+                cat_watchlist.remove(original)
+                app_log.info("All episodes done — removed '%s' from watchlist.yml.", title)
+            _save_watchlist(watchlist_data)
+
+        else:
+            # Single episode or title-only: remove whole entry
+            cat_watchlist.remove(original)
+            app_log.info("Removed '%s' from watchlist.yml.", match["entry"])
+            _save_watchlist(watchlist_data)
 
     return sess
 

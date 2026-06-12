@@ -3,27 +3,30 @@ categories:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tv_shows
     default_keywords: [1080p]
     watchlist:
-    - [dummy, S99E99]
-    - [Your Friends & Neighbors, S02E10]
-    - [Euphoria, S03E08]
-    - [Euphoria, S03E09]
-    - [Euphoria, S03E10]
-    - [House of the Dragon, S03E01]
-    - [House of the Dragon, S03E02]
-    - [House of the Dragon, S03E03]
-    - [House of the Dragon, S03E04]
-    - [House of the Dragon, S03E05]
-    - [House of the Dragon, S03E06]
-    - [House of the Dragon, S03E07]
-    - [House of the Dragon, S03E08]
-
-    
+    - [3 Body Problem, S02E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [3 Body Problem, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Black Mirror, S08E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Dutton Ranch, S01E, [7, 8, 9, 10]]
+    - [Euphoria, S03E, [9, 10]]
+    - [Euphoria, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Fallout, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Formula 1 Drive to Survive, S09E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [House of the Dragon, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [House of the Dragon, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Rings of Power, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Rings of Power, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Silo, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Silo, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [The Diplomat, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [The Diplomat, S05E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - [Your Friends & Neighbors, S02E, [11, 12]]
+    - [Your Friends & Neighbors, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
   movies:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/movies
     default_keywords: [2160p]
     watchlist:
     - [dummy-movie]
-    - [Iron Lung]
+    - [Obsession]
   kids:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
     default_keywords: [1080p]
