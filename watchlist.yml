@@ -1,38 +1,31 @@
 categories:
   tv:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tv_shows
-    default_keywords: [1080p]
+    default_res: [1080]
     watchlist:
-    - [3 Body Problem, S02E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [3 Body Problem, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Black Mirror, S08E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Cape Fear, S01E, [4, 5, 6, 7, 8, 9, 10]]
-    - [Dutton Ranch, S01E, [7, 8, 9, 10]]
-    - [Euphoria, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Fallout, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Formula 1 Drive to Survive, S09E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [House of the Dragon, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [House of the Dragon, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Rings of Power, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Rings of Power, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Married at First Sight, S08E, [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25], []]
-    - [Silo, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Silo, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Star City, S01E, [5, 6, 7, 8, 9, 10, 11, 12, 13]]
-    - [Star City, S02E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]]
-    - [The Diplomat, S04E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [The Diplomat, S05E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
-    - [Your Friends & Neighbors, S02E, [11, 12]]
-    - [Your Friends & Neighbors, S03E, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]
+    - {name: "3 Body Problem",             next_episode: "S02E01"}
+    - {name: "Black Mirror",               next_episode: "S08E01"}
+    - {name: "Cape Fear",                  next_episode: "S01E04"}
+    - {name: "Dutton Ranch",               next_episode: "S01E07"}
+    - {name: "Euphoria",                   next_episode: "S04E01"}
+    - {name: "Fallout",                    next_episode: "S03E01"}
+    - {name: "Formula 1 Drive to Survive", next_episode: "S09E01"}
+    - {name: "House of the Dragon",        next_episode: "S03E01"}
+    - {name: "Married at First Sight",     next_episode: "S08E12",  res: [720, 1080]}
+    - {name: "Rings of Power",             next_episode: "S03E01"}
+    - {name: "Silo",                       next_episode: "S03E01"}
+    - {name: "Star City",                  next_episode: "S01E05"}
+    - {name: "The Diplomat",               next_episode: "S04E01"}
+    - {name: "Your Friends & Neighbors",   next_episode: "S02E11"}
+
   movies:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/movies
-    default_keywords: [2160p]
+    default_res: [2160]
     watchlist:
-    - [dummy-movie]
-    - [Obsession]
-    - [The Dog Stars]
+    - {name: "Obsession"}
+    - {name: "The Dog Stars"}
+
   kids:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
-    default_keywords: [1080p]
-    watchlist:
-    - [dummy-movie]
+    default_res: [1080]
+    watchlist: []
