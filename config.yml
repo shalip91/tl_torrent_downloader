@@ -43,3 +43,9 @@ http:
 
 # --- Logging ---
 log_level: "INFO"   # DEBUG | INFO | WARNING | ERROR
+
+# --- Recommendations (recommend.py) ---
+recommend:
+  next_months: 6                   # how many months ahead to look for upcoming releases
+  minimum_rating_score_movie: 6.5  # skip movies rated below this (0 = no filter; unrated upcoming content always shown)
+  minimum_rating_score_series: 7.0 # skip TV series rated below this

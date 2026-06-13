@@ -1,3 +1,6 @@
+# Secret keys
+secrets.yml
+
 # Ignore all contents of state/ and logs/ but keep the folders
 state/*
 !state/.gitkeep
