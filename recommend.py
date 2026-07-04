@@ -26,7 +26,7 @@ import yaml
 # ---------------------------------------------------------------------------
 ROOT        = Path(__file__).parent
 WATCH_YML   = ROOT / "watchlist.yml"
-SECRETS_YML = ROOT / "secrets.yml"
+SECRETS_YML = ROOT / "state" / "secrets.yml"
 OUTPUT_HTML = ROOT / "recommend.html"
 TMDB_BASE   = "https://api.themoviedb.org/3"
 IMG_BASE    = "https://image.tmdb.org/t/p/w300"
@@ -35,8 +35,9 @@ PLACEHOLDER = "https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster"
 MAX_RESULTS = 40   # cards per section
 
 # Genre IDs to always exclude from results and from the profile
-EXCLUDED_GENRES = {16, 10762, 10751, 10764, 10767}  # 16=Animation, 10762=Kids, 10751=Family, 10764=Reality, 10767=Talk
+EXCLUDED_GENRES = {16, 10762, 10751, 10764, 10767, 27}  # 16=Animation, 10762=Kids, 10751=Family, 10764=Reality, 10767=Talk, 27=Horror
 PROFILE_JSON     = ROOT / "state" / "genre_profile.json"
+WL_IDS_JSON      = ROOT / "state" / "watchlist_ids.json"
 
 CAT_TYPE = {
     "tv":     "tv",
@@ -70,6 +71,7 @@ def load_recommend_cfg() -> dict:
         "next_months":                  rec.get("next_months", 3),
         "minimum_rating_score_movie":   rec.get("minimum_rating_score_movie", 0),
         "minimum_rating_score_series":  rec.get("minimum_rating_score_series", 0),
+        "minimum_popularity_unrated":   rec.get("minimum_popularity_unrated", 0),
     }
 
 # ---------------------------------------------------------------------------
@@ -165,17 +167,31 @@ def normalise(item: dict) -> dict:
     mt         = item.get("media_type", "movie")
     title      = item.get("title") or item.get("name") or "?"
     raw_date   = item.get("release_date") or item.get("first_air_date") or ""
+    today_str  = datetime.now().strftime("%Y-%m-%d")
+
+    # For TV, TMDB discover always returns the show's ORIGINAL first_air_date, not the
+    # upcoming season date. If that date is in the past, the show is a returning season —
+    # label it as such rather than showing a misleading old premiere date.
+    if mt == "tv" and raw_date and raw_date < today_str:
+        date_label  = "Returning season"
+        is_returning = True
+    else:
+        date_label  = fmt_date(raw_date) if raw_date else "TBA"
+        is_returning = False
+
     return {
-        "id":         item.get("id"),
-        "type":       mt,
-        "title":      title,
-        "raw_date":   raw_date,
-        "date_label": fmt_date(raw_date) if raw_date else "TBA",
-        "rating":     round(item.get("vote_average", 0), 1),
-        "votes":      item.get("vote_count", 0),
-        "overview":   item.get("overview", ""),
-        "poster":     IMG_BASE + item["poster_path"] if item.get("poster_path") else PLACEHOLDER,
-        "url":        f"https://www.themoviedb.org/{mt}/{item.get('id')}",
+        "id":           item.get("id"),
+        "type":         mt,
+        "title":        title,
+        "raw_date":     raw_date,
+        "date_label":   date_label,
+        "is_returning": is_returning,
+        "rating":       round(item.get("vote_average", 0), 1),
+        "votes":        item.get("vote_count", 0),
+        "popularity":   round(item.get("popularity", 0), 1),
+        "overview":     item.get("overview", ""),
+        "poster":       IMG_BASE + item["poster_path"] if item.get("poster_path") else PLACEHOLDER,
+        "url":          f"https://www.themoviedb.org/{mt}/{item.get('id')}",
     }
 
 # ---------------------------------------------------------------------------
@@ -275,9 +291,46 @@ def collect_genres(watchlist_data: dict, api_key: str,
             set(profile["wl_ids"]))
 
 
+def get_watchlist_ids(watchlist_data: dict, api_key: str) -> set[int]:
+    """
+    Look up TMDB IDs for every entry in the current watchlist and cache by mtime.
+    Used to ensure watchlist shows never appear as recommendations.
+    """
+    wl_mtime = WATCH_YML.stat().st_mtime
+
+    if WL_IDS_JSON.exists():
+        cached = json.loads(WL_IDS_JSON.read_text(encoding="utf-8"))
+        if cached.get("watchlist_mtime") == wl_mtime:
+            return set(cached.get("ids", []))
+
+    print("  Resolving watchlist TMDB IDs for exclusion…")
+    ids: set[int] = set()
+    for cat_name, cat in watchlist_data.get("categories", {}).items():
+        mt = CAT_TYPE.get(cat_name, "tv")
+        for entry in cat.get("watchlist", []):
+            if not isinstance(entry, dict):
+                continue
+            title = entry.get("name", "")
+            if not title:
+                continue
+            result = search_tmdb(title, mt, api_key)
+            if result:
+                ids.add(result["id"])
+            time.sleep(0.25)
+
+    WL_IDS_JSON.parent.mkdir(exist_ok=True)
+    WL_IDS_JSON.write_text(json.dumps({
+        "watchlist_mtime": wl_mtime,
+        "ids": list(ids),
+        "built_at": datetime.now().isoformat(timespec="seconds"),
+    }, indent=2), encoding="utf-8")
+    return ids
+
+
 def build_sections(api_key: str, watchlist_data: dict,
                    upcoming_months: int, min_rating_movie: float,
-                   min_rating_series: float, force_refresh: bool = False) -> list:
+                   min_rating_series: float, min_popularity_unrated: float = 0,
+                   force_refresh: bool = False) -> list:
     """Returns a deduplicated, rating-filtered list of normalised upcoming release dicts."""
     tv_genres, movie_genres, wl_ids = collect_genres(watchlist_data, api_key, force_refresh)
 
@@ -293,23 +346,38 @@ def build_sections(api_key: str, watchlist_data: dict,
         upcoming_raw.extend(results)
         time.sleep(0.3)
 
-    seen: set[int] = set(wl_ids)
-    out  = []
+    seen: set[int] = set()  # no exclusions — deduplicate only
+    tv_out, movie_out = [], []
     for item in upcoming_raw:
         nid = item.get("id")
         if not nid or nid in seen:
             continue
         seen.add(nid)
         n = normalise(item)
-        # Apply rating filter only when votes exist (unrated upcoming content always passes)
         if n["votes"] > 0:
+            # Already has ratings -- filter by the rating threshold as before.
             threshold = min_rating_movie if n["type"] == "movie" else min_rating_series
             if threshold > 0 and n["rating"] < threshold:
                 continue
-        out.append(n)
+        else:
+            # No votes yet (typical for unreleased titles) -- can't rating-filter
+            # these, so fall back to TMDB's "popularity" (buzz/search interest)
+            # as a floor instead of letting every unrated match through.
+            if min_popularity_unrated > 0 and n["popularity"] < min_popularity_unrated:
+                continue
+        if n["type"] == "movie":
+            movie_out.append(n)
+        else:
+            tv_out.append(n)
 
-    out.sort(key=lambda x: (-x["rating"], -x["votes"]))
-    return out[:MAX_RESULTS]
+    # Sort each bucket independently so upcoming movies (0 votes/rating) aren't
+    # pushed out by high-rated TV shows when the combined list is capped.
+    tv_out.sort(key=lambda x: (-x["rating"], -x["votes"]))
+    movie_out.sort(key=lambda x: (-x["rating"], -x["votes"]))
+
+    max_tv    = MAX_RESULTS * 2 // 3   # up to ~27 TV slots
+    max_movie = MAX_RESULTS - max_tv   # up to ~13 movie slots
+    return (tv_out[:max_tv] + movie_out[:max_movie])
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -369,6 +437,7 @@ HTML_TMPL = """<!DOCTYPE html>
                  text-overflow: ellipsis; margin-bottom: 4px; }}
   .meta {{ font-size: .75rem; margin-bottom: 6px; font-weight: 600; }}
   .meta.upcoming {{ color: var(--upcoming); }}
+  .meta.returning {{ color: #e67e22; font-weight: 600; }}
   .meta.recent {{ color: #aaa; font-weight: 400; }}
   .overview {{ font-size: .75rem; color: #aaa; line-height: 1.45;
                display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }}
@@ -390,9 +459,19 @@ HTML_TMPL = """<!DOCTYPE html>
 
 
 def make_card(item: dict) -> str:
-    rating       = item["rating"]
-    rating_badge = (f'<span class="rating-badge">⭐ {rating}</span>' if rating > 0 else "")
+    rating     = item["rating"]
+    popularity = item.get("popularity", 0)
+    if rating > 0:
+        rating_badge = f'<span class="rating-badge">⭐ {rating}</span>'
+    elif popularity > 0:
+        # No votes yet -- show popularity instead so it's obvious why an
+        # unrated title made the cut (useful for tuning minimum_popularity_unrated).
+        rating_badge = f'<span class="rating-badge">🔥 {popularity}</span>'
+    else:
+        rating_badge = ""
     type_label   = "TV" if item["type"] == "tv" else "Movie"
+    date_class   = "returning" if item.get("is_returning") else "upcoming"
+    date_icon    = "🔄" if item.get("is_returning") else "📅"
     return CARD_TMPL.format(
         url=item["url"],
         poster=item["poster"],
@@ -402,8 +481,8 @@ def make_card(item: dict) -> str:
         type_label=type_label,
         rating_badge=rating_badge,
         date_label=item["date_label"],
-        date_class="upcoming",
-        date_icon="📅",
+        date_class=date_class,
+        date_icon=date_icon,
         overview=(item["overview"] or "No description available.").replace("<", "&lt;"),
     )
 
@@ -441,9 +520,11 @@ def main():
     next_months    = args.next_months if args.next_months != 3 else rec_cfg["next_months"]
     min_movie      = rec_cfg["minimum_rating_score_movie"]
     min_series     = rec_cfg["minimum_rating_score_series"]
+    min_popularity = rec_cfg["minimum_popularity_unrated"]
 
     watchlist_data = load_watchlist()
-    upcoming = build_sections(api_key, watchlist_data, next_months, min_movie, min_series, args.refresh)
+    upcoming = build_sections(api_key, watchlist_data, next_months, min_movie, min_series,
+                              min_popularity, args.refresh)
 
     gen_date = datetime.now().strftime("%d %b %Y, %H:%M")
     html = generate_html(upcoming, next_months, gen_date)

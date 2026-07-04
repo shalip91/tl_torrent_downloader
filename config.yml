@@ -24,8 +24,8 @@ min_seeders: 1
 
 # --- Schedule ---
 # Random interval between checks (minutes)
-interval_min_minutes: 120
-interval_max_minutes: 360
+interval_min_minutes: 60
+interval_max_minutes: 120
 
 # --- Anti-Detection Delays ---
 # Random delay (seconds) added before each HTTP request
@@ -46,6 +46,13 @@ log_level: "INFO"   # DEBUG | INFO | WARNING | ERROR
 
 # --- Recommendations (recommend.py) ---
 recommend:
-  next_months: 6                   # how many months ahead to look for upcoming releases
-  minimum_rating_score_movie: 6.5  # skip movies rated below this (0 = no filter; unrated upcoming content always shown)
-  minimum_rating_score_series: 7.0 # skip TV series rated below this
+  next_months: 1                   # how many months ahead to look for upcoming releases
+  minimum_rating_score_movie: 6.5  # skip movies rated below this (only applies once a title has votes)
+  minimum_rating_score_series: 7.5 # skip TV series rated below this (only applies once a title has votes)
+  # Upcoming/unreleased titles have 0 votes on TMDB, so the rating filters above
+  # can't apply to them (there's no rating yet) -- that's why "coming soon" lists
+  # can feel bloated. This uses TMDB's "popularity" score (buzz/search interest,
+  # available even pre-release) as a floor for anything with 0 votes.
+  # Typical scale: <5 = obscure/no buzz, 5-20 = moderate interest, 20+ = anticipated/major.
+  # 0 = no filter (show every unrated upcoming match, old behavior).
+  minimum_popularity_unrated: 8

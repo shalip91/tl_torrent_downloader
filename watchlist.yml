@@ -5,16 +5,18 @@ categories:
     watchlist:
     - {name: "3 Body Problem",             next_episode: "S02E01"}
     - {name: "Black Mirror",               next_episode: "S08E01"}
-    - {name: "Cape Fear",                  next_episode: "S01E04"}
-    - {name: "Dutton Ranch",               next_episode: "S01E07"}
+    - {name: "Cape Fear",                  next_episode: "S01E07"}
+    - {name: "Dutton Ranch",               next_episode: "S01E10"}
+    - {name: "Dark Matter",                next_episode: "S02E01"}
     - {name: "Euphoria",                   next_episode: "S04E01"}
     - {name: "Fallout",                    next_episode: "S03E01"}
     - {name: "Formula 1 Drive to Survive", next_episode: "S09E01"}
-    - {name: "House of the Dragon",        next_episode: "S03E01"}
-    - {name: "Married at First Sight",     next_episode: "S08E12",  res: [720, 1080]}
+    - {name: "House of the Dragon",        next_episode: "S03E03"}
+    - {name: "Married at First Sight",     next_episode: "S08E21",  res: [720, 1080]}
+    - {name: "Murder 101",                 next_episode: "S01E01"}
     - {name: "Rings of Power",             next_episode: "S03E01"}
-    - {name: "Silo",                       next_episode: "S03E01"}
-    - {name: "Star City",                  next_episode: "S01E05"}
+    - {name: "Silo",                       next_episode: "S03E02"}
+    - {name: "Star City",                  next_episode: "S01E08"}
     - {name: "The Diplomat",               next_episode: "S04E01"}
     - {name: "Your Friends & Neighbors",   next_episode: "S02E11"}
 
@@ -22,8 +24,10 @@ categories:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/movies
     default_res: [2160]
     watchlist:
-    - {name: "Obsession"}
+    - {name: "I Want Your Sex"}
+    - {name: "Spider-man"}
     - {name: "The Dog Stars"}
+    - {name: "The Odyssey"}
 
   kids:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents

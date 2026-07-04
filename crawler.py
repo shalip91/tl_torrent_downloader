@@ -121,6 +121,20 @@ def _api_headers() -> dict:
 # Session helpers
 # ---------------------------------------------------------------------------
 
+class SessionCheckError(Exception):
+    """Raised when login status can't be verified due to a transient/network
+    problem (DNS, timeout, connection refused, etc). This is NOT the same as
+    being logged out -- callers should retry later, not treat it as an expired
+    session or prompt for new cookies."""
+
+
+def _stdin_interactive() -> bool:
+    try:
+        return sys.stdin is not None and sys.stdin.isatty()
+    except Exception:
+        return False
+
+
 def _cookies_pkl(site_name: str) -> Path:
     return STATE_DIR / f"cookies_{site_name}.pkl"
 
@@ -173,6 +187,24 @@ def _advance_next_episode(show_name: str, matched_ep: str) -> str:
         result.append(line)
     WATCH_YML.write_text("".join(result), encoding="utf-8")
     return new_ep
+
+
+def _remove_watchlist_entry(show_name: str) -> bool:
+    """
+    Surgically delete the watchlist line for `show_name` from watchlist.yml.
+    Used for entries with no next_episode (i.e. movies) once they've been
+    downloaded: there's no "next episode" to advance to, so the entry is
+    simply done and must be removed -- otherwise it keeps matching (and
+    re-downloading) on every future crawl cycle.
+    Returns True if a line was found and removed.
+    """
+    lines  = WATCH_YML.read_text(encoding="utf-8").splitlines(keepends=True)
+    needle = f'name: "{show_name}"'
+    result = [line for line in lines if needle not in line]
+    removed = len(result) != len(lines)
+    if removed:
+        WATCH_YML.write_text("".join(result), encoding="utf-8")
+    return removed
 
 # ---------------------------------------------------------------------------
 # Matching (shared across all sites)
@@ -287,6 +319,14 @@ def handle_match(match: dict, sess: requests.Session, download_fn, cfg: dict,
     if matched_ep:
         new_ep = _advance_next_episode(show_name, matched_ep)
         app_log.info("'%s' → next episode advanced to %s", show_name, new_ep)
+    elif "next_episode" not in entry:
+        # Movie (or any entry with no episode tracking) — fully satisfied now.
+        # Remove it so it isn't matched (and re-downloaded) again next cycle.
+        if _remove_watchlist_entry(show_name):
+            app_log.info("'%s' → downloaded, removed from watchlist.", show_name)
+        else:
+            app_log.warning("'%s' → downloaded, but couldn't find its line in "
+                             "watchlist.yml to remove.", show_name)
 
     return True
 
@@ -303,9 +343,10 @@ def tl_is_logged_in(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> b
         r = sess.get(site_cfg["base_url"] + "/", headers=_browser_headers(),
                      timeout=cfg["http"]["timeout_rss"])
         return "logout" in r.text.lower()
-    except Exception as e:
-        log.warning("[TorrentLeech] Session check failed: %s", e)
-        return False
+    except requests.exceptions.RequestException as e:
+        # Network/DNS/timeout issue -- NOT the same as being logged out.
+        log.warning("[TorrentLeech] Session check failed (network issue): %s", e)
+        raise SessionCheckError(str(e)) from e
 
 
 def tl_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> list[dict]:
@@ -367,9 +408,10 @@ def fuzer_is_logged_in(sess: requests.Session, site_cfg: dict, cfg: dict, log) -
                      timeout=cfg["http"]["timeout_rss"])
         # "התנתק" = logout link in Hebrew, present only when logged in
         return "התנתק" in r.content.decode("windows-1255", errors="replace")
-    except Exception as e:
-        log.warning("[Fuzer] Session check failed: %s", e)
-        return False
+    except requests.exceptions.RequestException as e:
+        # Network/DNS/timeout issue -- NOT the same as being logged out.
+        log.warning("[Fuzer] Session check failed (network issue): %s", e)
+        raise SessionCheckError(str(e)) from e
 
 
 def fuzer_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> list[dict]:
@@ -443,6 +485,15 @@ SITE_ADAPTERS = {
 # ===========================================================================
 
 def _prompt_cookies(site_name: str, cookie_names: list[str]) -> dict:
+    if not _stdin_interactive():
+        # Running headless (e.g. pythonw.exe via the scheduled task) -- input()
+        # would block forever with no console attached, hanging the crawler
+        # indefinitely with nothing left in the logs. Fail loudly instead.
+        raise SessionCheckError(
+            f"[{site_name}] Cookies are missing or expired and no console is "
+            "attached to prompt for new ones (running as a silent scheduled "
+            "task). Run `python crawler.py` manually once to re-enter cookies."
+        )
     print()
     print("=" * 60)
     print(f"Session cookies required for: {site_name}")
@@ -465,21 +516,41 @@ def get_session(site_name: str, site_cfg: dict, cfg: dict, log) -> requests.Sess
     adapter = SITE_ADAPTERS[site_cfg["type"]]
     domain  = adapter["domain"]
 
-    while True:
-        cookies = _load_cookies(site_name)
-        if cookies:
-            sess = _make_session(cookies, domain)
-            if adapter["is_logged_in"](sess, site_cfg, cfg, log):
-                log.info("[%s] Loaded saved session.", site_name)
-                return sess
-            log.warning("[%s] Saved session expired or invalid.", site_name)
+    cookies = _load_cookies(site_name)
+    if cookies:
+        sess = _make_session(cookies, domain)
+        # Retry a network-flaky check a few times before concluding anything --
+        # a DNS blip or timeout is not the same as an actual logout and must
+        # never be treated as a reason to prompt for new cookies.
+        for attempt in range(3):
+            try:
+                if adapter["is_logged_in"](sess, site_cfg, cfg, log):
+                    log.info("[%s] Loaded saved session.", site_name)
+                    return sess
+                break  # genuinely not logged in -- fall through to reauth below
+            except SessionCheckError:
+                if attempt < 2:
+                    wait = 30 * (attempt + 1)
+                    log.warning("[%s] Retrying session check in %ds...", site_name, wait)
+                    time.sleep(wait)
+                else:
+                    log.warning("[%s] Could not verify session after retries "
+                                "(network issue) — will try again next cycle.",
+                                site_name)
+                    raise
+        log.warning("[%s] Saved session expired or invalid.", site_name)
 
+    # Only reached on a genuine logout, never on a network hiccup.
+    while True:
         cookies = _prompt_cookies(site_name, adapter["cookie_names"])
         sess    = _make_session(cookies, domain)
-        if adapter["is_logged_in"](sess, site_cfg, cfg, log):
-            _save_cookies(site_name, cookies)
-            log.info("[%s] Session verified and saved.", site_name)
-            return sess
+        try:
+            if adapter["is_logged_in"](sess, site_cfg, cfg, log):
+                _save_cookies(site_name, cookies)
+                log.info("[%s] Session verified and saved.", site_name)
+                return sess
+        except SessionCheckError as e:
+            log.warning("[%s] Could not verify new cookies (network issue): %s", site_name, e)
         print(f"  Could not verify login for {site_name} — please check the cookie values.\n")
 
 # ===========================================================================
@@ -491,9 +562,19 @@ def run_once_site(site_name: str, site_cfg: dict, sess: requests.Session,
     adapter = SITE_ADAPTERS[site_cfg["type"]]
 
     # Refresh session if needed
-    if not adapter["is_logged_in"](sess, site_cfg, cfg, app_log):
+    try:
+        logged_in = adapter["is_logged_in"](sess, site_cfg, cfg, app_log)
+    except SessionCheckError:
+        app_log.warning("[%s] Skipping this cycle — couldn't verify session (network issue).", site_name)
+        return sess
+
+    if not logged_in:
         app_log.warning("[%s] Session expired — re-authenticating.", site_name)
-        sess = get_session(site_name, site_cfg, cfg, app_log)
+        try:
+            sess = get_session(site_name, site_cfg, cfg, app_log)
+        except SessionCheckError as e:
+            app_log.warning("[%s] %s — skipping this cycle.", site_name, e)
+            return sess
 
     torrents = adapter["fetch_torrents"](sess, site_cfg, cfg, app_log)
     if not torrents:
@@ -573,7 +654,12 @@ def main():
         if site_type not in SITE_ADAPTERS:
             app_log.error("Unknown site type '%s' for site '%s'. Skipping.", site_type, site_name)
             continue
-        sessions[site_name] = get_session(site_name, site_cfg, cfg, app_log)
+        try:
+            sessions[site_name] = get_session(site_name, site_cfg, cfg, app_log)
+        except SessionCheckError as e:
+            app_log.warning("[%s] Could not establish session at startup (%s). "
+                            "Will keep retrying each cycle.", site_name, e)
+            sessions[site_name] = requests.Session()  # placeholder; retried in run_once_site
 
     interval_min = cfg.get("interval_min_minutes", 60)
     interval_max = cfg.get("interval_max_minutes", 120)
