@@ -6,12 +6,16 @@ sites:
     enabled: true
     type: torrentleech
     base_url: "https://www.torrentleech.org"
-    # time_window: how far back to look (e.g. "-1 day", "-3 day", "-7 day")
+    # TorrentLeech is searched once per watchlist title (not by scraping the
+    # generic recent-uploads list, which holds ~1700 torrents over 3 days and
+    # buried anything that wasn't a top-downloaded TV release).
+    # time_window: how far back each search looks (e.g. "-1 day", "-3 day", "-7 day")
     time_window: "-1 day"
-    # orderby options: "completed" (most downloaded) | "added" (newest first) | "seeders" | "size" | "name"
-    orderby: "completed"
-    # order options: "desc" | "asc"
+    # order options: "desc" | "asc" — results per title are sorted by date added.
     order: "desc"
+    # Pagination guard per title (~35 results/page). One page is nearly always
+    # enough; only a very broad title needs more.
+    max_pages: 5
 
   fuzer:
     enabled: true
@@ -21,6 +25,13 @@ sites:
 # --- Filtering ---
 # Minimum seeders required for TorrentLeech (0 = no filter). Fuzer ignores this.
 min_seeders: 1
+
+# When several releases match the same episode/movie, which one to keep:
+#   smallest = smallest file size (saves space, faster)
+#   largest  = largest file size (usually higher quality)
+# Torrents with unknown size (e.g. Fuzer, which doesn't expose it) are only
+# kept if nothing else matching the same episode/movie has a known size.
+prefer_size: smallest
 
 # --- Schedule ---
 # Random interval between checks (minutes)
@@ -46,9 +57,18 @@ log_level: "INFO"   # DEBUG | INFO | WARNING | ERROR
 
 # --- Recommendations (recommend.py) ---
 recommend:
-  next_months: 1                   # how many months ahead to look for upcoming releases
+  next_months: 2                   # how many months ahead to look for upcoming releases
   minimum_rating_score_movie: 6.5  # skip movies rated below this (only applies once a title has votes)
   minimum_rating_score_series: 7.5 # skip TV series rated below this (only applies once a title has votes)
+  # Non-English titles are now included, but must clear a higher bar (0.5 above the
+  # English thresholds above). Leave unset to auto-default to base + 0.5.
+  minimum_rating_score_movie_foreign: 7.0
+  minimum_rating_score_series_foreign: 8.0
+  # Documentaries use their own rating bar, separate from scripted series above.
+  # (foreign docs get the +0.5 bump like everything else). Leave the _foreign
+  # line unset to auto-default to the documentary base + 0.5.
+  minimum_rating_score_documentary: 7.0
+  minimum_rating_score_documentary_foreign: 7.5
   # Upcoming/unreleased titles have 0 votes on TMDB, so the rating filters above
   # can't apply to them (there's no rating yet) -- that's why "coming soon" lists
   # can feel bloated. This uses TMDB's "popularity" score (buzz/search interest,
@@ -56,3 +76,41 @@ recommend:
   # Typical scale: <5 = obscure/no buzz, 5-20 = moderate interest, 20+ = anticipated/major.
   # 0 = no filter (show every unrated upcoming match, old behavior).
   minimum_popularity_unrated: 8
+  # Non-English unreleased titles have no meaningful rating (0-1 votes), so the
+  # foreign RATING thresholds above don't apply to them -- they're gated on
+  # popularity. This higher floor is what actually filters lower-profile foreign
+  # movies/series (e.g. at 20, Hindi/Korean/Chinese films sitting at ~12-14
+  # popularity drop, while tentpoles like The Odyssey at ~106 stay).
+  minimum_popularity_unrated_foreign: 20
+  # A title needs at least this many votes before its TMDB rating is trusted;
+  # below this it's treated as unrated pre-release noise and gated on popularity
+  # instead (e.g. The Odyssey at 9 votes). Keep modest so niche-but-real shows
+  # like Quarterback (43 votes) still count as rated.
+  min_votes_for_rating: 20
+  # How many titles to pull from TMDB per type (TV / movie) before filtering.
+  # TMDB returns 20 per page, so 1000 = 50 pages per type. Higher = deeper scan
+  # (catches lower-popularity premieres) but slower, since each TV candidate that
+  # passes the filters also needs a per-show lookup. For a 1-month window there
+  # usually aren't this many results, so it stops early when the list runs out.
+  discover_max_results: 240
+  # Master switch for the TV streaming-platform filter.
+  #   true  = restrict TV to the platforms in tv_networks below
+  #   false = allow ALL networks (tv_networks is ignored)
+  filter_by_networks: false
+  # Restrict TV shows to these streaming platforms (by originating network).
+  # Only used when filter_by_networks is true. Movies are always unaffected.
+  # Pick any of these names:
+  #   netflix     -> Netflix
+  #   hbo         -> HBO + HBO Max
+  #   max         -> HBO Max only
+  #   apple       -> Apple TV+
+  #   amazon      -> Prime Video   (alias: prime)
+  #   disney      -> Disney+
+  #   hulu        -> Hulu
+  #   paramount   -> Paramount+
+  #   peacock     -> Peacock
+  #   showtime    -> Showtime
+  #   starz       -> STARZ
+  #   amc         -> AMC
+  #   fx          -> FX
+  tv_networks: [netflix, hbo, max, apple, amazon, disney, paramount]

@@ -97,10 +97,20 @@ _ACCEPT_LANGUAGES = [
     "en-US,en;q=0.9,fr;q=0.7",
 ]
 
+# Pick ONE User-Agent for the whole process run and reuse it on every request.
+# The old code rolled a fresh random UA per request, which means a single
+# logged-in session presented a different browser identity on each call. That
+# looks inconsistent to Cloudflare/bot-management and is the most likely reason
+# the browse/list XHR endpoint started returning an empty body (a 200 with no
+# JSON -> "Expecting value: line 1 column 1") while the cookies still passed the
+# homepage login check. Rotating per *process* still varies across restarts
+# without breaking a live session.
+_SESSION_UA = random.choice(_USER_AGENTS)
+
 
 def _browser_headers() -> dict:
     return {
-        "User-Agent": random.choice(_USER_AGENTS),
+        "User-Agent": _SESSION_UA,
         "Accept-Language": random.choice(_ACCEPT_LANGUAGES),
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
         "Connection": "keep-alive",
@@ -110,7 +120,7 @@ def _browser_headers() -> dict:
 
 def _api_headers() -> dict:
     return {
-        "User-Agent": random.choice(_USER_AGENTS),
+        "User-Agent": _SESSION_UA,
         "Accept-Language": random.choice(_ACCEPT_LANGUAGES),
         "Accept": "application/json, text/javascript, */*; q=0.01",
         "X-Requested-With": "XMLHttpRequest",
@@ -214,10 +224,121 @@ def _normalise(text: str) -> str:
     return re.sub(r"[\s._\-]+", " ", text).strip().lower()
 
 
+def _watchlist_names(watchlist_data: dict) -> list[str]:
+    """Every distinct title in the watchlist, in file order. Used to drive
+    per-title site searches instead of scraping the whole recent-uploads
+    firehose."""
+    names: list[str] = []
+    seen  = set()
+    for cat in watchlist_data.get("categories", {}).values():
+        for entry in cat.get("watchlist", []):
+            if not isinstance(entry, dict):
+                continue
+            name = str(entry.get("name", "")).strip()
+            key  = _normalise(name)
+            if name and key not in seen:
+                seen.add(key)
+                names.append(name)
+    return names
+
+
 def _parse_episode(ep_str: str) -> tuple[int, int] | None:
     """'S03E01' → (3, 1). Returns None if not parseable."""
     m = re.search(r'[Ss](\d+)[Ee](\d+)', ep_str)
     return (int(m.group(1)), int(m.group(2))) if m else None
+
+
+def _coerce_size(val) -> int | None:
+    """Best-effort convert a torrent size to bytes. Accepts an int/float byte
+    count, a plain digit string, or a human string like '3.0 GB' / '769.8 MiB'.
+    Returns None if it can't be parsed."""
+    if val is None or isinstance(val, bool):
+        return None
+    if isinstance(val, (int, float)):
+        return int(val)
+    s = str(val).strip()
+    if not s:
+        return None
+    if re.fullmatch(r"\d+", s):
+        return int(s)
+    m = re.match(r"([\d.]+)\s*([KMGTP]?)i?B\b", s, re.IGNORECASE)
+    if m:
+        mult = {"": 1, "K": 1024, "M": 1024 ** 2, "G": 1024 ** 3,
+                "T": 1024 ** 4, "P": 1024 ** 5}[m.group(2).upper()]
+        try:
+            return int(float(m.group(1)) * mult)
+        except ValueError:
+            return None
+    return None
+
+
+def _torrent_size(torrent: dict) -> int | None:
+    """Size in bytes for a torrent dict, trying the field names different sites
+    use. Returns None if unknown (e.g. Fuzer, which doesn't expose size)."""
+    for key in ("size", "filesize", "fileSize", "sizeBytes", "size_bytes"):
+        if key in torrent and torrent[key] not in (None, ""):
+            v = _coerce_size(torrent[key])
+            if v is not None:
+                return v
+    return None
+
+
+def _human_size(n: int | None) -> str:
+    if n is None:
+        return "size?"
+    f = float(n)
+    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
+        if f < 1024:
+            return f"{f:.1f} {unit}"
+        f /= 1024
+    return f"{f:.1f} PiB"
+
+
+def _select_preferred(matches: list[dict], prefer: str, site_name: str, log) -> list[dict]:
+    """When several torrents satisfy the SAME target (a show's episode, or a
+    movie), keep only one:
+        prefer='smallest' -> smallest file (default)
+        prefer='largest'  -> largest file
+    A torrent whose size is unknown is only kept if nothing else in its group
+    has a known size. Original match order is otherwise preserved."""
+    groups: dict = {}
+    order:  list = []
+    for m in matches:
+        key = (m["category"],
+               _normalise(str(m["entry"].get("name", ""))),
+               m.get("matched_episode", ""))
+        if key not in groups:
+            groups[key] = []
+            order.append(key)
+        groups[key].append(m)
+
+    largest = str(prefer).lower() == "largest"
+    chosen  = []
+    for key in order:
+        group = groups[key]
+        if len(group) == 1:
+            chosen.append(group[0])
+            continue
+
+        def _rank(m):
+            sz = _torrent_size(m["torrent"])
+            if sz is None:
+                return (1, 0)                        # unknown size -> always last
+            return (0, -sz if largest else sz)
+
+        ranked = sorted(group, key=_rank)
+        pick   = ranked[0]
+        log.info("[%s] %d releases match '%s' %s — keeping %s [%s] (prefer=%s); "
+                 "skipping: %s",
+                 site_name, len(group), pick["entry"].get("name", "?"),
+                 pick.get("matched_episode", "") or "(movie)",
+                 pick["torrent"].get("name", "?"),
+                 _human_size(_torrent_size(pick["torrent"])), prefer,
+                 ", ".join(f'{g["torrent"].get("name", "?")} '
+                           f'[{_human_size(_torrent_size(g["torrent"]))}]'
+                           for g in ranked[1:]))
+        chosen.append(pick)
+    return chosen
 
 
 def match_torrent(torrent: dict, watchlist_data: dict, min_seeders: int = 0) -> dict | None:
@@ -268,9 +389,19 @@ def match_torrent(torrent: dict, watchlist_data: dict, min_seeders: int = 0) -> 
                     continue
 
                 t_season, t_ep = int(em.group(1)), int(em.group(2))
+                ns, ne = next_parsed
 
-                # Match only if torrent episode >= next_episode
-                if (t_season, t_ep) < next_parsed:
+                # Only accept a sensible continuation of THIS show — not an
+                # arbitrary higher SxxExx, which can belong to a DIFFERENT show
+                # that happens to share the name (e.g. the US "Married at First
+                # Sight" at S20 vs the one tracked here at S08). Allowed:
+                #   • same season, at or after the awaited episode (S08E35 → S08E36)
+                #   • the next season's premiere                   (S01E10 → S02E01)
+                # Rejected: landing mid next-season (S01E10 → S02E03) or jumping
+                # multiple seasons (S01E10 → S11E01).
+                same_season   = (t_season == ns and t_ep >= ne)
+                next_premiere = (t_season == ns + 1 and t_ep == 1)
+                if not (same_season or next_premiere):
                     continue
 
                 # Build matched episode string using same zero-padding as next_ep
@@ -339,37 +470,131 @@ TL_DOMAIN       = "www.torrentleech.org"
 
 
 def tl_is_logged_in(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> bool:
-    try:
-        r = sess.get(site_cfg["base_url"] + "/", headers=_browser_headers(),
-                     timeout=cfg["http"]["timeout_rss"])
-        return "logout" in r.text.lower()
-    except requests.exceptions.RequestException as e:
-        # Network/DNS/timeout issue -- NOT the same as being logged out.
-        log.warning("[TorrentLeech] Session check failed (network issue): %s", e)
-        raise SessionCheckError(str(e)) from e
+    # Validate against the actual authenticated browse/list endpoint instead of
+    # grepping the homepage for the word "logout". The old homepage check was
+    # unreliable and flapped between True/False: TorrentLeech serves the HTML
+    # login page (HTTP 200) to a dead session on the API endpoint, yet the
+    # homepage could still contain "logout" somewhere — so the check reported
+    # "logged in" for a session that couldn't actually fetch anything. That both
+    # masked the outage and stopped the crawler from ever prompting for fresh
+    # cookies. Here: a live session returns JSON; a dead one returns the login
+    # page (text/html), which fails json() → False → triggers re-auth.
+    base      = site_cfg["base_url"]
+    check_url = f"{base}/torrents/browse/list/added/-1%20day/orderby/added/order/desc"
+    # TorrentLeech's endpoint has been observed answering inconsistently for the
+    # same session (JSON one moment, the HTML login page the next — Cloudflare /
+    # load-balancer behaviour). Retry a few times: a genuinely live session will
+    # return JSON on at least one attempt; only conclude "logged out" if EVERY
+    # attempt returns non-JSON. A healthy session returns JSON on the first try
+    # and incurs no extra requests.
+    for attempt in range(3):
+        try:
+            r = sess.get(check_url, headers=_api_headers(), timeout=cfg["http"]["timeout_rss"])
+        except requests.exceptions.RequestException as e:
+            # Network/DNS/timeout issue -- NOT the same as being logged out.
+            log.warning("[TorrentLeech] Session check failed (network issue): %s", e)
+            raise SessionCheckError(str(e)) from e
+        try:
+            r.json()
+            return True
+        except ValueError:
+            if attempt < 2:
+                time.sleep(2)
+    return False
 
 
-def tl_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> list[dict]:
-    base = site_cfg["base_url"]
-    tw   = site_cfg.get("time_window", "-3 day").replace(" ", "%20")
-    by   = site_cfg.get("orderby", "completed")
-    ord_ = site_cfg.get("order", "desc")
-    url  = f"{base}/torrents/browse/list/added/{tw}/orderby/{by}/order/{ord_}"
-
-    log.debug("[TorrentLeech] Fetching: %s", url)
-    time.sleep(random.uniform(cfg["request_delay_min_seconds"], cfg["request_delay_max_seconds"]))
-
+def _tl_get_json(sess: requests.Session, url: str, cfg: dict, log):
+    """GET a TorrentLeech browse/list URL and return the decoded JSON payload,
+    or None on any failure. Non-JSON bodies are logged with the actual response
+    so an empty 200, an HTML login/Cloudflare challenge page, and a changed
+    endpoint are all distinguishable instead of a bare error."""
+    time.sleep(random.uniform(cfg["request_delay_min_seconds"],
+                              cfg["request_delay_max_seconds"]))
     try:
         r = sess.get(url, headers=_api_headers(), timeout=cfg["http"]["timeout_rss"])
         r.raise_for_status()
-        torrents = r.json().get("torrentList", [])
-        log.info("[TorrentLeech] Fetched %d torrents.", len(torrents))
-        for t in torrents:
-            log.debug("  [TL] %s", t.get("name", "?"))
-        return torrents
     except Exception as e:
-        log.error("[TorrentLeech] Fetch failed: %s", e)
-        return []
+        log.error("[TorrentLeech] Fetch failed: %s | URL: %s", e, url)
+        return None
+    try:
+        return r.json()
+    except ValueError:
+        body = (r.text or "").strip()
+        log.error(
+            "[TorrentLeech] Browse list returned non-JSON — session is likely "
+            "blocked or expired (HTTP %s, %d bytes, content-type=%s). URL: %s "
+            "| First 300 chars: %r",
+            r.status_code, len(r.content),
+            r.headers.get("Content-Type", "?"), url, body[:300],
+        )
+        return None
+
+
+def tl_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log,
+                      watchlist_data: dict) -> list[dict]:
+    """Search TorrentLeech once per watchlist title rather than scraping the
+    whole recent-uploads list.
+
+    The old approach walked the generic `added/-N day` browse list, which is a
+    firehose: a 3-day window holds ~1700 torrents, so the 5-page (175 torrent)
+    cap only ever saw ~10% of it. Ordered by "completed" that slice is all hot
+    TV, and a modestly-seeded movie like Night Nurse 2160p (134 completions)
+    never appeared — it was inside the time window but far below the cut, so
+    match_torrent never got to see it. Ordering by "added" doesn't help either:
+    35 torrents is roughly 5 hours of uploads, so 175 barely covers one day.
+
+    TorrentLeech's list endpoint accepts a /query/ segment, so one request per
+    title returns exactly that title's releases within the window (typically a
+    handful). Coverage no longer depends on how busy the tracker is.
+    """
+    base = site_cfg["base_url"]
+    tw   = site_cfg.get("time_window", "-3 day").replace(" ", "%20")
+    ord_ = site_cfg.get("order", "desc")
+    # Pagination guard per title — a search normally fits in one page; this only
+    # matters for a broad title that returns many releases.
+    max_pages = int(site_cfg.get("max_pages", 5))
+
+    all_torrents: list[dict] = []
+    seen_fids = set()
+    names     = _watchlist_names(watchlist_data)
+
+    for name in names:
+        per_page   = None
+        found_here = 0
+        for page in range(1, max_pages + 1):
+            url = (f"{base}/torrents/browse/list/added/{tw}"
+                   f"/query/{quote(name)}/orderby/added/order/{ord_}/page/{page}")
+            log.debug("[TorrentLeech] Searching '%s': %s", name, url)
+            payload = _tl_get_json(sess, url, cfg, log)
+            if payload is None:
+                break
+
+            page_list = payload.get("torrentList", []) or []
+            if per_page is None:
+                per_page = len(page_list) or 35
+
+            for t in page_list:
+                fid = t.get("fid")
+                if fid not in seen_fids:
+                    seen_fids.add(fid)
+                    all_torrents.append(t)
+            found_here += len(page_list)
+
+            num_found = payload.get("numFound") or 0
+            if not page_list:
+                break
+            if num_found and found_here >= num_found:
+                break
+            if len(page_list) < per_page:
+                break
+
+        log.debug("[TorrentLeech] '%s' → %d release(s) in window.", name, found_here)
+
+    log.info("[TorrentLeech] Fetched %d torrents from %d watchlist searches (window %s).",
+             len(all_torrents), len(names), site_cfg.get("time_window", "-3 day"))
+    for t in all_torrents:
+        log.debug("  [TL] %s", t.get("name", "?"))
+    return all_torrents
 
 
 def tl_download_torrent(sess: requests.Session, torrent: dict, dest_dir: str,
@@ -414,7 +639,10 @@ def fuzer_is_logged_in(sess: requests.Session, site_cfg: dict, cfg: dict, log) -
         raise SessionCheckError(str(e)) from e
 
 
-def fuzer_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> list[dict]:
+def fuzer_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log,
+                         watchlist_data: dict) -> list[dict]:
+    # watchlist_data is unused here — Fuzer's browse page is scraped whole (one
+    # page, ~50 rows). Accepted so every adapter shares one signature.
     base = site_cfg["base_url"]
     url  = f"{base}/browse.php?order=uploaded&sort=desc"
 
@@ -576,7 +804,7 @@ def run_once_site(site_name: str, site_cfg: dict, sess: requests.Session,
             app_log.warning("[%s] %s — skipping this cycle.", site_name, e)
             return sess
 
-    torrents = adapter["fetch_torrents"](sess, site_cfg, cfg, app_log)
+    torrents = adapter["fetch_torrents"](sess, site_cfg, cfg, app_log, watchlist_data)
     if not torrents:
         return sess
 
@@ -597,6 +825,12 @@ def run_once_site(site_name: str, site_cfg: dict, sess: requests.Session,
         if match:
             matches.append(match)
 
+    # When several releases satisfy the same episode/movie, keep just one per
+    # the configured preference (default: smallest file). This is also what
+    # stops two releases of the same episode (e.g. Silo S03E07) being queued.
+    matches = _select_preferred(matches, cfg.get("prefer_size", "smallest"),
+                                site_name, app_log)
+
     def _ep_sort_key(m):
         parsed = _parse_episode(m.get("matched_episode", ""))
         return parsed if parsed else (0, 0)
@@ -604,7 +838,20 @@ def run_once_site(site_name: str, site_cfg: dict, sess: requests.Session,
     matches.sort(key=_ep_sort_key)
 
     for match in matches:
-        handle_match(match, sess, lambda s, t, d, c, l: download_fn(s, t, d, c, l),
+        torrent = match["torrent"]
+        # Re-validate against the CURRENT watchlist — it may have just advanced
+        # after downloading an earlier torrent this same cycle. Without this,
+        # two different releases of the same episode both matched the original
+        # snapshot and BOTH downloaded (e.g. Silo S03E07 grabbed twice). Once
+        # S03E07 advances the show to S03E08, any other S03E07 release — or a
+        # movie already downloaded and removed this cycle — no longer matches
+        # and is skipped.
+        current = match_torrent(torrent, watchlist_data, min_seeders)
+        if not current:
+            app_log.info("[%s] Skipping '%s' — episode already satisfied this cycle.",
+                         site_name, torrent.get("name", "?"))
+            continue
+        handle_match(current, sess, lambda s, t, d, c, l: download_fn(s, t, d, c, l),
                      cfg, watchlist_data, app_log, dl_log)
         # Reload watchlist after each download so next_episode is fresh for the next iteration
         watchlist_data = load_watchlist()
