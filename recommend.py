@@ -15,6 +15,7 @@ Usage:
 import argparse
 import gzip
 import json
+import re
 import sys
 import time
 import webbrowser
@@ -55,6 +56,10 @@ EXCLUDED_GENRES = {16, 10762, 10751, 10764, 10767, 27}  # 16=Animation, 10762=Ki
 DOCUMENTARY_GENRE = 99  # TMDB Documentary genre — routed to its own section
 PROFILE_JSON     = ROOT / "state" / "genre_profile.json"
 WL_IDS_JSON      = ROOT / "state" / "watchlist_ids.json"
+# Every title ever auto-added to watchlist.yml. Checked before adding so a
+# documentary you deliberately delete from the watchlist doesn't reappear on
+# the next run, and so a downloaded (and therefore removed) title stays gone.
+AUTO_DOCS_JSON   = ROOT / "state" / "auto_added_docs.json"
 
 CAT_TYPE = {
     "tv":     "tv",
@@ -194,6 +199,9 @@ def load_recommend_cfg() -> dict:
         # every rating/popularity floor (docs score far too low on TMDB
         # popularity to survive the normal gate).
         "always_include_doc_platforms": rec.get("always_include_doc_platforms", []) or [],
+        # Auto-add those documentaries to watchlist.yml so the crawler hunts them.
+        "add_docs_to_watchlist":        bool(rec.get("add_docs_to_watchlist", False)),
+        "docs_watchlist_category":      rec.get("docs_watchlist_category", "documentry"),
     }
 
 # ---------------------------------------------------------------------------
@@ -571,14 +579,14 @@ def _build_genre_profile(watchlist_data: dict, api_key: str) -> dict:
 
     total = sum(
         1 for cat in watchlist_data.get("categories", {}).values()
-        for e in cat.get("watchlist", [])
+        for e in (cat.get("watchlist") or [])
         if not str(list(e)[0]).lower().startswith("dummy")
     )
     print(f"\nBuilding genre profile for {total} watchlist titles…")
 
     for cat_name, cat in watchlist_data.get("categories", {}).items():
         mt = CAT_TYPE.get(cat_name, "tv")
-        for entry in cat.get("watchlist", []):
+        for entry in (cat.get("watchlist") or []):
             title = str(list(entry)[0])
             if title.lower().startswith("dummy"):
                 continue
@@ -671,7 +679,7 @@ def get_watchlist_ids(watchlist_data: dict, api_key: str) -> set[int]:
     ids: set[int] = set()
     for cat_name, cat in watchlist_data.get("categories", {}).items():
         mt = CAT_TYPE.get(cat_name, "tv")
-        for entry in cat.get("watchlist", []):
+        for entry in (cat.get("watchlist") or []):
             if not isinstance(entry, dict):
                 continue
             title = entry.get("name", "")
@@ -749,6 +757,9 @@ def build_sections(api_key: str, watchlist_data: dict,
         # Titles from the always-include documentary lane skip every quality
         # gate below — they were requested explicitly by platform.
         always = bool(item.get("_always_include"))
+        # Recorded on the item so the watchlist auto-add can tell a platform
+        # documentary apart from one that merely passed the normal filters.
+        n["always_include"] = always
         if always:
             # Films have no TMDB network; fall back to the platform this title
             # was matched on so the badge still identifies where it lands.
@@ -837,6 +848,202 @@ def build_sections(api_key: str, watchlist_data: dict,
     attach_imdb_ratings([item for section in sections for item in section], api_key)
 
     return sections
+
+# ---------------------------------------------------------------------------
+# Watchlist auto-add
+# ---------------------------------------------------------------------------
+
+# TMDB titles use typographic punctuation (’ – …) that never survives scene
+# release naming, and crawler.py matches a watchlist name as a plain SUBSTRING
+# of the torrent name after collapsing only [\s._-]. So "Schumacher ’94 – The
+# Birth of a Legend" can never match "Schumacher.94.The.Birth.of.a.Legend...".
+# These are stripped/flattened so the stored name is one the crawler can hit.
+_TITLE_SUBS = {
+    "’": "", "‘": "", "'": "",        # apostrophes: dropped by scene naming
+    "“": "", "”": "", '"': "",        # quotes
+    "–": " ", "—": " ", "‒": " ",  # en/em dashes -> space
+    "…": " ", " ": " ",                # ellipsis, nbsp
+}
+
+
+def sanitise_title(title: str) -> str:
+    """Turn a TMDB display title into something crawler.py can actually match."""
+    t = title
+    for src, dst in _TITLE_SUBS.items():
+        t = t.replace(src, dst)
+    # Punctuation that release names drop entirely. '&' is kept — it survives in
+    # scene names and existing watchlist entries rely on it.
+    t = re.sub(r"[:;,/\\!?*()\[\]]+", " ", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def match_key(name: str) -> str:
+    """Mirror of crawler.py's _normalise, for duplicate detection."""
+    return re.sub(r"[\s._\-]+", " ", sanitise_title(name)).strip().lower()
+
+
+def load_auto_added() -> set:
+    if not AUTO_DOCS_JSON.exists():
+        return set()
+    try:
+        data = json.loads(AUTO_DOCS_JSON.read_text(encoding="utf-8"))
+        return {match_key(t) for t in data.get("added", [])}
+    except (OSError, ValueError):
+        return set()
+
+
+def save_auto_added(names: list) -> None:
+    prev = []
+    if AUTO_DOCS_JSON.exists():
+        try:
+            prev = json.loads(AUTO_DOCS_JSON.read_text(encoding="utf-8")).get("added", [])
+        except (OSError, ValueError):
+            prev = []
+    AUTO_DOCS_JSON.parent.mkdir(exist_ok=True)
+    AUTO_DOCS_JSON.write_text(json.dumps({
+        "added":      sorted(set(prev) | set(names)),
+        "updated_at": datetime.now().isoformat(timespec="seconds"),
+    }, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def add_entries_to_watchlist_category(category: str, entries: list) -> int:
+    """
+    Append entries to `category`'s watchlist in watchlist.yml.
+
+    Edits the file as TEXT rather than round-tripping through yaml.safe_dump,
+    which would strip every comment and reflow the hand-aligned entries in all
+    the other categories. Returns the number of lines added, or -1 if the
+    category (or its watchlist: key) couldn't be found.
+
+    entries: [{"name": str, "next_episode": str | None}, ...]
+    """
+    lines  = WATCH_YML.read_text(encoding="utf-8").splitlines()
+    cat_re = re.compile(rf"^(\s*){re.escape(category)}:\s*$")
+
+    start, indent = None, ""
+    for i, ln in enumerate(lines):
+        m = cat_re.match(ln)
+        if m:
+            start, indent = i, m.group(1)
+            break
+    if start is None:
+        return -1
+
+    # Find this category's "watchlist:" key, stopping if we dedent into the next one.
+    wl_idx = None
+    for i in range(start + 1, len(lines)):
+        ln = lines[i]
+        if ln.strip() and not ln.startswith(indent + " "):
+            break
+        if re.match(r"^\s*watchlist:\s*(\[\s*\])?\s*$", ln):
+            wl_idx = i
+            break
+    if wl_idx is None:
+        return -1
+
+    # Insert after the last existing "- {...}" entry, or right after the key.
+    insert_at = wl_idx + 1
+    for i in range(wl_idx + 1, len(lines)):
+        stripped = lines[i].strip()
+        if stripped.startswith("- "):
+            insert_at = i + 1
+        elif stripped == "":
+            continue
+        else:
+            break
+
+    # "watchlist: []" must lose the [] before block entries can follow it.
+    lines[wl_idx] = re.sub(r"watchlist:\s*\[\s*\]\s*$", "watchlist:", lines[wl_idx])
+
+    entry_indent = indent + "  "
+    width = max(len(e["name"]) for e in entries)
+    new_lines = []
+    for e in entries:
+        if e.get("next_episode"):
+            pad = " " * (width - len(e["name"]) + 1)
+            new_lines.append(f'{entry_indent}- {{name: "{e["name"]}",{pad}'
+                             f'next_episode: "{e["next_episode"]}"}}')
+        else:
+            new_lines.append(f'{entry_indent}- {{name: "{e["name"]}"}}')
+
+    lines[insert_at:insert_at] = new_lines
+    WATCH_YML.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return len(new_lines)
+
+
+def sync_docs_to_watchlist(documentaries: list, category: str) -> list:
+    """
+    Add newly-discovered platform documentaries to watchlist.yml so the crawler
+    starts hunting for them. Only titles from the always-include platform lane
+    are considered — not every documentary that happened to pass the filters.
+
+    Skips anything already in ANY category of the watchlist, and anything
+    previously auto-added (so deletions and completed downloads stay gone).
+    Returns the list of display titles added.
+    """
+    docs = [d for d in documentaries if d.get("always_include")]
+    if not docs:
+        print("  No platform documentaries to consider.")
+        return []
+
+    wl = load_watchlist()
+    existing = set()
+    for cat in (wl.get("categories") or {}).values():
+        for e in (cat.get("watchlist") or []):
+            if isinstance(e, dict) and e.get("name"):
+                existing.add(match_key(str(e["name"])))
+
+    if category not in (wl.get("categories") or {}):
+        print(f"  WARNING: category '{category}' not found in watchlist.yml — skipping auto-add.")
+        return []
+
+    already  = load_auto_added()
+    pending, added_titles = [], []
+    for d in docs:
+        clean = sanitise_title(d["title"])
+        key   = match_key(clean)
+        if not clean:
+            continue
+        if key in existing:
+            print(f"    · {d['title']} — already in watchlist")
+            continue
+        if key in already:
+            print(f"    · {d['title']} — previously added (removed by you or downloaded); skipping")
+            continue
+        if key in {match_key(p['name']) for p in pending}:
+            continue
+        # A documentary SERIES needs an episode pointer; a documentary FILM has
+        # none, which is exactly how crawler.py tells the two apart.
+        entry = {"name": clean, "next_episode": "S01E01" if d["type"] == "tv" else None}
+        pending.append(entry)
+        added_titles.append(clean)
+        kind = "series" if d["type"] == "tv" else "film"
+        note = f' (cleaned from "{d["title"]}")' if clean != d["title"] else ""
+        print(f"    + {clean}  [{kind}]{note}")
+
+    if not pending:
+        print("  Nothing new to add.")
+        return []
+
+    written = add_entries_to_watchlist_category(category, pending)
+    if written < 0:
+        print(f"  WARNING: could not locate '{category}:' watchlist in {WATCH_YML.name} — nothing added.")
+        return []
+
+    save_auto_added(added_titles)
+
+    # Make sure the category's download_dir exists, or the crawler has nowhere
+    # to put the .torrent files it fetches.
+    dl_dir = (wl.get("categories", {}).get(category) or {}).get("download_dir", "")
+    if dl_dir:
+        try:
+            Path(dl_dir).mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            print(f"  WARNING: could not create download dir {dl_dir}: {e}")
+
+    print(f"  Added {written} documentary entr{'y' if written == 1 else 'ies'} "
+          f"to '{category}' in {WATCH_YML.name}")
+    return added_titles
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -1021,6 +1228,8 @@ def main():
                         help="How many months ahead to include upcoming releases (default 3)")
     parser.add_argument("--refresh", action="store_true",
                         help="Force rebuild of genre profile from watchlist")
+    parser.add_argument("--no-watchlist", action="store_true",
+                        help="Don't auto-add documentaries to watchlist.yml this run")
     args = parser.parse_args()
 
     secrets = load_secrets()
@@ -1061,6 +1270,13 @@ def main():
         discover_max_results=discover_max,
         always_include_doc_platforms=rec_cfg["always_include_doc_platforms"],
         force_refresh=args.refresh)
+
+    # Feed newly-found platform documentaries into watchlist.yml so the crawler
+    # picks them up on its next cycle.
+    if rec_cfg["add_docs_to_watchlist"] and not args.no_watchlist:
+        print(f"\nAuto-adding platform documentaries to "
+              f"{WATCH_YML.name} → '{rec_cfg['docs_watchlist_category']}'…")
+        sync_docs_to_watchlist(documentaries, rec_cfg["docs_watchlist_category"])
 
     gen_date = datetime.now().strftime("%d %b %Y, %H:%M")
     html = generate_html(new_series, returning, documentaries, movies, next_months, gen_date)

@@ -31,6 +31,7 @@ categories:
     - {name: "VisionQuest",                    next_episode: "S01E01"}
     - {name: "Your Friends & Neighbors",       next_episode: "S03E01"}
 
+
   movies:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/movies
     default_res: [2160]
@@ -50,6 +51,13 @@ categories:
     - {name: "The Weight"}
     - {name: "Primetime"}
     - {name: "Unabomber"}
+
+  documentry:
+    download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/documentry
+    default_res: [1080]
+    watchlist:
+    - {name: "Schumacher 94 The Birth of a Legend"}
+    - {name: "The One About Matthew Perry",         next_episode: "S01E01"}
 
   kids:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents

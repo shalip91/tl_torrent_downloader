@@ -133,3 +133,20 @@ recommend:
   # tv_networks above, and works regardless of filter_by_networks.
   # Empty list = off.
   always_include_doc_platforms: [netflix]
+  # Automatically add every documentary found by the pass above into
+  # watchlist.yml, so the crawler starts hunting for it without you having to
+  # copy titles across by hand.
+  #   - documentary SERIES are added with next_episode: "S01E01"
+  #   - documentary FILMS are added with no next_episode (that's how crawler.py
+  #     tells the two apart: no next_episode = a one-off, removed once grabbed)
+  # Titles are cleaned first: TMDB uses typographic punctuation (' - ...) that
+  # never appears in release names, and the crawler matches names as a plain
+  # substring, so "Schumacher '94 - The Birth of a Legend" is stored as
+  # "Schumacher 94 The Birth of a Legend".
+  # Anything already in the watchlist, or previously auto-added and since
+  # removed (deleted by you, or downloaded), is never re-added -- that history
+  # lives in state/auto_added_docs.json.
+  # Run recommend.py --no-watchlist to skip this for one run.
+  add_docs_to_watchlist: true
+  # Which watchlist.yml category receives them. Must already exist there.
+  docs_watchlist_category: documentry
