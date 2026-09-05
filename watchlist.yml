@@ -3,45 +3,53 @@ categories:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tv_shows
     default_res: [1080]
     watchlist:
-    - {name: "3 Body Problem",             next_episode: "S02E01"}
-    - {name: "Anna Pigeon",                next_episode: "S01E01"}
-    - {name: "Black Mirror",               next_episode: "S08E01"}
-    - {name: "Cape Fear",                  next_episode: "S01E11"}
-    - {name: "Dutton Ranch",               next_episode: "S01E10"}
-    - {name: "Dark Matter",                next_episode: "S02E01"}
-    - {name: "Euphoria",                   next_episode: "S04E01"}
-    - {name: "Fallout",                    next_episode: "S03E01"}
-    - {name: "Formula 1 Drive to Survive", next_episode: "S09E01"}
-    - {name: "House of the Dragon",        next_episode: "S03E09"}
-    - {name: "Lanterns",                   next_episode: "S01E01"}
-    - {name: "Lioness",                    next_episode: "S03E03"}
-    - {name: "Married at First Sight",     next_episode: "S20E16",  res: [720, 1080]}
-    - {name: "Murder 101",                 next_episode: "S01E01"}
-    - {name: "Mobland",                    next_episode: "S02E01"}
-    - {name: "Rings of Power",             next_episode: "S03E01"}
-    - {name: "Silo",                       next_episode: "S03E08"}
-    - {name: "Star City",                  next_episode: "S01E09"}
-    - {name: "The Apartment Job",          next_episode: "S01E01"}
-    - {name: "The Diplomat",               next_episode: "S04E01"}
-    - {name: "Tour de France Unchained",   next_episode: "S04E01"}
-    - {name: "Your Friends & Neighbors",   next_episode: "S02E11"}
+    - {name: "3 Body Problem",                 next_episode: "S02E01"}
+    - {name: "A Knight of the Seven Kingdoms", next_episode: "S02E01"}
+    - {name: "Anna Pigeon",                    next_episode: "S01E01"}
+    - {name: "Black Mirror",                   next_episode: "S08E01"}
+    - {name: "Cape Fear",                      next_episode: "S01E11"}
+    - {name: "Crew Girl",                      next_episode: "S01E01"}
+    - {name: "Dutton Ranch",                   next_episode: "S02E01"}
+    - {name: "Dark Matter",                    next_episode: "S02E03"}
+    - {name: "Euphoria",                       next_episode: "S04E01"}
+    - {name: "Fallout",                        next_episode: "S03E01"}
+    - {name: "Formula 1 Drive to Survive",     next_episode: "S09E01"}
+    - {name: "House of the Dragon",            next_episode: "S03E09"}
+    - {name: "Lanterns",                       next_episode: "S01E01"}
+    - {name: "Landman",                        next_episode: "S03E01"}
+    - {name: "Lioness",                        next_episode: "S03E06"}
+    - {name: "Married at First Sight",         next_episode: "S20E16",  res: [720, 1080]}
+    - {name: "Murder 101",                     next_episode: "S01E01"}
+    - {name: "Mobland",                        next_episode: "S02E01"}
+    - {name: "Pluribus",                       next_episode: "S02E01"}
+    - {name: "Rings of Power",                 next_episode: "S03E01"}
+    - {name: "Silo",                           next_episode: "S03E11"}
+    - {name: "Star City",                      next_episode: "S01E09"}
+    - {name: "The Apartment Job",              next_episode: "S01E01"}
+    - {name: "The Diplomat",                   next_episode: "S04E01"}
+    - {name: "Tour de France Unchained",       next_episode: "S04E01"}
+    - {name: "VisionQuest",                    next_episode: "S01E01"}
+    - {name: "Your Friends & Neighbors",       next_episode: "S03E01"}
 
   movies:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/movies
     default_res: [2160]
     watchlist:
     - {name: "Dune Part Three"}
-    - {name: "I Want Your Sex"}
     - {name: "Heart of the Beast"}
     - {name: "Mutiny"}
     - {name: "Michael Jackson: A Life in Music"}
     - {name: "Spider-man"}
-    - {name: "The Brink Of War"}
     - {name: "The Dog Stars"}
     - {name: "The End of Oak Street"}
-    - {name: "The Gentleman Theif"}
+    - {name: "The Fix"}
+    - {name: "The Gentleman Thief"}
+    - {name: "The Love Hypothesis"}
     - {name: "The Odyssey"}
+    - {name: "The Uprising"}
+    - {name: "The Weight"}
     - {name: "Primetime"}
+    - {name: "Unabomber"}
 
   kids:
     download_dir: C:/Users/shali/OneDrive/tmp/process_torrents/tmp_torrents
