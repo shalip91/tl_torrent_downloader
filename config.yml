@@ -6,15 +6,22 @@ sites:
     enabled: true
     type: torrentleech
     base_url: "https://www.torrentleech.org"
-    # TorrentLeech is searched once per watchlist title (not by scraping the
-    # generic recent-uploads list, which holds ~1700 torrents over 3 days and
-    # buried anything that wasn't a top-downloaded TV release).
-    # time_window: how far back each search looks (e.g. "-1 day", "-3 day", "-7 day")
+    # TorrentLeech is fetched INCREMENTALLY: each cycle pages the newest-first
+    # list and stops at the first torrent already seen last cycle (tracked in
+    # state/last_seen_torrentleech.txt). TL adds ~14 torrents/hour and a page
+    # holds 35, so a normal cycle costs ONE request.
+    #
+    # time_window is only a backstop bounding how far back to look after
+    # downtime — the watermark ends normal cycles long before it. Widening it
+    # is free on a healthy cycle, so keep it generous.
     time_window: "-1 day"
-    # order options: "desc" | "asc" — results per title are sorted by date added.
+    # order options: "desc" | "asc" — results are sorted by date added.
+    # Leave as "desc": incremental fetching relies on newest-first.
     order: "desc"
-    # Pagination guard per title (~35 results/page). One page is nearly always
-    # enough; only a very broad title needs more.
+    # Safety cap on how many pages (~35 torrents each) one cycle may fetch.
+    # Only reached on the first run, or after the crawler has been down long
+    # enough for >35 torrents to pile up. A warning is logged if it's hit
+    # before catching up, which means something may have been missed.
     max_pages: 5
 
   fuzer:

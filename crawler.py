@@ -19,8 +19,8 @@ import random
 import re
 import sys
 import time
+from datetime import datetime, timedelta
 from pathlib import Path
-from urllib.parse import quote
 
 import requests
 import yaml
@@ -138,6 +138,13 @@ class SessionCheckError(Exception):
     session or prompt for new cookies."""
 
 
+class NotLoggedInError(Exception):
+    """Raised by a fetch when the site answered, but not with the authenticated
+    payload -- i.e. the session really does look logged out. Only raised after
+    the transient possibilities (network errors, Cloudflare challenge pages)
+    have been retried and ruled out."""
+
+
 def _stdin_interactive() -> bool:
     try:
         return sys.stdin is not None and sys.stdin.isatty()
@@ -167,6 +174,46 @@ def _load_cookies(site_name: str) -> dict | None:
         return None
     with open(p, "rb") as f:
         return pickle.load(f)
+
+# ---------------------------------------------------------------------------
+# "Newest torrent already seen" watermark (per site)
+# ---------------------------------------------------------------------------
+# Lets a cycle fetch only what appeared since the previous cycle instead of
+# re-scanning a whole time window. TorrentLeech adds ~14 torrents/hour and a
+# page holds 35, so a normal 60-120 minute cycle is satisfied by ONE request.
+
+TS_FMT = "%Y-%m-%d %H:%M:%S"
+
+# Re-examine a few minutes either side of the watermark in case the site
+# inserts slightly out of order. Re-seeing a torrent is harmless: a downloaded
+# movie is already off the watchlist and a downloaded episode has advanced
+# next_episode, so neither matches a second time.
+WATERMARK_OVERLAP = timedelta(minutes=15)
+
+
+def _watermark_path(site_name: str) -> Path:
+    return STATE_DIR / f"last_seen_{site_name}.txt"
+
+
+def _load_watermark(site_name: str) -> datetime | None:
+    p = _watermark_path(site_name)
+    if not p.exists():
+        return None
+    try:
+        return datetime.strptime(p.read_text(encoding="utf-8").strip(), TS_FMT)
+    except (ValueError, OSError):
+        return None
+
+
+def _save_watermark(site_name: str, ts: datetime):
+    _watermark_path(site_name).write_text(ts.strftime(TS_FMT), encoding="utf-8")
+
+
+def _parse_ts(value) -> datetime | None:
+    try:
+        return datetime.strptime(str(value).strip(), TS_FMT)
+    except (ValueError, TypeError):
+        return None
 
 # ---------------------------------------------------------------------------
 # YAML inline-list dumper
@@ -223,23 +270,6 @@ def _remove_watchlist_entry(show_name: str) -> bool:
 def _normalise(text: str) -> str:
     return re.sub(r"[\s._\-]+", " ", text).strip().lower()
 
-
-def _watchlist_names(watchlist_data: dict) -> list[str]:
-    """Every distinct title in the watchlist, in file order. Used to drive
-    per-title site searches instead of scraping the whole recent-uploads
-    firehose."""
-    names: list[str] = []
-    seen  = set()
-    for cat in watchlist_data.get("categories", {}).values():
-        for entry in cat.get("watchlist", []):
-            if not isinstance(entry, dict):
-                continue
-            name = str(entry.get("name", "")).strip()
-            key  = _normalise(name)
-            if name and key not in seen:
-                seen.add(key)
-                names.append(name)
-    return names
 
 
 def _parse_episode(ep_str: str) -> tuple[int, int] | None:
@@ -503,98 +533,160 @@ def tl_is_logged_in(sess: requests.Session, site_cfg: dict, cfg: dict, log) -> b
     return False
 
 
-def _tl_get_json(sess: requests.Session, url: str, cfg: dict, log):
-    """GET a TorrentLeech browse/list URL and return the decoded JSON payload,
-    or None on any failure. Non-JSON bodies are logged with the actual response
-    so an empty 200, an HTML login/Cloudflare challenge page, and a changed
-    endpoint are all distinguishable instead of a bare error."""
-    time.sleep(random.uniform(cfg["request_delay_min_seconds"],
-                              cfg["request_delay_max_seconds"]))
-    try:
-        r = sess.get(url, headers=_api_headers(), timeout=cfg["http"]["timeout_rss"])
-        r.raise_for_status()
-    except Exception as e:
-        log.error("[TorrentLeech] Fetch failed: %s | URL: %s", e, url)
-        return None
-    try:
-        return r.json()
-    except ValueError:
-        body = (r.text or "").strip()
-        log.error(
-            "[TorrentLeech] Browse list returned non-JSON — session is likely "
-            "blocked or expired (HTTP %s, %d bytes, content-type=%s). URL: %s "
-            "| First 300 chars: %r",
-            r.status_code, len(r.content),
-            r.headers.get("Content-Type", "?"), url, body[:300],
-        )
-        return None
+# Backoff between retries of a single request, in seconds. Deliberately long:
+# a fast retry loop is exactly what looks like abuse to rate limiting, and a
+# Cloudflare challenge needs real time to clear. Only ever paid on failure —
+# a healthy cycle makes one request and never sleeps here.
+TL_RETRY_BACKOFF = (20, 60)
 
 
-def tl_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log,
-                      watchlist_data: dict) -> list[dict]:
-    """Search TorrentLeech once per watchlist title rather than scraping the
-    whole recent-uploads list.
+def _tl_get_json(sess: requests.Session, url: str, cfg: dict, log) -> dict:
+    """GET a TorrentLeech browse/list URL and return the decoded JSON payload.
 
-    The old approach walked the generic `added/-N day` browse list, which is a
-    firehose: a 3-day window holds ~1700 torrents, so the 5-page (175 torrent)
-    cap only ever saw ~10% of it. Ordered by "completed" that slice is all hot
-    TV, and a modestly-seeded movie like Night Nurse 2160p (134 completions)
-    never appeared — it was inside the time window but far below the cut, so
-    match_torrent never got to see it. Ordering by "added" doesn't help either:
-    35 torrents is roughly 5 hours of uploads, so 175 barely covers one day.
+    Raises SessionCheckError if it can't get an answer at all (network error,
+    reset, timeout) and NotLoggedInError if the site answered with something
+    other than JSON on every attempt.
 
-    TorrentLeech's list endpoint accepts a /query/ segment, so one request per
-    title returns exactly that title's releases within the window (typically a
-    handful). Coverage no longer depends on how busy the tracker is.
+    Both possibilities are retried with long backoff first. A single non-JSON
+    response is NOT proof of a dead session: TorrentLeech serves a Cloudflare
+    challenge page (HTTP 200, text/html) under load, which previously tripped a
+    false "session expired" and cost a whole cycle.
+    """
+    attempts  = len(TL_RETRY_BACKOFF) + 1
+    last_err  = None
+    for attempt in range(attempts):
+        time.sleep(random.uniform(cfg["request_delay_min_seconds"],
+                                  cfg["request_delay_max_seconds"]))
+        try:
+            r = sess.get(url, headers=_api_headers(), timeout=cfg["http"]["timeout_rss"])
+            r.raise_for_status()
+        except Exception as e:
+            last_err = SessionCheckError(str(e))
+            log.warning("[TorrentLeech] Request failed (attempt %d/%d): %s",
+                        attempt + 1, attempts, e)
+        else:
+            try:
+                return r.json()
+            except ValueError:
+                body = (r.text or "").strip()
+                last_err = NotLoggedInError(
+                    f"non-JSON body (HTTP {r.status_code}, "
+                    f"{r.headers.get('Content-Type', '?')})")
+                log.warning(
+                    "[TorrentLeech] Non-JSON response (attempt %d/%d): HTTP %s, "
+                    "%d bytes, content-type=%s | First 200 chars: %r",
+                    attempt + 1, attempts, r.status_code, len(r.content),
+                    r.headers.get("Content-Type", "?"), body[:200])
+
+        if attempt < len(TL_RETRY_BACKOFF):
+            wait = TL_RETRY_BACKOFF[attempt]
+            log.info("[TorrentLeech] Backing off %ds before retry.", wait)
+            time.sleep(wait)
+
+    log.error("[TorrentLeech] Giving up after %d attempts. URL: %s", attempts, url)
+    raise last_err
+
+
+def tl_fetch_torrents(site_name: str, sess: requests.Session, site_cfg: dict,
+                      cfg: dict, log) -> list[dict]:
+    """Fetch only what TorrentLeech has added since the previous cycle.
+
+    Pages the newest-first browse list and stops at the first torrent already
+    seen last run (the watermark in state/last_seen_*.txt). TorrentLeech adds
+    ~14 torrents/hour and a page holds 35, so a normal 60-120 minute cycle is
+    satisfied by ONE request.
+
+    This replaces two earlier approaches, both of which lost coverage:
+
+      * Scraping `added/-N day` ordered by "completed" and keeping 5 pages.
+        A 3-day window holds ~1700 torrents, so that saw ~10% of it — all hot
+        TV. A modestly-seeded movie (Night Nurse 2160p, 134 completions) was
+        inside the window but far below the cut, so match_torrent never saw it.
+
+      * One search request per watchlist title. Complete, but ~35 requests a
+        cycle; TorrentLeech started answering with resets, timeouts and
+        Cloudflare challenge pages, and a failed search silently dropped that
+        title for the whole cycle.
+
+    Incremental paging is lighter than both (1-2 requests vs 5 or 35) AND has
+    complete coverage: every new torrent is checked against every watchlist
+    entry, with no sort order to hide behind and no per-title call to fail.
+
+    time_window is now only a backstop bounding how far back to look after
+    downtime; the watermark ends normal cycles long before it.
     """
     base = site_cfg["base_url"]
     tw   = site_cfg.get("time_window", "-3 day").replace(" ", "%20")
     ord_ = site_cfg.get("order", "desc")
-    # Pagination guard per title — a search normally fits in one page; this only
-    # matters for a broad title that returns many releases.
+    # Safety cap on paging, only reached after long downtime (or on first run).
     max_pages = int(site_cfg.get("max_pages", 5))
 
-    all_torrents: list[dict] = []
-    seen_fids = set()
-    names     = _watchlist_names(watchlist_data)
+    watermark = _load_watermark(site_name)
+    cutoff    = (watermark - WATERMARK_OVERLAP) if watermark else None
+    if cutoff:
+        log.info("[TorrentLeech] Fetching torrents added since %s.",
+                 cutoff.strftime(TS_FMT))
+    else:
+        log.info("[TorrentLeech] No watermark yet — scanning window %s (first run).",
+                 site_cfg.get("time_window", "-3 day"))
 
-    for name in names:
-        per_page   = None
-        found_here = 0
-        for page in range(1, max_pages + 1):
-            url = (f"{base}/torrents/browse/list/added/{tw}"
-                   f"/query/{quote(name)}/orderby/added/order/{ord_}/page/{page}")
-            log.debug("[TorrentLeech] Searching '%s': %s", name, url)
-            payload = _tl_get_json(sess, url, cfg, log)
-            if payload is None:
+    new_torrents: list[dict] = []
+    seen_fids   = set()
+    newest_ts   = None
+    reached_old = False
+    exhausted   = False
+    pages_done  = 0
+
+    for page in range(1, max_pages + 1):
+        url = (f"{base}/torrents/browse/list/added/{tw}"
+               f"/orderby/added/order/{ord_}/page/{page}")
+        log.debug("[TorrentLeech] Fetching: %s", url)
+        payload = _tl_get_json(sess, url, cfg, log)   # raises on real failure
+
+        page_list  = payload.get("torrentList", []) or []
+        pages_done = page
+        if not page_list:
+            exhausted = True
+            break
+
+        for t in page_list:
+            ts = _parse_ts(t.get("addedTimestamp"))
+            if ts and (newest_ts is None or ts > newest_ts):
+                newest_ts = ts
+            # List is newest-first, so the first already-seen torrent means
+            # everything below it was handled on an earlier cycle.
+            if cutoff and ts and ts <= cutoff:
+                reached_old = True
                 break
+            fid = t.get("fid")
+            if fid not in seen_fids:
+                seen_fids.add(fid)
+                new_torrents.append(t)
 
-            page_list = payload.get("torrentList", []) or []
-            if per_page is None:
-                per_page = len(page_list) or 35
+        if reached_old:
+            break
 
-            for t in page_list:
-                fid = t.get("fid")
-                if fid not in seen_fids:
-                    seen_fids.add(fid)
-                    all_torrents.append(t)
-            found_here += len(page_list)
+        num_found = payload.get("numFound") or 0
+        if num_found and page * len(page_list) >= num_found:
+            exhausted = True
+            break
 
-            num_found = payload.get("numFound") or 0
-            if not page_list:
-                break
-            if num_found and found_here >= num_found:
-                break
-            if len(page_list) < per_page:
-                break
+    if not (reached_old or exhausted):
+        log.warning(
+            "[TorrentLeech] Hit the %d-page cap without catching up to the last "
+            "cycle — torrents older than what was fetched may have been missed. "
+            "Raise max_pages, or shorten the interval between checks.", max_pages)
 
-        log.debug("[TorrentLeech] '%s' → %d release(s) in window.", name, found_here)
+    # Only advance the watermark on a successful fetch (failures raise above),
+    # so a bad cycle can't skip torrents by moving the marker forward.
+    if newest_ts:
+        _save_watermark(site_name, newest_ts)
 
-    log.info("[TorrentLeech] Fetched %d torrents from %d watchlist searches (window %s).",
-             len(all_torrents), len(names), site_cfg.get("time_window", "-3 day"))
-    for t in all_torrents:
-        log.debug("  [TL] %s", t.get("name", "?"))
-    return all_torrents
+    log.info("[TorrentLeech] Fetched %d new torrent(s) in %d request(s).",
+             len(new_torrents), pages_done)
+    for t in new_torrents:
+        log.debug("  [TL] %s | %s", t.get("addedTimestamp"), t.get("name", "?"))
+    return new_torrents
 
 
 def tl_download_torrent(sess: requests.Session, torrent: dict, dest_dir: str,
@@ -639,10 +731,11 @@ def fuzer_is_logged_in(sess: requests.Session, site_cfg: dict, cfg: dict, log) -
         raise SessionCheckError(str(e)) from e
 
 
-def fuzer_fetch_torrents(sess: requests.Session, site_cfg: dict, cfg: dict, log,
-                         watchlist_data: dict) -> list[dict]:
-    # watchlist_data is unused here — Fuzer's browse page is scraped whole (one
-    # page, ~50 rows). Accepted so every adapter shares one signature.
+def fuzer_fetch_torrents(site_name: str, sess: requests.Session, site_cfg: dict,
+                         cfg: dict, log) -> list[dict]:
+    # site_name is unused here — Fuzer's browse page has no date filter to page
+    # against, so it's scraped whole (one page, ~50 rows) every cycle. Accepted
+    # so every adapter shares one signature.
     base = site_cfg["base_url"]
     url  = f"{base}/browse.php?order=uploaded&sort=desc"
 
@@ -697,6 +790,11 @@ SITE_ADAPTERS = {
         "fetch_torrents": tl_fetch_torrents,
         "download":      tl_download_torrent,
         "min_seeders":   True,   # respect min_seeders from config
+        # The fetch itself proves the session: a logged-in request returns JSON,
+        # so a separate pre-flight login probe is a wasted request against a
+        # site we're deliberately keeping load off. The fetch raises
+        # NotLoggedInError instead, and only then do we re-authenticate.
+        "login_via_fetch": True,
     },
     "fuzer": {
         "cookie_names":  FUZER_COOKIE_NAMES,
@@ -789,22 +887,42 @@ def run_once_site(site_name: str, site_cfg: dict, sess: requests.Session,
                   cfg: dict, watchlist_data: dict, app_log, dl_log) -> requests.Session:
     adapter = SITE_ADAPTERS[site_cfg["type"]]
 
-    # Refresh session if needed
-    try:
-        logged_in = adapter["is_logged_in"](sess, site_cfg, cfg, app_log)
-    except SessionCheckError:
-        app_log.warning("[%s] Skipping this cycle — couldn't verify session (network issue).", site_name)
-        return sess
-
-    if not logged_in:
-        app_log.warning("[%s] Session expired — re-authenticating.", site_name)
+    if adapter.get("login_via_fetch"):
+        # No pre-flight probe: go straight to the fetch, which proves the
+        # session as a side effect. Only a genuine NotLoggedInError (raised
+        # after retries have ruled out network errors and challenge pages)
+        # triggers re-authentication.
         try:
-            sess = get_session(site_name, site_cfg, cfg, app_log)
+            torrents = adapter["fetch_torrents"](site_name, sess, site_cfg, cfg, app_log)
         except SessionCheckError as e:
-            app_log.warning("[%s] %s — skipping this cycle.", site_name, e)
+            app_log.warning("[%s] Skipping this cycle — site unreachable (%s).", site_name, e)
+            return sess
+        except NotLoggedInError as e:
+            app_log.warning("[%s] Session appears expired (%s) — re-authenticating.", site_name, e)
+            try:
+                sess = get_session(site_name, site_cfg, cfg, app_log)
+                torrents = adapter["fetch_torrents"](site_name, sess, site_cfg, cfg, app_log)
+            except (SessionCheckError, NotLoggedInError) as e2:
+                app_log.warning("[%s] %s — skipping this cycle.", site_name, e2)
+                return sess
+    else:
+        # Refresh session if needed
+        try:
+            logged_in = adapter["is_logged_in"](sess, site_cfg, cfg, app_log)
+        except SessionCheckError:
+            app_log.warning("[%s] Skipping this cycle — couldn't verify session (network issue).", site_name)
             return sess
 
-    torrents = adapter["fetch_torrents"](sess, site_cfg, cfg, app_log, watchlist_data)
+        if not logged_in:
+            app_log.warning("[%s] Session expired — re-authenticating.", site_name)
+            try:
+                sess = get_session(site_name, site_cfg, cfg, app_log)
+            except SessionCheckError as e:
+                app_log.warning("[%s] %s — skipping this cycle.", site_name, e)
+                return sess
+
+        torrents = adapter["fetch_torrents"](site_name, sess, site_cfg, cfg, app_log)
+
     if not torrents:
         return sess
 
