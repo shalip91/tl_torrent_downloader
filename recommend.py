@@ -13,6 +13,7 @@ Usage:
 """
 
 import argparse
+import gzip
 import json
 import sys
 import time
@@ -33,6 +34,13 @@ IMG_BASE    = "https://image.tmdb.org/t/p/w300"
 PLACEHOLDER = "https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster"
 
 MAX_RESULTS = 40   # cards per section
+
+# IMDb publishes its ratings as a free public dataset (no API key, no rate limit).
+# One gzipped TSV of every rated title: tconst \t averageRating \t numVotes.
+# We cache it in state/ and refresh it weekly; lookups are a single streaming pass.
+IMDB_RATINGS_URL  = "https://datasets.imdbws.com/title.ratings.tsv.gz"
+IMDB_RATINGS_GZ   = Path(__file__).parent / "state" / "title.ratings.tsv.gz"
+IMDB_MAX_AGE_DAYS = 7
 
 # Titles with fewer votes than this are treated as effectively unrated: their
 # vote_average is pre-release noise (e.g. The Odyssey had 9 votes @ 4.0 before
@@ -74,6 +82,34 @@ PLATFORM_NETWORKS = {
     "fx":         [88],
 }
 
+# Movies have no "network" on TMDB, so platform-owned FILMS are found two other
+# ways. Production company works pre-release (an unreleased Netflix film is
+# already tagged with the company); watch provider only populates at/after
+# release. Used together they cover the whole window. IDs verified against
+# TMDB's /search/company and /watch/providers/movie endpoints.
+PLATFORM_COMPANIES = {
+    "netflix":   [178464, 198834, 185004],
+    "apple":     [194232],      # Apple Studios
+    "amazon":    [210099],      # Amazon MGM Studios
+    "prime":     [210099],
+    "hbo":       [14914],       # HBO Documentary Films
+    "max":       [14914],
+    "hulu":      [308758],
+}
+
+PLATFORM_PROVIDERS = {
+    "netflix":   [8, 1796],     # Netflix + Netflix Standard with Ads
+    "apple":     [350],
+    "amazon":    [9],
+    "prime":     [9],
+    "disney":    [337],
+    "hulu":      [15],
+    "paramount": [2303, 2616],
+    "peacock":   [386],
+    "hbo":       [1899],
+    "max":       [1899],
+}
+
 
 def resolve_networks(names: list) -> list:
     """Map a list of friendly platform names to a deduplicated list of TMDB network IDs."""
@@ -86,6 +122,17 @@ def resolve_networks(names: list) -> list:
             print(f"  WARNING: unknown streaming platform '{name}' — skipping. "
                   f"Known: {', '.join(sorted(PLATFORM_NETWORKS))}")
     return sorted(set(ids))
+
+
+# Display names for the platform badge on documentary FILMS, which have no
+# TMDB "network" of their own to show.
+PLATFORM_LABELS = {
+    "netflix": "Netflix",   "hbo":       "HBO Max",     "max":     "HBO Max",
+    "apple":   "Apple TV+", "amazon":    "Prime Video", "prime":   "Prime Video",
+    "disney":  "Disney+",   "hulu":      "Hulu",        "paramount": "Paramount+",
+    "peacock": "Peacock",   "showtime":  "Showtime",    "starz":   "STARZ",
+    "amc":     "AMC",       "fx":        "FX",
+}
 
 # ---------------------------------------------------------------------------
 # Loaders
@@ -143,6 +190,10 @@ def load_recommend_cfg() -> dict:
         # Allowed streaming platforms for TV (empty = no restriction). Names are
         # resolved to TMDB network IDs via PLATFORM_NETWORKS.
         "tv_networks":                  rec.get("tv_networks", []) or [],
+        # Platforms whose upcoming documentaries are ALWAYS included, bypassing
+        # every rating/popularity floor (docs score far too low on TMDB
+        # popularity to survive the normal gate).
+        "always_include_doc_platforms": rec.get("always_include_doc_platforms", []) or [],
     }
 
 # ---------------------------------------------------------------------------
@@ -236,6 +287,76 @@ def discover(media_type: str, api_key: str, date_gte: str, date_lte: str,
     return results
 
 
+def discover_platform_documentaries(api_key: str, date_gte: str, date_lte: str,
+                                    platform_names: list, max_pages: int = 3) -> list[dict]:
+    """
+    Dedicated pass for documentaries on specific streaming platforms.
+
+    Why this exists: documentaries score an order of magnitude lower on TMDB
+    popularity than scripted content — upcoming Netflix docs typically sit
+    below 1.0, against a minimum_popularity_unrated floor of 8. Since unreleased
+    titles have no votes, they're gated on popularity, so a platform's entire
+    documentary slate is filtered out before it ever reaches the page. This pass
+    queries for them explicitly; the caller exempts the results from that gate.
+
+    Items are tagged with _always_include so build_sections knows to skip the
+    rating/popularity filters for them, and with _platform_label so a
+    documentary FILM (which has no TMDB "network") can still show its platform.
+    """
+    found: list[dict] = []
+
+    def pages(endpoint: str, params: dict) -> list[dict]:
+        out = []
+        for page in range(1, max_pages + 1):
+            data = tmdb_get(endpoint, api_key, {**params, "page": page})
+            batch = data.get("results", [])
+            out.extend(batch)
+            if page >= data.get("total_pages", 1) or len(batch) < 20:
+                break
+        return out
+
+    # Queried one platform at a time rather than OR-ing every ID together, so
+    # each hit can be attributed back to the platform that produced it.
+    for name in platform_names or []:
+        key = str(name).strip().lower()
+        if key not in PLATFORM_NETWORKS:
+            print(f"  WARNING: unknown platform '{name}' in always_include_doc_platforms "
+                  f"— skipping. Known: {', '.join(sorted(PLATFORM_NETWORKS))}")
+            continue
+        label = PLATFORM_LABELS.get(key, str(name).title())
+
+        def collect(endpoint: str, params: dict, media_type: str) -> None:
+            for x in pages(endpoint, params):
+                x.setdefault("media_type", media_type)
+                x["_always_include"] = True
+                x["_platform_label"] = label
+                found.append(x)
+
+        # --- Documentary SERIES, by originating network ---
+        collect("/discover/tv", {
+            "sort_by": "popularity.desc", "language": "en-US",
+            "air_date.gte": date_gte, "air_date.lte": date_lte,
+            "with_genres": str(DOCUMENTARY_GENRE),
+            "with_networks": "|".join(str(n) for n in PLATFORM_NETWORKS[key])}, "tv")
+
+        # --- Documentary FILMS. Two separate queries, because TMDB can't OR
+        #     across with_companies and with_watch_providers in one request. ---
+        movie_base = {
+            "sort_by": "popularity.desc", "language": "en-US",
+            "primary_release_date.gte": date_gte, "primary_release_date.lte": date_lte,
+            "with_genres": str(DOCUMENTARY_GENRE),
+        }
+        if PLATFORM_COMPANIES.get(key):
+            collect("/discover/movie", {**movie_base,
+                    "with_companies": "|".join(str(c) for c in PLATFORM_COMPANIES[key])}, "movie")
+        if PLATFORM_PROVIDERS.get(key):
+            collect("/discover/movie", {**movie_base,
+                    "with_watch_providers": "|".join(str(p) for p in PLATFORM_PROVIDERS[key]),
+                    "watch_region": "US"}, "movie")
+
+    return found
+
+
 def get_tv_release_info(tmdb_id: int, api_key: str,
                         today_str: str, cutoff_str: str) -> dict | None:
     """
@@ -251,17 +372,22 @@ def get_tv_release_info(tmdb_id: int, api_key: str,
           -> the show is already mid-air (its current season premiered before today)
              or has no confirmed premiere in the window -> skip it entirely.
     """
-    data = tmdb_get(f"/tv/{tmdb_id}", api_key, {"language": "en-US"})
+    # append_to_response pulls the IMDb ID in the same request — free, and it
+    # saves an /external_ids call per show later when attaching IMDb ratings.
+    data = tmdb_get(f"/tv/{tmdb_id}", api_key,
+                    {"language": "en-US", "append_to_response": "external_ids"})
     if not data:
         return None
 
     first_air = data.get("first_air_date") or ""
     networks  = data.get("networks") or []
     network   = networks[0]["name"] if networks else ""   # originating platform
+    imdb_id   = (data.get("external_ids") or {}).get("imdb_id") or ""
 
     # Brand-new series: the show itself premieres inside the window.
     if first_air and today_str <= first_air <= cutoff_str:
-        return {"classification": "new", "date": first_air, "season_number": 1, "network": network}
+        return {"classification": "new", "date": first_air, "season_number": 1,
+                "network": network, "imdb_id": imdb_id}
 
     # Returning series: look for a season whose premiere (its first episode's
     # air_date) falls within the window and is still in the future. A season
@@ -276,9 +402,110 @@ def get_tv_release_info(tmdb_id: int, api_key: str,
     if upcoming_seasons:
         upcoming_seasons.sort()          # soonest premiere first
         ad, sn = upcoming_seasons[0]
-        return {"classification": "returning", "date": ad, "season_number": sn, "network": network}
+        return {"classification": "returning", "date": ad, "season_number": sn,
+                "network": network, "imdb_id": imdb_id}
 
     return None
+
+# ---------------------------------------------------------------------------
+# IMDb ratings (public dataset — no API key needed)
+# ---------------------------------------------------------------------------
+
+def ensure_imdb_dataset() -> Path | None:
+    """
+    Make sure state/title.ratings.tsv.gz exists and is younger than
+    IMDB_MAX_AGE_DAYS, downloading it if not (~8 MB). Returns the path, or a
+    stale/None fallback if the download fails so a network hiccup only costs us
+    the IMDb column rather than the whole run.
+    """
+    if IMDB_RATINGS_GZ.exists():
+        age_days = (time.time() - IMDB_RATINGS_GZ.stat().st_mtime) / 86400
+        if age_days < IMDB_MAX_AGE_DAYS:
+            return IMDB_RATINGS_GZ
+        print(f"  IMDb ratings dataset is {age_days:.1f} days old — refreshing…")
+    else:
+        print("  Downloading IMDb ratings dataset (~8 MB, first run only)…")
+
+    tmp = IMDB_RATINGS_GZ.parent / (IMDB_RATINGS_GZ.name + ".tmp")
+    try:
+        IMDB_RATINGS_GZ.parent.mkdir(exist_ok=True)
+        with requests.get(IMDB_RATINGS_URL, stream=True, timeout=60) as r:
+            r.raise_for_status()
+            with open(tmp, "wb") as f:
+                for chunk in r.iter_content(chunk_size=1 << 16):
+                    f.write(chunk)
+        tmp.replace(IMDB_RATINGS_GZ)
+        return IMDB_RATINGS_GZ
+    except (requests.RequestException, OSError) as e:
+        print(f"  WARNING: IMDb dataset download failed ({e})")
+        try:
+            tmp.unlink()
+        except OSError:
+            pass
+        if IMDB_RATINGS_GZ.exists():
+            print("  Falling back to the previously cached (stale) copy.")
+            return IMDB_RATINGS_GZ
+        print("  IMDb scores will be omitted for this run.")
+        return None
+
+
+def lookup_imdb_ratings(imdb_ids: set) -> dict:
+    """
+    Stream the ratings TSV once, keeping only the tconsts we asked for.
+    The file has ~1.6M rows, so we never build a full in-memory index.
+    Returns {tconst: (average_rating, num_votes)}.
+    """
+    if not imdb_ids:
+        return {}
+    path = ensure_imdb_dataset()
+    if not path:
+        return {}
+
+    found: dict = {}
+    try:
+        with gzip.open(path, "rt", encoding="utf-8") as f:
+            next(f, None)                      # header row
+            for line in f:
+                tconst, _, rest = line.partition("\t")
+                if tconst not in imdb_ids:
+                    continue
+                avg, _, votes = rest.partition("\t")
+                try:
+                    found[tconst] = (round(float(avg), 1), int(votes.strip()))
+                except ValueError:
+                    continue
+                if len(found) == len(imdb_ids):
+                    break                      # everything we needed
+    except (OSError, EOFError) as e:
+        print(f"  WARNING: could not read IMDb dataset ({e}) — IMDb scores omitted.")
+    return found
+
+
+def attach_imdb_ratings(items: list, api_key: str) -> None:
+    """
+    Fill in imdb_rating / imdb_votes on each item, in place.
+
+    TV items already carry their imdb_id (picked up during the /tv/{id} lookup),
+    so only movies cost an extra TMDB call here. Called once on the final,
+    already-truncated lists so we never resolve titles that aren't displayed.
+    """
+    if not items:
+        return
+    need = [i for i in items if not i.get("imdb_id")]
+    if need:
+        print(f"  Resolving IMDb IDs for {len(need)} title(s)…")
+    for it in need:
+        data = tmdb_get(f"/{it['type']}/{it['id']}/external_ids", api_key)
+        it["imdb_id"] = data.get("imdb_id") or ""
+        time.sleep(0.15)
+
+    ratings = lookup_imdb_ratings({i["imdb_id"] for i in items if i.get("imdb_id")})
+    for it in items:
+        hit = ratings.get(it.get("imdb_id") or "")
+        if hit:
+            it["imdb_rating"], it["imdb_votes"] = hit
+    print(f"  IMDb ratings found for {len(ratings)}/{len(items)} title(s) "
+          f"(unreleased titles usually have none yet).")
 
 # ---------------------------------------------------------------------------
 # Normalise
@@ -321,6 +548,11 @@ def normalise(item: dict) -> dict:
         "rating":       round(item.get("vote_average", 0), 1),
         "votes":        item.get("vote_count", 0),
         "popularity":   round(item.get("popularity", 0), 1),
+        # Filled in later by attach_imdb_ratings(); 0 means "no IMDb rating yet",
+        # which is the normal case for unreleased titles.
+        "imdb_id":      "",
+        "imdb_rating":  0.0,
+        "imdb_votes":   0,
         "overview":     item.get("overview", ""),
         "poster":       IMG_BASE + item["poster_path"] if item.get("poster_path") else PLACEHOLDER,
         "url":          f"https://www.themoviedb.org/{mt}/{item.get('id')}",
@@ -468,6 +700,7 @@ def build_sections(api_key: str, watchlist_data: dict,
                    min_votes_for_rating: int = MIN_VOTES_FOR_RATING,
                    tv_network_ids: list = None,
                    discover_max_results: int = 200,
+                   always_include_doc_platforms: list = None,
                    force_refresh: bool = False) -> list:
     """Returns (new_series, returning_seasons, movies): deduplicated, rating-filtered lists."""
     tv_genres, movie_genres, wl_ids = collect_genres(watchlist_data, api_key, force_refresh)
@@ -482,6 +715,20 @@ def build_sections(api_key: str, watchlist_data: dict,
     if tv_network_ids:
         print(f"  TV restricted to networks: {tv_network_ids}")
     upcoming_raw: list[dict] = []
+
+    # Guaranteed platform-documentary lane. Runs FIRST so these titles claim
+    # their IDs in the `seen` set before the popularity-gated main scan can
+    # reach them (and so a doc film lands in the documentaries section rather
+    # than being swept into "coming soon · movies").
+    if always_include_doc_platforms:
+        print(f"\nAlways-include documentary pass "
+              f"({', '.join(always_include_doc_platforms)}) — bypasses rating/popularity floors…")
+        plat_docs = discover_platform_documentaries(
+            api_key, cutoff_today, cutoff_future, always_include_doc_platforms)
+        print(f"  {len(plat_docs)} documentary candidate(s) found")
+        upcoming_raw.extend(plat_docs)
+        time.sleep(0.3)
+
     for mt, genres in [("tv", list(tv_genres)), ("movie", list(movie_genres))]:
         results = discover(mt, api_key, cutoff_today, cutoff_future, genres,
                            upcoming=True, max_pages=max_pages,
@@ -499,10 +746,19 @@ def build_sections(api_key: str, watchlist_data: dict,
             continue
         seen.add(nid)
         n = normalise(item)
+        # Titles from the always-include documentary lane skip every quality
+        # gate below — they were requested explicitly by platform.
+        always = bool(item.get("_always_include"))
+        if always:
+            # Films have no TMDB network; fall back to the platform this title
+            # was matched on so the badge still identifies where it lands.
+            n["network"] = item.get("_platform_label", "")
 
         # Rating / popularity gate — applied BEFORE the per-show detail lookup
         # so we don't waste an API call on titles that can't make the cut.
-        if n["votes"] >= min_votes_for_rating:
+        if always:
+            pass
+        elif n["votes"] >= min_votes_for_rating:
             # Enough votes for a meaningful rating (established/returning shows).
             # Non-English titles use a stricter (higher) threshold. Documentaries
             # use their own bar, separate from scripted series.
@@ -525,7 +781,12 @@ def build_sections(api_key: str, watchlist_data: dict,
                 continue
 
         if n["type"] == "movie":
-            movie_out.append(n)
+            # Documentary films from the always-include lane belong in the
+            # documentaries section, not buried among the scripted movies.
+            if always and DOCUMENTARY_GENRE in n["genres"]:
+                documentaries.append(n)
+            else:
+                movie_out.append(n)
             continue
 
         # TV: only keep shows whose FIRST episode airs inside the window — either
@@ -533,16 +794,23 @@ def build_sections(api_key: str, watchlist_data: dict,
         # that are already mid-air (e.g. Silo, S03 already premiered) are dropped.
         info = get_tv_release_info(n["id"], api_key, cutoff_today, cutoff_future)
         time.sleep(0.2)
-        if not info:
-            continue
-
-        n["raw_date"]     = info["date"]
-        n["network"]      = info.get("network", "")
-        n["is_returning"] = info["classification"] == "returning"
-        if info["classification"] == "returning":
-            n["date_label"] = f"Season {info['season_number']} · {fmt_date(info['date'])}"
+        if info:
+            n["raw_date"]     = info["date"]
+            # Keep the platform fallback if TMDB lists no network for the show.
+            n["network"]      = info.get("network", "") or n["network"]
+            n["imdb_id"]      = info.get("imdb_id", "")
+            n["is_returning"] = info["classification"] == "returning"
+            if info["classification"] == "returning":
+                n["date_label"] = f"Season {info['season_number']} · {fmt_date(info['date'])}"
+            else:
+                n["date_label"] = f"Premiere · {fmt_date(info['date'])}"
+        elif always:
+            # TMDB has no confirmed premiere/season data for this title yet, but
+            # it matched the platform documentary query — keep it (with whatever
+            # date discover matched on) instead of silently dropping it.
+            n["date_label"] = fmt_date(n["raw_date"]) if n["raw_date"] else "TBA"
         else:
-            n["date_label"] = f"Premiere · {fmt_date(info['date'])}"
+            continue
 
         # Documentaries get their own section (new or returning alike).
         if DOCUMENTARY_GENRE in n["genres"]:
@@ -557,11 +825,18 @@ def build_sections(api_key: str, watchlist_data: dict,
     # Movies -> soonest release first.
     new_series.sort(key=lambda x: (x["raw_date"], -x["popularity"]))
     returning.sort(key=lambda x: (-x["rating"], -x["votes"]))
-    documentaries.sort(key=lambda x: (x["raw_date"], -x["rating"]))
+    documentaries.sort(key=lambda x: (x["raw_date"] or "9999-99-99", -x["rating"]))
     movie_out.sort(key=lambda x: (x["raw_date"] or "9999-99-99", -x["popularity"]))
 
-    return (new_series[:MAX_RESULTS], returning[:MAX_RESULTS],
-            documentaries[:MAX_RESULTS], movie_out[:MAX_RESULTS])
+    sections = (new_series[:MAX_RESULTS], returning[:MAX_RESULTS],
+                documentaries[:MAX_RESULTS], movie_out[:MAX_RESULTS])
+
+    # IMDb scores are attached last, to the already-truncated lists, so we only
+    # pay the per-movie /external_ids lookup for titles that actually get shown.
+    print("\nAttaching IMDb ratings…")
+    attach_imdb_ratings([item for section in sections for item in section], api_key)
+
+    return sections
 
 # ---------------------------------------------------------------------------
 # HTML
@@ -573,8 +848,7 @@ CARD_TMPL = """
     <img class="poster" src="{poster}" alt="{title}" loading="lazy"
          onerror="this.src='{placeholder}'">
     <span class="badge badge-{type}">{type_label}</span>
-    {rating_badge}
-    {network_badge}
+    {badges}
   </div>
   <div class="info">
     <div class="card-title" title="{title}">{title}</div>
@@ -614,13 +888,19 @@ HTML_TMPL = """<!DOCTYPE html>
             padding: 2px 7px; border-radius: 4px; text-transform: uppercase; }}
   .badge-tv {{ background: var(--tv); }}
   .badge-movie {{ background: var(--movie); }}
-  .rating-badge {{ position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.75);
-                   font-size: .75rem; font-weight: 700; padding: 3px 7px; border-radius: 4px;
-                   color: #f5c518; }}
-  .network-badge {{ position: absolute; right: 8px; background: rgba(0,0,0,.78);
-                    font-size: .62rem; font-weight: 600; padding: 2px 7px; border-radius: 4px;
-                    color: #d8d8e8; max-width: 78%; white-space: nowrap; overflow: hidden;
-                    text-overflow: ellipsis; }}
+  /* Top-right stack: IMDb score, TMDB score, then the originating network.
+     A flex column means chips stack automatically however many are present. */
+  .badges {{ position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column;
+             align-items: flex-end; gap: 4px; max-width: 80%; }}
+  .chip {{ background: rgba(0,0,0,.78); font-size: .7rem; font-weight: 700; line-height: 1.35;
+           padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+           text-decoration: none; display: block; }}
+  .chip-imdb {{ color: #f5c518; }}            /* IMDb yellow */
+  .chip-imdb:hover {{ background: #f5c518; color: #000; }}
+  .chip-tmdb {{ color: #5ad9a5; }}            /* TMDB green  */
+  .chip-pop  {{ color: #ff8a5c; }}            /* popularity fallback */
+  .chip-net  {{ font-size: .62rem; font-weight: 600; color: #d8d8e8;
+                overflow: hidden; text-overflow: ellipsis; max-width: 100%; }}
   .info {{ padding: 10px 12px 12px; }}
   .card-title {{ font-weight: 600; font-size: .9rem; white-space: nowrap; overflow: hidden;
                  text-overflow: ellipsis; margin-bottom: 4px; }}
@@ -665,22 +945,39 @@ HTML_TMPL = """<!DOCTYPE html>
 def make_card(item: dict) -> str:
     rating     = item["rating"]
     popularity = item.get("popularity", 0)
+    chips: list[str] = []
+
+    # IMDb first — it's the score most people anchor on. Absent for most
+    # unreleased titles, which simply have no IMDb rating yet.
+    imdb_rating = item.get("imdb_rating", 0)
+    if imdb_rating > 0:
+        imdb_votes = item.get("imdb_votes", 0)
+        href = f'https://www.imdb.com/title/{item["imdb_id"]}/' if item.get("imdb_id") else ""
+        label = f'IMDb {imdb_rating}'
+        title_attr = f'IMDb — {imdb_votes:,} votes'
+        if href:
+            # stopPropagation so clicking the chip opens IMDb instead of the
+            # card's own TMDB link.
+            chips.append(f'<a class="chip chip-imdb" href="{href}" target="_blank" '
+                         f'title="{title_attr}" onclick="event.stopPropagation()">{label}</a>')
+        else:
+            chips.append(f'<span class="chip chip-imdb" title="{title_attr}">{label}</span>')
+
     if rating > 0:
-        rating_badge = f'<span class="rating-badge">⭐ {rating}</span>'
+        chips.append(f'<span class="chip chip-tmdb" title="TMDB — {item["votes"]:,} votes">'
+                     f'TMDB {rating}</span>')
     elif popularity > 0:
         # No votes yet -- show popularity instead so it's obvious why an
         # unrated title made the cut (useful for tuning minimum_popularity_unrated).
-        rating_badge = f'<span class="rating-badge">🔥 {popularity}</span>'
-    else:
-        rating_badge = ""
-    # Network badge sits just below the rating badge (or at the top if there's no rating).
+        chips.append(f'<span class="chip chip-pop" title="TMDB popularity (no rating yet)">'
+                     f'🔥 {popularity}</span>')
+
     network = item.get("network", "")
     if network:
-        top = "34px" if rating_badge else "8px"
         net_esc = network.replace("<", "&lt;").replace('"', "&quot;")
-        network_badge = f'<span class="network-badge" style="top:{top}">{net_esc}</span>'
-    else:
-        network_badge = ""
+        chips.append(f'<span class="chip chip-net">{net_esc}</span>')
+
+    badges       = f'<div class="badges">{"".join(chips)}</div>' if chips else ""
     type_label   = "TV" if item["type"] == "tv" else "Movie"
     date_class   = "returning" if item.get("is_returning") else "upcoming"
     date_icon    = "🔄" if item.get("is_returning") else "📅"
@@ -691,8 +988,7 @@ def make_card(item: dict) -> str:
         title=item["title"].replace('"', "&quot;"),
         type=item["type"],
         type_label=type_label,
-        rating_badge=rating_badge,
-        network_badge=network_badge,
+        badges=badges,
         date_label=item["date_label"],
         date_class=date_class,
         date_icon=date_icon,
@@ -763,6 +1059,7 @@ def main():
         min_votes_for_rating=min_votes,
         tv_network_ids=tv_network_ids,
         discover_max_results=discover_max,
+        always_include_doc_platforms=rec_cfg["always_include_doc_platforms"],
         force_refresh=args.refresh)
 
     gen_date = datetime.now().strftime("%d %b %Y, %H:%M")

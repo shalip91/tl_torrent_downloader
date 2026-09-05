@@ -121,3 +121,15 @@ recommend:
   #   amc         -> AMC
   #   fx          -> FX
   tv_networks: [netflix, hbo, max, apple, amazon, disney, paramount]
+  # Documentaries score an order of magnitude lower on TMDB "popularity" than
+  # scripted content -- upcoming Netflix docs typically sit BELOW 1.0, against
+  # minimum_popularity_unrated: 8 above. Since unreleased titles have no votes
+  # and are gated on popularity, an entire platform's documentary slate gets
+  # filtered out before it ever reaches the page.
+  # Platforms listed here get a dedicated pass whose results bypass ALL the
+  # rating/popularity floors, so every upcoming doc from them is shown.
+  # Covers both documentary SERIES (by network) and documentary FILMS (by
+  # production company + streaming provider). Uses the same platform names as
+  # tv_networks above, and works regardless of filter_by_networks.
+  # Empty list = off.
+  always_include_doc_platforms: [netflix]

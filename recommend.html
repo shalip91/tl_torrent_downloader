@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>What to Watch – 14 Aug 2026, 12:55</title>
+<title>What to Watch – 05 Sep 2026, 03:13</title>
 <style>
   :root {
     --bg: #0d0d1a; --surface: #161627; --border: #2a2a45;
@@ -28,13 +28,19 @@
             padding: 2px 7px; border-radius: 4px; text-transform: uppercase; }
   .badge-tv { background: var(--tv); }
   .badge-movie { background: var(--movie); }
-  .rating-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.75);
-                   font-size: .75rem; font-weight: 700; padding: 3px 7px; border-radius: 4px;
-                   color: #f5c518; }
-  .network-badge { position: absolute; right: 8px; background: rgba(0,0,0,.78);
-                    font-size: .62rem; font-weight: 600; padding: 2px 7px; border-radius: 4px;
-                    color: #d8d8e8; max-width: 78%; white-space: nowrap; overflow: hidden;
-                    text-overflow: ellipsis; }
+  /* Top-right stack: IMDb score, TMDB score, then the originating network.
+     A flex column means chips stack automatically however many are present. */
+  .badges { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column;
+             align-items: flex-end; gap: 4px; max-width: 80%; }
+  .chip { background: rgba(0,0,0,.78); font-size: .7rem; font-weight: 700; line-height: 1.35;
+           padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+           text-decoration: none; display: block; }
+  .chip-imdb { color: #f5c518; }            /* IMDb yellow */
+  .chip-imdb:hover { background: #f5c518; color: #000; }
+  .chip-tmdb { color: #5ad9a5; }            /* TMDB green  */
+  .chip-pop  { color: #ff8a5c; }            /* popularity fallback */
+  .chip-net  { font-size: .62rem; font-weight: 600; color: #d8d8e8;
+                overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .info { padding: 10px 12px 12px; }
   .card-title { font-weight: 600; font-size: .9rem; white-space: nowrap; overflow: hidden;
                  text-overflow: ellipsis; margin-bottom: 4px; }
@@ -49,34 +55,17 @@
 </head>
 <body>
 <h1>🎬 What to Watch</h1>
-<p class="subtitle">Generated 14 Aug 2026, 12:55 &nbsp;·&nbsp; Filtered to your genres · premieres in the next 2 month(s)</p>
+<p class="subtitle">Generated 05 Sep 2026, 03:13 &nbsp;·&nbsp; Filtered to your genres · premieres in the next 2 month(s)</p>
 
 <h2>🆕 New series</h2>
 <div class="grid">
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/95350','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/rb94rKVIzLyfWufIN7WqLvadBDH.jpg" alt="Lanterns" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 4.4</span>
-    <span class="network-badge" style="top:34px">HBO</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="Lanterns">Lanterns</div>
-    <div class="meta upcoming">📅 Premiere · Aug 16, 2026</div>
-    <div class="overview">Two intergalactic cops, new recruit John Stewart and Lantern legend Hal Jordan, are drawn into a dark, earth-based mystery as they investigate a murder in the American heartland.</div>
-  </div>
-</div>
-
-
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/300507','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/uzwf0Xn1XNmB5IHYBEjYEnVbGuO.jpg" alt="Crew Girl" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/jkPZW1iHNvlI6077NxSxwITa1tj.jpg" alt="Crew Girl" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">🔥 12.6</span>
-    <span class="network-badge" style="top:34px">Netflix</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 8.9</span><span class="chip chip-net">Netflix</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Crew Girl">Crew Girl</div>
@@ -91,8 +80,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/1m6CxPAuGv2oHc1ahERrcVWnk2J.jpg" alt="Neagley" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">🔥 10.2</span>
-    <span class="network-badge" style="top:34px">Prime Video</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 8.7</span><span class="chip chip-net">Prime Video</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Neagley">Neagley</div>
@@ -102,13 +90,42 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/292742','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/275102','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/j2Ges5cP6WirlxvvKNtQNtMALz0.jpg" alt="S.W.A.T. Exiles" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/4TU0PcHBIl0wPW5B6aVRGExOnHE.jpg" alt="The Scandal" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">🔥 8.8</span>
-    <span class="network-badge" style="top:34px">STARZ</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 33.4</span><span class="chip chip-net">Netflix</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Scandal">The Scandal</div>
+    <div class="meta upcoming">📅 Premiere · Sep 18, 2026</div>
+    <div class="overview">In Joseon, a secret proposal ignites hidden desires in a gifted noblewoman, a famed lover and an unsuspecting lady caught in their dangerous game.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/250203','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/jD7ZQpDEZzAVReJzkOtmuFoIl2m.jpg" alt="Brothers" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 12.0</span><span class="chip chip-net">Apple TV</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Brothers">Brothers</div>
+    <div class="meta upcoming">📅 Premiere · Sep 22, 2026</div>
+    <div class="overview">Hollywood actors Matthew McConaughey and Woody Harrelson have been best friends for years—but a shocking family secret suggests their connection might be closer.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/292742','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/42CXrSRsjd6BATuVMIVJiw5NS4D.jpg" alt="S.W.A.T. Exiles" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt36984433/" target="_blank" title="IMDb — 70 votes" onclick="event.stopPropagation()">IMDb 7.5</a><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 11.5</span><span class="chip chip-net">STARZ</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="S.W.A.T. Exiles">S.W.A.T. Exiles</div>
@@ -117,18 +134,47 @@
   </div>
 </div>
 
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/213375','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/xK27l5uwaVyZSlENWnmLlWwDQNS.jpg" alt="VisionQuest" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 10.2</span><span class="chip chip-net">Disney+</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="VisionQuest">VisionQuest</div>
+    <div class="meta upcoming">📅 Premiere · Oct 14, 2026</div>
+    <div class="overview">With a bounty on his head, Vision must confront his nature and resist Ultron's influence to survive.</div>
+  </div>
+</div>
+
 </div>
 
 <h2>🔄 Returning seasons</h2>
 <div class="grid">
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/320799','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/IgyfRielRU2TEWGkA3U3Zdg9YI.jpg" alt="D&D: Dungeon Masters" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt41956044/" target="_blank" title="IMDb — 127 votes" onclick="event.stopPropagation()">IMDb 6.6</a><span class="chip chip-tmdb" title="TMDB — 1 votes">TMDB 10.0</span><span class="chip chip-net">YouTube</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="D&D: Dungeon Masters">D&D: Dungeon Masters</div>
+    <div class="meta returning">🔄 Season 4 · Sep 23, 2026</div>
+    <div class="overview">Dungeon Masters stars Jasmine Bhullar (DesiQuest, Dimension 20) as Dungeon Master, joined by Mayanna Berrin (Dispatch, The Dungeon Run), Christian Navarro (13 Reasons Why, Forgotten Realms), Neil Newbon (Baldur’s Gate III), and Devora Wilde (Baldur’s Gate III) and features an all-original score by five-time, Grammy-nominated composer David Arkenstone.</div>
+  </div>
+</div>
+
 
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/289560','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/8XbgWv137Umc8resTDeWh9ff7Y0.jpg" alt="CIA" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.6</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt35515227/" target="_blank" title="IMDb — 4,264 votes" onclick="event.stopPropagation()">IMDb 6.3</a><span class="chip chip-tmdb" title="TMDB — 122 votes">TMDB 8.6</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="CIA">CIA</div>
@@ -143,8 +189,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/z5iW51VQe9GCGhMMeKdmQL3jgCg.jpg" alt="Outlander: Blood of My Blood" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.5</span>
-    <span class="network-badge" style="top:34px">STARZ</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt18332852/" target="_blank" title="IMDb — 7,052 votes" onclick="event.stopPropagation()">IMDb 8.1</a><span class="chip chip-tmdb" title="TMDB — 100 votes">TMDB 8.6</span><span class="chip chip-net">STARZ</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Outlander: Blood of My Blood">Outlander: Blood of My Blood</div>
@@ -154,13 +199,27 @@
 </div>
 
 
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/246621','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/A8fHgHmcEQU1UcOcXhW3NXtwwcZ.jpg" alt="Mehmed: Sultan of Conquests" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt31323988/" target="_blank" title="IMDb — 3,207 votes" onclick="event.stopPropagation()">IMDb 7.7</a><span class="chip chip-tmdb" title="TMDB — 20 votes">TMDB 8.5</span><span class="chip chip-net">TRT 1</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Mehmed: Sultan of Conquests">Mehmed: Sultan of Conquests</div>
+    <div class="meta returning">🔄 Season 4 · Sep 15, 2026</div>
+    <div class="overview">The epic story of Mehmed II — the young Ottoman prince who defied palace enemies, survived treachery and deposition, and returned to fulfil his life's dream: the conquest of Constantinople. Spanning his rise from a doubted heir to one of history's most consequential rulers, the series unfolds across palace intrigue, battlefield warfare and a psychological chess match between two great empires. Praised as the finest Turkish historical series in years — cinematic, fast-paced and historically grounded.</div>
+  </div>
+</div>
+
+
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/58841','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/bez40PgT36RUu4gstD2A6GSM0tP.jpg" alt="Chicago P.D." loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.4</span>
-    <span class="network-badge" style="top:34px">NBC</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt2805096/" target="_blank" title="IMDb — 52,997 votes" onclick="event.stopPropagation()">IMDb 8.1</a><span class="chip chip-tmdb" title="TMDB — 2,625 votes">TMDB 8.4</span><span class="chip chip-net">NBC</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Chicago P.D.">Chicago P.D.</div>
@@ -175,8 +234,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/r915sk2JpthZSjHEgZKifWxgo6L.jpg" alt="Chicago Fire" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.4</span>
-    <span class="network-badge" style="top:34px">NBC</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt2261391/" target="_blank" title="IMDb — 72,463 votes" onclick="event.stopPropagation()">IMDb 8.0</a><span class="chip chip-tmdb" title="TMDB — 2,435 votes">TMDB 8.4</span><span class="chip chip-net">NBC</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Chicago Fire">Chicago Fire</div>
@@ -191,29 +249,12 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/rOYLWCdAifpUtPlTf1WHxyaxeMt.jpg" alt="Tulsa King" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.3</span>
-    <span class="network-badge" style="top:34px">Paramount+</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt16358384/" target="_blank" title="IMDb — 120,530 votes" onclick="event.stopPropagation()">IMDb 7.9</a><span class="chip chip-tmdb" title="TMDB — 2,764 votes">TMDB 8.3</span><span class="chip chip-net">Paramount+</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Tulsa King">Tulsa King</div>
-    <div class="meta returning">🔄 Season 4 · Sep 21, 2026</div>
+    <div class="meta returning">🔄 Season 4 · Oct 16, 2026</div>
     <div class="overview">New York mafia capo Dwight "The General" Manfredi is released from prison after 25 years and exiled by his boss to set up shop in Tulsa, Oklahoma. Realizing that his mob family may not have his best interests in mind, Dwight slowly builds a crew.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/2710','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/o0tMMK33JqmtpcWw0H41cEr9xQB.jpg" alt="It's Always Sunny in Philadelphia" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.3</span>
-    <span class="network-badge" style="top:34px">FX</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="It's Always Sunny in Philadelphia">It's Always Sunny in Philadelphia</div>
-    <div class="meta returning">🔄 Season 18 · Aug 17, 2026</div>
-    <div class="overview">Four egocentric friends run a neighborhood Irish pub in Philadelphia and try to find their way through the adult world of work and relationships. Unfortunately, their warped views and precarious judgments often lead them to trouble, creating a myriad of uncomfortable situations that usually only get worse before they get better.</div>
   </div>
 </div>
 
@@ -223,8 +264,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/9eym662FRJJb9wdgCiDKPDciZzf.jpg" alt="Chicago Med" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.3</span>
-    <span class="network-badge" style="top:34px">NBC</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt4655480/" target="_blank" title="IMDb — 34,998 votes" onclick="event.stopPropagation()">IMDb 7.6</a><span class="chip chip-tmdb" title="TMDB — 1,273 votes">TMDB 8.3</span><span class="chip chip-net">NBC</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Chicago Med">Chicago Med</div>
@@ -234,29 +274,12 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/100757','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/ovDgO2LPfwdVRfvScAqo9aMiIW.jpg" alt="Outer Banks" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.3</span>
-    <span class="network-badge" style="top:34px">Netflix</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="Outer Banks">Outer Banks</div>
-    <div class="meta returning">🔄 Season 5 · Aug 20, 2026</div>
-    <div class="overview">A tight-knit group of teens unearths a long-buried secret, setting off a chain of illicit events that takes them on an adventure they'll never forget.</div>
-  </div>
-</div>
-
-
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/247718','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/abeH7n5pcuQcwYcTxG6DTZvXLP1.jpg" alt="MobLand" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.3</span>
-    <span class="network-badge" style="top:34px">Paramount+</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt31510819/" target="_blank" title="IMDb — 122,387 votes" onclick="event.stopPropagation()">IMDb 8.3</a><span class="chip chip-tmdb" title="TMDB — 817 votes">TMDB 8.3</span><span class="chip chip-net">Paramount+</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="MobLand">MobLand</div>
@@ -266,18 +289,47 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/246473','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/1416','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/cyBg9FJ2AmTWEGktA43gMo4t0Vj.jpg" alt="Made in Korea" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg" alt="Grey's Anatomy" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.2</span>
-    <span class="network-badge" style="top:34px">Disney+</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0413573/" target="_blank" title="IMDb — 377,488 votes" onclick="event.stopPropagation()">IMDb 7.6</a><span class="chip chip-tmdb" title="TMDB — 11,034 votes">TMDB 8.2</span><span class="chip chip-net">ABC</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Made in Korea">Made in Korea</div>
-    <div class="meta returning">🔄 Season 2 · Sep 09, 2026</div>
-    <div class="overview">In 1970s South Korea, follow two men on opposite sides of power — one driven by ambition, the other by justice. As their worlds collide, greed, loyalty, and survival intertwine in a battle that will shape a nation.</div>
+    <div class="card-title" title="Grey's Anatomy">Grey's Anatomy</div>
+    <div class="meta returning">🔄 Season 23 · Oct 15, 2026</div>
+    <div class="overview">Follows the personal and professional lives of a group of doctors at Seattle's Grey Sloan Memorial Hospital.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/75219','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/6njUqsd3By2mJsdZm1P0moPLzs3.jpg" alt="9-1-1" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt7235466/" target="_blank" title="IMDb — 65,089 votes" onclick="event.stopPropagation()">IMDb 7.9</a><span class="chip chip-tmdb" title="TMDB — 2,845 votes">TMDB 8.2</span><span class="chip chip-net">ABC</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="9-1-1">9-1-1</div>
+    <div class="meta returning">🔄 Season 10 · Oct 15, 2026</div>
+    <div class="overview">Explore the high-pressure experiences of police officers, paramedics and firefighters who are thrust into the most frightening, shocking and heart-stopping situations. These emergency responders must try to balance saving those who are at their most vulnerable with solving the problems in their own lives.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/108255','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/hchdfgmviL9qzJ3OVd0LOkh1b5F.jpg" alt="All Creatures Great & Small" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt10590066/" target="_blank" title="IMDb — 23,486 votes" onclick="event.stopPropagation()">IMDb 8.6</a><span class="chip chip-tmdb" title="TMDB — 159 votes">TMDB 8.2</span><span class="chip chip-net">5</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="All Creatures Great & Small">All Creatures Great & Small</div>
+    <div class="meta returning">🔄 Season 7 · Sep 17, 2026</div>
+    <div class="overview">The heartwarming and humorous adventures of a young country vet in the Yorkshire Dales in the 1930s. A remake of the 1978 series.</div>
   </div>
 </div>
 
@@ -287,8 +339,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/x2c3AvZeTyNehRZXabTojAxfDuR.jpg" alt="American Horror Story" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.1</span>
-    <span class="network-badge" style="top:34px">FX</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt1844624/" target="_blank" title="IMDb — 364,344 votes" onclick="event.stopPropagation()">IMDb 7.9</a><span class="chip chip-tmdb" title="TMDB — 6,150 votes">TMDB 8.1</span><span class="chip chip-net">FX</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="American Horror Story">American Horror Story</div>
@@ -298,18 +349,47 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/246246','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/126027','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/i98Jl46WBpK7ymttNOakowtNuFF.jpg" alt="Beauty in Black" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/8yBQYa6AdvMY5H9CiAv0HkvF3UE.jpg" alt="Ghosts" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.1</span>
-    <span class="network-badge" style="top:34px">Netflix</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt11379026/" target="_blank" title="IMDb — 51,112 votes" onclick="event.stopPropagation()">IMDb 7.9</a><span class="chip chip-tmdb" title="TMDB — 460 votes">TMDB 8.1</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Beauty in Black">Beauty in Black</div>
-    <div class="meta returning">🔄 Season 3 · Aug 27, 2026</div>
-    <div class="overview">A stripper's fate takes a turn when she crosses paths with the wealthy, dysfunctional family behind a cosmetics dynasty and a devious trafficking scheme.</div>
+    <div class="card-title" title="Ghosts">Ghosts</div>
+    <div class="meta returning">🔄 Season 6 · Oct 29, 2026</div>
+    <div class="overview">Samantha and Jay throw caution to the wind when they convert their recently inherited country estate into a bed-and-breakfast. Call it mislaid plans. Not only is the place falling apart, but it’s also inhabited by spirits of previous residents -- whom only Samantha can see and hear.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/284838','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg" alt="9-1-1: Nashville" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt33550053/" target="_blank" title="IMDb — 4,437 votes" onclick="event.stopPropagation()">IMDb 5.7</a><span class="chip chip-tmdb" title="TMDB — 90 votes">TMDB 8.1</span><span class="chip chip-net">ABC</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="9-1-1: Nashville">9-1-1: Nashville</div>
+    <div class="meta returning">🔄 Season 2 · Oct 15, 2026</div>
+    <div class="overview">Follow heroic first responders, as well as their family saga of power and glamour, in one of America's most diverse and dynamic cities: Nashville, Tennessee.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/246473','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/2yEXTvaCPUe9In5MZJBLFwiq0NL.jpg" alt="Made in Korea" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt33298903/" target="_blank" title="IMDb — 1,438 votes" onclick="event.stopPropagation()">IMDb 7.3</a><span class="chip chip-tmdb" title="TMDB — 30 votes">TMDB 8.1</span><span class="chip chip-net">Disney+</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Made in Korea">Made in Korea</div>
+    <div class="meta returning">🔄 Season 2 · Sep 09, 2026</div>
+    <div class="overview">In 1970s South Korea, follow two men on opposite sides of power — one driven by ambition, the other by justice. As their worlds collide, greed, loyalty, and survival intertwine in a battle that will shape a nation.</div>
   </div>
 </div>
 
@@ -319,8 +399,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/iofokHZoUB4Qhik4PflvJl8TT6a.jpg" alt="Law & Order: Special Victims Unit" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.0</span>
-    <span class="network-badge" style="top:34px">NBC</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0203259/" target="_blank" title="IMDb — 147,029 votes" onclick="event.stopPropagation()">IMDb 8.1</a><span class="chip chip-tmdb" title="TMDB — 4,331 votes">TMDB 8.0</span><span class="chip chip-net">NBC</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Law & Order: Special Victims Unit">Law & Order: Special Victims Unit</div>
@@ -330,13 +409,27 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/95480','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/120911','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/5RuZZIouptatjV96BdPmKmRsnGg.jpg" alt="Slow Horses" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/kIiFRP7MblxsBioEVPHCCYAJ4n5.jpg" alt="The Terminal List" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.0</span>
-    <span class="network-badge" style="top:34px">Apple TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt11743610/" target="_blank" title="IMDb — 129,972 votes" onclick="event.stopPropagation()">IMDb 7.9</a><span class="chip chip-tmdb" title="TMDB — 1,199 votes">TMDB 8.0</span><span class="chip chip-net">Prime Video</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Terminal List">The Terminal List</div>
+    <div class="meta returning">🔄 Season 2 · Oct 21, 2026</div>
+    <div class="overview">Navy SEAL Commander James Reece turns to vengeance as he investigates the mysterious forces behind the murder of his entire platoon. Free from the military's command structure, Reece applies the lessons he's learned from nearly two decades of warfare to hunt down the people responsible.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/95480','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/w2jauz2PeSjFQifDObI3qDen4f7.jpg" alt="Slow Horses" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt5875444/" target="_blank" title="IMDb — 154,266 votes" onclick="event.stopPropagation()">IMDb 8.3</a><span class="chip chip-tmdb" title="TMDB — 954 votes">TMDB 8.0</span><span class="chip chip-net">Apple TV</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Slow Horses">Slow Horses</div>
@@ -351,8 +444,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/3z2mYFxUkzanb2eeIcVyfJq0G3q.jpg" alt="Georgie & Mandy's First Marriage" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.0</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt31589662/" target="_blank" title="IMDb — 12,919 votes" onclick="event.stopPropagation()">IMDb 7.1</a><span class="chip chip-tmdb" title="TMDB — 241 votes">TMDB 8.0</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Georgie & Mandy's First Marriage">Georgie & Mandy's First Marriage</div>
@@ -367,8 +459,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/6XnA02VRG4dhBpTZWGZuXQdYGDW.jpg" alt="Fire Country" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.0</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt16098700/" target="_blank" title="IMDb — 17,853 votes" onclick="event.stopPropagation()">IMDb 7.1</a><span class="chip chip-tmdb" title="TMDB — 182 votes">TMDB 8.0</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Fire Country">Fire Country</div>
@@ -378,18 +469,47 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/247168','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/253797','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/wgMS8irQKfMrR6mJhKtK6vbxDTC.jpg" alt="Chad Powers" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/yuCwhQB39nYY7b9GJEQJnb1Mihf.jpg" alt="Happy Kanako's Killer Life" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.0</span>
-    <span class="network-badge" style="top:34px">Hulu</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt36200170/" target="_blank" title="IMDb — 297 votes" onclick="event.stopPropagation()">IMDb 7.2</a><span class="chip chip-tmdb" title="TMDB — 29 votes">TMDB 8.0</span><span class="chip chip-net">DMM TV</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Chad Powers">Chad Powers</div>
-    <div class="meta returning">🔄 Season 2 · Sep 03, 2026</div>
-    <div class="overview">Eight years after an unforgivable mistake nukes his promising college football career, hotshot quarterback Russ Holliday tries to resurrect his dreams by disguising himself as Chad Powers - a talented oddball who walks on to the struggling South Georgia Catfish.</div>
+    <div class="card-title" title="Happy Kanako's Killer Life">Happy Kanako's Killer Life</div>
+    <div class="meta returning">🔄 Season 2 · Sep 17, 2026</div>
+    <div class="overview">When Kanako accidentally applies to work at an assassination agency, the timid office worker discovers that she has a knack for bumping people off. Will she ever earn the respect of Sakurai, her prickly and kinda hot co-worker–and why is she still having silly workplace problems when she’s employed with hitmen?!</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/46917','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/qZJlqFWGm46PxSkPLteOeV6PIbT.jpg" alt="Las Fierbinţi" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt1745739/" target="_blank" title="IMDb — 3,191 votes" onclick="event.stopPropagation()">IMDb 8.7</a><span class="chip chip-tmdb" title="TMDB — 22 votes">TMDB 8.0</span><span class="chip chip-net">Pro TV</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Las Fierbinţi">Las Fierbinţi</div>
+    <div class="meta returning">🔄 Season 30 · Sep 10, 2026</div>
+    <div class="overview">Las Fierbinți is a Romanian drama-comedy series set in a fictional small village, where everyday life, local politics, and village gossip turn into humor and chaos.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/72090','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/qZNVvIob1dasVcBsGmHn17BCJ6q.jpg" alt="Åsted Norge" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt13563720/" target="_blank" title="IMDb — 30 votes" onclick="event.stopPropagation()">IMDb 8.5</a><span class="chip chip-tmdb" title="TMDB — 3 votes">TMDB 8.0</span><span class="chip chip-net">TV 2 Direkte</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Åsted Norge">Åsted Norge</div>
+    <div class="meta returning">🔄 Season 22 · Sep 28, 2026</div>
+    <div class="overview">With the help of skilled journalists and their own expert team, "Åsted Norway" will uncover and try to solve crimes. The viewers can expect an intense pursuit of sought after criminals.</div>
   </div>
 </div>
 
@@ -399,8 +519,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/zfKS4WL0OZ9udpNoSYZw91VB3aH.jpg" alt="FBI" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.9</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt7491982/" target="_blank" title="IMDb — 29,297 votes" onclick="event.stopPropagation()">IMDb 7.1</a><span class="chip chip-tmdb" title="TMDB — 942 votes">TMDB 7.9</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="FBI">FBI</div>
@@ -415,8 +534,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/nInfaveN1iFpRIcMGNKENoVVUT2.jpg" alt="Marshals" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.9</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt36849871/" target="_blank" title="IMDb — 18,340 votes" onclick="event.stopPropagation()">IMDb 6.1</a><span class="chip chip-tmdb" title="TMDB — 355 votes">TMDB 7.9</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Marshals">Marshals</div>
@@ -426,34 +544,17 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/236235','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/300388','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/tw3tzfXaSpmUZIB8ZNqNEGzMBCy.jpg" alt="The Gentlemen" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/3Qwhs7xxf9LILllWLnxbSaCBNDf.jpg" alt="Sins and Roses" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.8</span>
-    <span class="network-badge" style="top:34px">Netflix</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt38074086/" target="_blank" title="IMDb — 850 votes" onclick="event.stopPropagation()">IMDb 6.4</a><span class="chip chip-tmdb" title="TMDB — 8 votes">TMDB 7.9</span><span class="chip chip-net">Kanal D</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="The Gentlemen">The Gentlemen</div>
-    <div class="meta returning">🔄 Season 2 · Sep 03, 2026</div>
-    <div class="overview">When aristocratic Eddie inherits the family estate, he discovers that it's home to an enormous weed empire — and its proprietors aren't going anywhere.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/196322','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/c6MRUtPk0nEPQ9FBD9RdRKt2rIm.jpg" alt="Dark Matter" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.8</span>
-    <span class="network-badge" style="top:34px">Apple TV</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="Dark Matter">Dark Matter</div>
-    <div class="meta returning">🔄 Season 2 · Aug 27, 2026</div>
-    <div class="overview">Jason Dessen is abducted into an alternate version of his life. To get back to his true family, he embarks on a harrowing journey to save them from the most terrifying foe imaginable: himself.</div>
+    <div class="card-title" title="Sins and Roses">Sins and Roses</div>
+    <div class="meta returning">🔄 Season 2 · Sep 12, 2026</div>
+    <div class="overview">As a boy, Serhat lost both his father and fortune but built an empire on family and integrity. His world shatters when his wife Berrak hides a devastating secret and falls into a coma. While searching for answers, his heart hardens—until he meets Zeynep, a passionate florist chasing the same truth, igniting a journey of trust, passion, and redemption.</div>
   </div>
 </div>
 
@@ -463,8 +564,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/nNNM50G7p9C3n4vgidCiybsIdHA.jpg" alt="Scrubs" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.8</span>
-    <span class="network-badge" style="top:34px">ABC</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt40197357/" target="_blank" title="IMDb — 12,073 votes" onclick="event.stopPropagation()">IMDb 8.2</a><span class="chip chip-tmdb" title="TMDB — 103 votes">TMDB 7.8</span><span class="chip chip-net">ABC</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Scrubs">Scrubs</div>
@@ -476,11 +576,10 @@
 
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/12786','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/1S8gnT06MDkAmHmzDLSVughE0t0.jpg" alt="Murdoch Mysteries" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/gMXlZrd9iuPUdVQg9CTVXtLwnVV.jpg" alt="Murdoch Mysteries" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.7</span>
-    <span class="network-badge" style="top:34px">CBC Television</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt1091909/" target="_blank" title="IMDb — 20,686 votes" onclick="event.stopPropagation()">IMDb 8.2</a><span class="chip chip-tmdb" title="TMDB — 301 votes">TMDB 7.7</span><span class="chip chip-net">CBC Television</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Murdoch Mysteries">Murdoch Mysteries</div>
@@ -490,18 +589,17 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/243360','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/81723','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/pzLfjlJHXGsEqtaCwBLFekRSH0q.jpg" alt="Ludwig" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/4zXlBCc1rNTDtrfMCBFIGKWlwnC.jpg" alt="The Gilded Age" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.7</span>
-    <span class="network-badge" style="top:34px">BBC One</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt4406178/" target="_blank" title="IMDb — 54,341 votes" onclick="event.stopPropagation()">IMDb 8.1</a><span class="chip chip-tmdb" title="TMDB — 269 votes">TMDB 7.7</span><span class="chip chip-net">HBO</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Ludwig">Ludwig</div>
-    <div class="meta returning">🔄 Season 2 · Aug 20, 2026</div>
-    <div class="overview">John Taylor lives in quiet solitude, designing puzzles for a living, under the nom-de-plume of 'Ludwig'. When his identical twin, James, disappears off the face of the earth, John takes over his brother's identity in a quest to discover his whereabouts.</div>
+    <div class="card-title" title="The Gilded Age">The Gilded Age</div>
+    <div class="meta returning">🔄 Season 4 · Nov 01, 2026</div>
+    <div class="overview">It’s 1882 and the Gilded Age is in full swing when Marian Brook, a young orphaned daughter of a Southern general, moves in with her rigidly conventional aunts in New York City. With the help of Peggy Scott, an African-American woman masquerading as her maid, Marian gets caught up in the dazzling lives of her rich neighbors as she struggles to decide between adhering to the rules or forging her own path.</div>
   </div>
 </div>
 
@@ -511,8 +609,7 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/mBcu8d6x6zB1el3MPNl7cZQEQ31.jpg" alt="NCIS" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.6</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0364845/" target="_blank" title="IMDb — 177,922 votes" onclick="event.stopPropagation()">IMDb 7.8</a><span class="chip chip-tmdb" title="TMDB — 2,558 votes">TMDB 7.6</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="NCIS">NCIS</div>
@@ -522,13 +619,27 @@
 </div>
 
 
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/203857','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/cOKXV0FalCYixNmZYCfHXgyQ0VX.jpg" alt="The Diplomat" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt17491088/" target="_blank" title="IMDb — 100,261 votes" onclick="event.stopPropagation()">IMDb 8.0</a><span class="chip chip-tmdb" title="TMDB — 474 votes">TMDB 7.6</span><span class="chip chip-net">Netflix</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Diplomat">The Diplomat</div>
+    <div class="meta returning">🔄 Season 4 · Oct 14, 2026</div>
+    <div class="overview">Amid an international crisis, a US diplomat contends with her high-profile job as ambassador to the UK and her strained marriage to a political star.</div>
+  </div>
+</div>
+
+
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/211288','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/otula4h1ITZ0eV84eg7Lb8u614C.jpg" alt="Tracker" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.6</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt13875494/" target="_blank" title="IMDb — 31,107 votes" onclick="event.stopPropagation()">IMDb 7.2</a><span class="chip chip-tmdb" title="TMDB — 321 votes">TMDB 7.6</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Tracker">Tracker</div>
@@ -538,45 +649,12 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/302074','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg" alt="R.J. Decker" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.6</span>
-    <span class="network-badge" style="top:34px">ABC</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="R.J. Decker">R.J. Decker</div>
-    <div class="meta returning">🔄 Season 2 · Sep 15, 2026</div>
-    <div class="overview">Ex-con photographer RJ Decker becomes a PI in South Florida, solving strange cases with help from his journalist ex, her cop wife, and an enigmatic woman from his past who may help or destroy him.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/125935','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg" alt="Abbott Elementary" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.5</span>
-    <span class="network-badge" style="top:34px">ABC</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="Abbott Elementary">Abbott Elementary</div>
-    <div class="meta returning">🔄 Season 6 · Oct 07, 2026</div>
-    <div class="overview">In this workplace comedy, a group of dedicated, passionate teachers — and a slightly tone-deaf principal — are brought together in a Philadelphia public school where, despite the odds stacked against them, they are determined to help their students succeed in life. Though these incredible public servants may be outnumbered and underfunded, they love what they do — even if they don’t love the school district’s less-than-stellar attitude toward educating children.</div>
-  </div>
-</div>
-
-
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/243006','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/waWeC84DExojP5AHFbWaybj3wxv.jpg" alt="NCIS: Origins" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.5</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt30796986/" target="_blank" title="IMDb — 6,698 votes" onclick="event.stopPropagation()">IMDb 7.5</a><span class="chip chip-tmdb" title="TMDB — 69 votes">TMDB 7.6</span><span class="chip chip-net">CBS</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="NCIS: Origins">NCIS: Origins</div>
@@ -586,50 +664,62 @@
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/253391','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/256711','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/hBrbAYp4SGMkNYZGPeFhEd0xW7Z.jpg" alt="Sheriff Country" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/q8l0lj20amBFi0SBs8NI9yJpaHq.jpg" alt="The Rainmaker" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.5</span>
-    <span class="network-badge" style="top:34px">CBS</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt6151526/" target="_blank" title="IMDb — 6,143 votes" onclick="event.stopPropagation()">IMDb 7.1</a><span class="chip chip-tmdb" title="TMDB — 51 votes">TMDB 7.6</span><span class="chip chip-net">USA Network</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Sheriff Country">Sheriff Country</div>
-    <div class="meta returning">🔄 Season 2 · Oct 09, 2026</div>
-    <div class="overview">Mickey Fox investigates criminal activity and patrols the streets of small-town Edgewater while contending with her ex-con father and a mysterious incident involving her wayward daughter.</div>
+    <div class="card-title" title="The Rainmaker">The Rainmaker</div>
+    <div class="meta returning">🔄 Season 2 · Oct 16, 2026</div>
+    <div class="overview">Fresh out of law school, Rudy Baylor goes head to head with courtroom lion Leo Drummond as well as his law school girlfriend, Sarah. Rudy, along with his boss, Bruiser, and her disheveled paralegal, Deck, uncovers two connected conspiracies surrounding the mysterious death of their client's son.</div>
   </div>
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/228421','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/302074','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/jsLYlsWA3CsE7V1owlSqfU9QzVG.jpg" alt="Average Joe" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg" alt="R.J. Decker" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.4</span>
-    <span class="network-badge" style="top:34px">BET+</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt37063558/" target="_blank" title="IMDb — 4,716 votes" onclick="event.stopPropagation()">IMDb 7.1</a><span class="chip chip-tmdb" title="TMDB — 50 votes">TMDB 7.6</span><span class="chip chip-net">ABC</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Average Joe">Average Joe</div>
-    <div class="meta returning">🔄 Season 2 · Aug 19, 2026</div>
-    <div class="overview">Blue-collar plumber, Joe Washington, discovers his recently deceased father lived a secret, second life and stole millions of dollars from dangerous people just before he died. Now those people think Joe knows where it is. A bloody and violent confrontation triggers a chain of events that force Joe and his close-knit circle of family and friends out of their very average and mundane lives into a life-or-death race against time to find the truth and the millions.</div>
+    <div class="card-title" title="R.J. Decker">R.J. Decker</div>
+    <div class="meta returning">🔄 Season 2 · Sep 15, 2026</div>
+    <div class="overview">Ex-con photographer RJ Decker becomes a PI in South Florida, solving strange cases with help from his journalist ex, her cop wife, and an enigmatic woman from his past who may help or destroy him.</div>
   </div>
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/20090','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/38003','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/uBz0QRjJnAlRy3YSsbUDwbwuEbv.jpg" alt="Nytt på nytt" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/62yXkgh2VVIKoDZKG0szYbGhn07.jpg" alt="Infoman" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 7.0</span>
-    <span class="network-badge" style="top:34px">NRK1</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0446222/" target="_blank" title="IMDb — 160 votes" onclick="event.stopPropagation()">IMDb 8.6</a><span class="chip chip-tmdb" title="TMDB — 10 votes">TMDB 7.6</span><span class="chip chip-net">ICI Radio-Canada Télé</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Nytt på nytt">Nytt på nytt</div>
-    <div class="meta returning">🔄 Season 55 · Sep 04, 2026</div>
-    <div class="overview">Nytt på nytt is a Norwegian version of the British comedy programme Have I Got News for You, by the production company Hat Trick Productions. The programme is aired weekly on Friday nights. The show is a competition between two panels, where one panelist is permanent, and the other is a guest. The goal is to solve several tasks. The element of competition is largely ignored in favour of the witty remarks and the banter between panelists. The scores are generally overlooked, and have only a brief mention at the end of the show. The host is Jon Almaas, with permanent panelists Knut Nærum and Ingrid Gjessing Linhave. Linhave replaced Linn Skåber from the autumn of 2013. Since the start in the spring of 1999, it has grown to become the most popular weekly show on Norwegian television, with more than a million viewers every week.</div>
+    <div class="card-title" title="Infoman">Infoman</div>
+    <div class="meta returning">🔄 Season 27 · Sep 17, 2026</div>
+    <div class="overview">Jean-René Dufort and sidekicks Chantal Lamarre and MC Gilles serve up delirious send-ups of the week's news events.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/125935','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg" alt="Abbott Elementary" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt14218830/" target="_blank" title="IMDb — 54,750 votes" onclick="event.stopPropagation()">IMDb 8.2</a><span class="chip chip-tmdb" title="TMDB — 327 votes">TMDB 7.5</span><span class="chip chip-net">ABC</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Abbott Elementary">Abbott Elementary</div>
+    <div class="meta returning">🔄 Season 6 · Oct 07, 2026</div>
+    <div class="overview">In this workplace comedy, a group of dedicated, passionate teachers — and a slightly tone-deaf principal — are brought together in a Philadelphia public school where, despite the odds stacked against them, they are determined to help their students succeed in life. Though these incredible public servants may be outnumbered and underfunded, they love what they do — even if they don’t love the school district’s less-than-stellar attitude toward educating children.</div>
   </div>
 </div>
 
@@ -639,29 +729,27 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/2o2jksVjFNOhs8NcDuUP6jhR1GP.jpg" alt="Vampirina: Teenage Vampire" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 6.8</span>
-    <span class="network-badge" style="top:34px">Disney Channel</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt34385400/" target="_blank" title="IMDb — 524 votes" onclick="event.stopPropagation()">IMDb 6.3</a><span class="chip chip-tmdb" title="TMDB — 18 votes">TMDB 7.1</span><span class="chip chip-net">Disney Channel</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Vampirina: Teenage Vampire">Vampirina: Teenage Vampire</div>
-    <div class="meta returning">🔄 Season 2 · Oct 10, 2026</div>
+    <div class="meta returning">🔄 Season 2 · Oct 05, 2026</div>
     <div class="overview">Follow a tween vampire girl who leaves the safety of Transylvania to attend a performing arts boarding school. Living amongst humans for the first time, she pursues her passion for music while keeping her vampire identity a secret, something that’s made more challenging when her overprotective father charges an overzealous ghost to live with her at the school.</div>
   </div>
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/260609','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/20090','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/fCc6tIeV0yOCZq1DoWmFGQX2tOM.jpg" alt="Com si fos ahir" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/uBz0QRjJnAlRy3YSsbUDwbwuEbv.jpg" alt="Nytt på nytt" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 5.5</span>
-    <span class="network-badge" style="top:34px">TV3</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0268836/" target="_blank" title="IMDb — 865 votes" onclick="event.stopPropagation()">IMDb 7.7</a><span class="chip chip-tmdb" title="TMDB — 12 votes">TMDB 7.0</span><span class="chip chip-net">NRK1</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Com si fos ahir">Com si fos ahir</div>
-    <div class="meta returning">🔄 Season 10 · Sep 07, 2026</div>
-    <div class="overview">A group of high school friends meet again after 25 years to attend the funeral of a mutual friend, and from that point on they try to recover their friendship.</div>
+    <div class="card-title" title="Nytt på nytt">Nytt på nytt</div>
+    <div class="meta returning">🔄 Season 55 · Sep 18, 2026</div>
+    <div class="overview">Nytt på nytt is a Norwegian version of the British comedy programme Have I Got News for You, by the production company Hat Trick Productions. The programme is aired weekly on Friday nights. The show is a competition between two panels, where one panelist is permanent, and the other is a guest. The goal is to solve several tasks. The element of competition is largely ignored in favour of the witty remarks and the banter between panelists. The scores are generally overlooked, and have only a brief mention at the end of the show. The host is Jon Almaas, with permanent panelists Knut Nærum and Ingrid Gjessing Linhave. Linhave replaced Linn Skåber from the autumn of 2013. Since the start in the spring of 1999, it has grown to become the most popular weekly show on Norwegian television, with more than a million viewers every week.</div>
   </div>
 </div>
 
@@ -670,50 +758,77 @@
 <h2>🎥 Documentaries</h2>
 <div class="grid">
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/226698','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/4wzXnZUy0Qrfs6KatLKuwVeeHI6.jpg" alt="Conan O'Brien Must Go" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 8.1</span>
-    <span class="network-badge" style="top:34px">HBO</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="Conan O'Brien Must Go">Conan O'Brien Must Go</div>
-    <div class="meta returning">🔄 Season 3 · Aug 21, 2026</div>
-    <div class="overview">Conan O'Brien visits new friends he met through his podcast, "Conan O'Brien Needs a Fan," where he dives deep with listeners from across the country and the world.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/tv/112556','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/kF9l71zUrNFhC0BEIG8YZUd6Ps3.jpg" alt="Svenska fall" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">🔥 27.8</span>
-    <span class="network-badge" style="top:34px">Viaplay</span>
-  </div>
-  <div class="info">
-    <div class="card-title" title="Svenska fall">Svenska fall</div>
-    <div class="meta returning">🔄 Season 16 · Aug 27, 2026</div>
-    <div class="overview">No description available.</div>
-  </div>
-</div>
-
-
 <div class="card" onclick="window.open('https://www.themoviedb.org/tv/5467','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/hxuiYfIcH1VYTsPxEzBqMEBlfBm.jpg" alt="MotorWeek" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-tv">TV</span>
-    <span class="rating-badge">⭐ 5.3</span>
-    <span class="network-badge" style="top:34px">MotorTrend</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0244912/" target="_blank" title="IMDb — 143 votes" onclick="event.stopPropagation()">IMDb 7.9</a><span class="chip chip-tmdb" title="TMDB — 6 votes">TMDB 5.3</span><span class="chip chip-net">MotorTrend</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="MotorWeek">MotorWeek</div>
-    <div class="meta returning">🔄 Season 46 · Sep 04, 2026</div>
+    <div class="meta returning">🔄 Season 46 · Sep 11, 2026</div>
     <div class="overview">This award-winning weekly automotive magazine provides unbiased, consumer-oriented car news with feature stories on related topics.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/58581','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/86N8DsrlRvLVcwi6IT17Let6zsh.jpg" alt="Antiques Road Trip" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt4353976/" target="_blank" title="IMDb — 383 votes" onclick="event.stopPropagation()">IMDb 7.1</a><span class="chip chip-tmdb" title="TMDB — 9 votes">TMDB 5.6</span><span class="chip chip-net">BBC Two</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Antiques Road Trip">Antiques Road Trip</div>
+    <div class="meta returning">🔄 Season 33 · Sep 14, 2026</div>
+    <div class="overview">Antiques experts travel across the country, competing to make a profit at auction.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/33739','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/8x5uqmnZoHJtKcOccQInSOEMo7S.jpg" alt="Antiques Roadshow" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt0159847/" target="_blank" title="IMDb — 1,470 votes" onclick="event.stopPropagation()">IMDb 7.4</a><span class="chip chip-tmdb" title="TMDB — 20 votes">TMDB 7.4</span><span class="chip chip-net">PBS</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Antiques Roadshow">Antiques Roadshow</div>
+    <div class="meta returning">🔄 Season 31 · Sep 21, 2026</div>
+    <div class="overview">Based on the popular BBC series running since 1979, the PBS Antiques Roadshow combines history with discovery. Each year, the show visits a handful of cities to appraise items brought in by viewers. Are these items worth a lot of money, more than the visitors expect?</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1752355','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/1gA4V3WX865ZB9nidUhGId2SVTM.jpg" alt="Schumacher ’94 – The Birth of a Legend" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 0.5</span><span class="chip chip-net">Netflix</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Schumacher ’94 – The Birth of a Legend">Schumacher ’94 – The Birth of a Legend</div>
+    <div class="meta upcoming">📅 Oct 02, 2026</div>
+    <div class="overview">In 1994, Michael Schumacher became Formula 1 World Champion for the first time. But between his season-opening victory in Brazil and clinching the title in Australia lies one of the most dramatic seasons in racing history. Only 25 years old at the time, Michael and his girlfriend and future wife Corinna experience spectacular victories, allegations of manipulation, and devastating events such as the fatal accidents of Ayrton Senna and Roland Ratzenberger. Suddenly, in the midst of the season, they are threatened with losing everything. At the same time, a true wave of "Schumi Mania" sweeps across Germany.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/tv/333533','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster" alt="The One About Matthew Perry" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-tv">TV</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 0.5</span><span class="chip chip-net">Netflix</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The One About Matthew Perry">The One About Matthew Perry</div>
+    <div class="meta upcoming">📅 Premiere · Oct 26, 2026</div>
+    <div class="overview">The documentary paints a portrait of the late star through stories shared by close friends and family. One of the interviewees is Mia Perry Bowick, Matthew's sister.</div>
   </div>
 </div>
 
@@ -722,125 +837,12 @@
 <h2>🎬 Coming soon · movies</h2>
 <div class="grid">
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/192139','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/hFborW6HmffKL05GIWlkTFdvVpN.jpg" alt="The Brink of War" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 8.7</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="The Brink of War">The Brink of War</div>
-    <div class="meta upcoming">📅 Aug 14, 2026</div>
-    <div class="overview">President Ronald Reagan races against time to salvage a deal with Soviet leader Mikhail Gorbachev that could dismantle nuclear arsenals—or ignite disaster. With pressure mounting on all sides, every word spoken brings the world closer to peace... or destruction.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1288445','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/lsYSWqj6i2iyUDJoLA2cazFJYlC.jpg" alt="Mutiny" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 18.4</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="Mutiny">Mutiny</div>
-    <div class="meta upcoming">📅 Aug 19, 2026</div>
-    <div class="overview">After witnessing his billionaire boss' murder and being framed for the crime, Cole Reed boards a cargo ship on a one-man crusade to avenge his boss' death only to discover an international conspiracy.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1341138','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/i3I19SbOyz6AIl0cSYdyVJRucMr.jpg" alt="Spa Weekend" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 8.6</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="Spa Weekend">Spa Weekend</div>
-    <div class="meta upcoming">📅 Aug 20, 2026</div>
-    <div class="overview">Three friends go on a spa weekend that descends into chaos when their trainwreck friend joins, leading to hilarious consequences.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1516698','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/pego3yEZ5SuGvRjESKAguL4Wu7M.jpg" alt="The Last Sunrise" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 39.0</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="The Last Sunrise">The Last Sunrise</div>
-    <div class="meta upcoming">📅 Aug 26, 2026</div>
-    <div class="overview">Ry, a college student with a chronic illness escapes to Mallorca for the summer with her mother, where she unexpectedly falls for a local and begins to embrace living in the moment. But as her condition worsens and long-hidden family secrets come to light, everything she has found before summer's end is threatened.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1384216','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/A7i16oDi03qrKep5pBfuTWNUTb.jpg" alt="The Dog Stars" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 14.9</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="The Dog Stars">The Dog Stars</div>
-    <div class="meta upcoming">📅 Aug 26, 2026</div>
-    <div class="overview">After the world's population has been ravaged by a pandemic, a man lives a lonesome existence in a Colorado airplane hangar with his dog and a dour gunman he has befriended. When a mysterious transmission comes through on the radio while he’s flying his old Cessna, it sparks a hunt for the provenance of the sound.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1656018','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/aekwk423LleTvQDV9t2Z0NLG0PO.jpg" alt="Michael Jackson: A Life in Music" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 9.7</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="Michael Jackson: A Life in Music">Michael Jackson: A Life in Music</div>
-    <div class="meta upcoming">📅 Aug 29, 2026</div>
-    <div class="overview">The legendary journey of Michael Jackson, from his early days with the Jackson 5 to his breakthrough albums and live concerts.</div>
-  </div>
-</div>
-
-
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1101412','_blank')">
-  <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/p73G56bJGPa5y52cyqWscHR6NnN.jpg" alt="Fall 2: Deadpoint" loading="lazy"
-         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
-    <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 28.7</span>
-    
-  </div>
-  <div class="info">
-    <div class="card-title" title="Fall 2: Deadpoint">Fall 2: Deadpoint</div>
-    <div class="meta upcoming">📅 Sep 02, 2026</div>
-    <div class="overview">On a perilous climb across Thailand's Mount Kwan, two climbers become trapped thousands of feet above the ground, where vertigo-inducing heights, sheer exposure, and impossible odds turn every moment into a fight for survival.</div>
-  </div>
-</div>
-
-
 <div class="card" onclick="window.open('https://www.themoviedb.org/movie/1302904','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg" alt="Practical Magic 2" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/7jCV8dkRFK3DGJ4dTqlvrMTFPwZ.jpg" alt="Practical Magic 2" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 8.5</span>
-    
+    <div class="badges"><span class="chip chip-tmdb" title="TMDB — 2 votes">TMDB 3.5</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Practical Magic 2">Practical Magic 2</div>
@@ -850,29 +852,57 @@
 </div>
 
 
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1447853','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/nuNfPuFZKtkrglYnz2F9weQm3Ng.jpg" alt="Oasis: Don't Look Back in Anger" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 8.9</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Oasis: Don't Look Back in Anger">Oasis: Don't Look Back in Anger</div>
+    <div class="meta upcoming">📅 Sep 09, 2026</div>
+    <div class="overview">Experience the meteoric rise of Oasis through rare footage and untold stories as the band reunites for Oasis Live '25, chronicling their journey from Manchester streets to global rock stardom.</div>
+  </div>
+</div>
+
+
 <div class="card" onclick="window.open('https://www.themoviedb.org/movie/1377237','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/yBKMAIj7clP42UkFejhGDBBoTpb.jpg" alt="Runner" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 9.4</span>
-    
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 22.6</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Runner">Runner</div>
     <div class="meta upcoming">📅 Sep 10, 2026</div>
-    <div class="overview">A former soldier and his unlikely partner become the targets of a ruthless cartel while racing to complete a critical medical delivery and save the life of a little girl.</div>
+    <div class="overview">A former soldier is thrown into a brutal race against time when a critical medical delivery makes him and his unlikely partner the targets of a ruthless cartel. As the mission spirals into a deadly manhunt, every detour, delay, and bullet pushes them closer to failure. With betrayal closing in from every side, they must survive the chase and deliver their cargo to save the life of a little girl.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/977942','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg" alt="The Uprising" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 11.7</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Uprising">The Uprising</div>
+    <div class="meta upcoming">📅 Sep 10, 2026</div>
+    <div class="overview">As war and plague devastate 14th-century England, a humble peasant ignites a rebellion, uniting an army of commoners to defy the King’s might in a desperate fight for justice and survival.</div>
   </div>
 </div>
 
 
 <div class="card" onclick="window.open('https://www.themoviedb.org/movie/1375441','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/lmrulvLbmaejTix1YaMxo1oGhH1.jpg" alt="Primetime" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg" alt="Primetime" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 10.7</span>
-    
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 12.0</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Primetime">Primetime</div>
@@ -882,34 +912,77 @@
 </div>
 
 
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1228834','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/yopXjun3ICFfJci2ukcEzceZjUs.jpg" alt="The Fix" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 8.3</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Fix">The Fix</div>
+    <div class="meta upcoming">📅 Sep 11, 2026</div>
+    <div class="overview">Disillusioned by the end of the war in Afghanistan, a group of disgraced, war-torn ex-CIA operatives set out to Tehran to take down a life-changing score.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1433583','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg" alt="The Weight" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><a class="chip chip-imdb" href="https://www.imdb.com/title/tt10794054/" target="_blank" title="IMDb — 399 votes" onclick="event.stopPropagation()">IMDb 7.0</a><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 13.6</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Weight">The Weight</div>
+    <div class="meta upcoming">📅 Sep 16, 2026</div>
+    <div class="overview">When Samuel is torn from his daughter and sent to a brutal prison, Warden Clancy offers him a high-stakes proposition: smuggle gold out of a remote mine with a dangerous crew of prisoners and he’ll win his freedom.</div>
+  </div>
+</div>
+
+
 <div class="card" onclick="window.open('https://www.themoviedb.org/movie/1263337','_blank')">
   <div class="poster-wrap">
     <img class="poster" src="https://image.tmdb.org/t/p/w300/1ApfSA8JTqeha3GTFEY8syV4auq.jpg" alt="Heart of the Beast" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 13.2</span>
-    
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 21.9</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Heart of the Beast">Heart of the Beast</div>
-    <div class="meta upcoming">📅 Sep 23, 2026</div>
+    <div class="meta upcoming">📅 Sep 19, 2026</div>
     <div class="overview">After a harrowing plane crash, Special Forces officer James Belmont and his combat dog, Odin, find themselves stranded deep in the Alaskan wilderness. Together, they are forced into a brutal fight for survival against the elements.</div>
   </div>
 </div>
 
 
-<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1283515','_blank')">
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1032863','_blank')">
   <div class="poster-wrap">
-    <img class="poster" src="https://image.tmdb.org/t/p/w300/dGSsPovyUW5XVekXcy7F2GyhTEh.jpg" alt="Verity" loading="lazy"
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/zUaTMxLOuW4wdaFYhRVJbO6W8Sy.jpg" alt="The Love Hypothesis" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 14.7</span>
-    
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 54.5</span></div>
   </div>
   <div class="info">
-    <div class="card-title" title="Verity">Verity</div>
-    <div class="meta upcoming">📅 Sep 30, 2026</div>
-    <div class="overview">Lowen Ashleigh gets hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who's unable to finish after an accident. Lowen uncovers Verity's disturbing truths while residing at the Crawfords' home to work.</div>
+    <div class="card-title" title="The Love Hypothesis">The Love Hypothesis</div>
+    <div class="meta upcoming">📅 Sep 23, 2026</div>
+    <div class="overview">Olive Smith, a biology PhD candidate, and Dr. Adam Carlsen, a hotshot professor and well-known tyrant, enter into a fake relationship, seeing each of their carefully calculated theories on love get thrown into chaos.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1492640','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/pa7FRGX738X6jasMdUQTkkmGbfS.jpg" alt="UNABOMBER" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 8.4</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="UNABOMBER">UNABOMBER</div>
+    <div class="meta upcoming">📅 Sep 25, 2026</div>
+    <div class="overview">Follow Ted Kaczynski's transformation from Harvard prodigy into the infamous Unabomber. Subjected to controversial psychological experiments by Professor Henry Murray, Kaczynski's troubled past resurfaces decades later when his manhunt, led by FBI agent Joanne Miller, brings to light the chilling consequences of ambition and isolation.</div>
   </div>
 </div>
 
@@ -919,13 +992,132 @@
     <img class="poster" src="https://image.tmdb.org/t/p/w300/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg" alt="Digger" loading="lazy"
          onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
     <span class="badge badge-movie">Movie</span>
-    <span class="rating-badge">🔥 8.6</span>
-    
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 11.0</span></div>
   </div>
   <div class="info">
     <div class="card-title" title="Digger">Digger</div>
     <div class="meta upcoming">📅 Sep 30, 2026</div>
     <div class="overview">The most powerful man in the world embarks on a frantic mission to prove he is humanity's savior before the disaster he's unleashed destroys everything.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1283515','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/d4nhnyzauV6j4IcCJvd6rbzN4b4.jpg" alt="Verity" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 8.9</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Verity">Verity</div>
+    <div class="meta upcoming">📅 Sep 30, 2026</div>
+    <div class="overview">Lowen Ashleigh gets hired by Jeremy Crawford to ghostwrite novels for his bestselling author wife Verity, who's unable to finish after an accident. Lowen uncovers Verity's disturbing truths while residing at the Crawfords' home to work.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1281331','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/qZr5bxGXE1t2A9pNSikb9fQKzov.jpg" alt="The Social Reckoning" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 9.4</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Social Reckoning">The Social Reckoning</div>
+    <div class="meta upcoming">📅 Oct 07, 2026</div>
+    <div class="overview">Frances Haugen, a young Facebook engineer, enlists the help of Jeff Horwitz, a Wall Street Journal reporter, to go on a dangerous journey that ends up blowing the whistle on the social network's most guarded secrets.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1148365','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/dR9sg6nwSBq7qpFJqk9znQ42rre.jpg" alt="Matchbox: The Movie" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 9.4</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Matchbox: The Movie">Matchbox: The Movie</div>
+    <div class="meta upcoming">📅 Oct 08, 2026</div>
+    <div class="overview">When a group of former childhood friends reconnect, their reunion takes a wild turn as they stumble upon a dangerous international plot—and must save the world.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1153576','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/dJPT2Uf12X6aFg8i5N67NTpIZ9t.jpg" alt="Street Fighter" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 15.7</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Street Fighter">Street Fighter</div>
+    <div class="meta upcoming">📅 Oct 14, 2026</div>
+    <div class="overview">In 1993, estranged Street Fighters Ryu and Ken Masters are thrown back into combat when the mysterious Chun-Li recruits them for the next World Warrior Tournament: a brutal clash of fists, fate, and fury. But behind this battle royale lies a deadly conspiracy that forces them to face off against each other and the demons of their past. And if they don't, it's GAME OVER!</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1255833','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg" alt="Whalefall" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 9.4</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Whalefall">Whalefall</div>
+    <div class="meta upcoming">📅 Oct 14, 2026</div>
+    <div class="overview">Following the death of his father, Jay Gardiner goes diving off the central Coast of California in search of his remains, but is swallowed by a massive sperm whale. While trapped inside its belly with only one hour of oxygen left, Jay comes to realize that the hard-earned lessons his father imparted may be the key to his escape.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1294189','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/eSS5mvSG84UUuvtbHel5Yu3Wik4.jpg" alt="The Mongoose" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 35.2</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="The Mongoose">The Mongoose</div>
+    <div class="meta upcoming">📅 Oct 30, 2026</div>
+    <div class="overview">A falsely accused war hero with nothing to lose leads police on an epic televised cross-country car chase, helped by members of his former Special Forces Army battalion and closely monitored by a fascinated public rooting for his safe getaway.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/891621','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/dNJFRtVg3xLQ7dbNIQ55cmmIniD.jpg" alt="Wild Horse Nine" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 9.7</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Wild Horse Nine">Wild Horse Nine</div>
+    <div class="meta upcoming">📅 Nov 04, 2026</div>
+    <div class="overview">Shortly before the 1973 Chilean coup, CIA agents Chris and Lee are dispatched from Santiago to Easter Island by their bureau chief, MJ. Amongst the Island's iconic statues, and as the longtime partners wrestle with their dark pasts and present conspiracies, Chris's newfound bond with a pair of rebellious students threatens to send everyone’s trip to this remote paradise sideways.</div>
+  </div>
+</div>
+
+
+<div class="card" onclick="window.open('https://www.themoviedb.org/movie/1562642','_blank')">
+  <div class="poster-wrap">
+    <img class="poster" src="https://image.tmdb.org/t/p/w300/h3N9bQbuDtswq6nNtREpyhUYyv9.jpg" alt="Ghost Soldier" loading="lazy"
+         onerror="this.src='https://via.placeholder.com/300x450/1a1a2e/ffffff?text=No+Poster'">
+    <span class="badge badge-movie">Movie</span>
+    <div class="badges"><span class="chip chip-pop" title="TMDB popularity (no rating yet)">🔥 9.1</span></div>
+  </div>
+  <div class="info">
+    <div class="card-title" title="Ghost Soldier">Ghost Soldier</div>
+    <div class="meta upcoming">📅 Nov 04, 2026</div>
+    <div class="overview">Reclusive government asset Henry Fitzgerald is living off the grid in Wyoming, designing new systems for a weapons research agency. When a multi trillion dollar investment management firm begins employing corrupt police and foreign mercenaries to force farmers off their ranches, the Green Beret veteran decides to employ his weapon prototypes to assist his neighbors.</div>
   </div>
 </div>
 
